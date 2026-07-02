@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+  <meta name="referrer" content="no-referrer-when-downgrade"/>
+  <meta name="robots" content="index, follow"/>
+  <title>Devis Gratuit — KALEO GROUPE</title>
+  <meta name="description" content="Demandez votre devis gratuit et sans engagement à KALEO GROUPE. Réponse sous 24h pour vos projets de caméras, construction, climatisation ou menuiserie à Abidjan."/>
+  <link rel="icon" type="image/png" href="../LOGO KALEO.png"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <link rel="stylesheet" href="../css/devis.css"/>
+  <link rel="stylesheet" href="../css/chatbot.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo">
+        <img src="../LOGO KALEO.png" alt="KALEO GROUPE Logo" class="logo-img-nav"/>
+        <span class="logo-text">KALEO<span class="accent"> GROUPE</span></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="realisations.html">Réalisations</a></li>
+        <li><a href="devis.html" class="btn-nav active">Devis gratuit</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <span class="section-eyebrow">Gratuit & sans engagement</span>
+      <h1>Demandez votre <span class="accent">Devis</span></h1>
+      <p>Remplissez le formulaire ci-dessous. Nous vous recontactons sous 24h avec une estimation détaillée.</p>
+    </div>
+  </div>
+
+  <section class="devis-section">
+    <div class="container">
+      <div class="devis-layout">
+
+        <!-- FORMULAIRE -->
+        <div class="devis-form-wrap reveal">
+          <div class="form-card">
+            <h2 class="form-title">Votre demande</h2>
+            <p class="form-subtitle">Tous les champs marqués * sont obligatoires.</p>
+
+            <form id="devisForm" novalidate>
+
+              <!-- Étape 1 : Infos personnelles -->
+              <div class="form-step active" id="step1">
+                <div class="step-header">
+                  <span class="step-badge">Étape 1 / 3</span>
+                  <h3>Vos coordonnées</h3>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="prenom">Prénom *</label>
+                    <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required/>
+                    <span class="error-msg">Ce champ est requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="nom">Nom *</label>
+                    <input type="text" id="nom" name="nom" placeholder="Votre nom" required/>
+                    <span class="error-msg">Ce champ est requis.</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="telephone">Téléphone *</label>
+                    <input type="tel" id="telephone" name="telephone" placeholder="+225 07 00 00 00 00" required/>
+                    <span class="error-msg">Numéro invalide.</span>
+                  </div>
+                <div class="form-group">
+                  <label for="email">Email <span class="multi-hint">(obligatoire si envoi par email)</span></label>
+                  <input type="email" id="email" name="email" placeholder="votre@email.com"/>
+                  <span class="error-msg">Email invalide ou requis pour l'envoi par email.</span>
+                </div>
+                <div class="form-group">
+                  <label for="adresse">Adresse du chantier / lieu d'intervention *</label>
+                  <input type="text" id="adresse" name="adresse" placeholder="Quartier, commune, ville..." required/>
+                  <span class="error-msg">Ce champ est requis.</span>
+                </div>
+                <div class="form-nav">
+                  <button type="button" class="btn-primary" onclick="nextStep(1)">Suivant <i class="fas fa-arrow-right"></i></button>
+                </div>
+              </div>
+
+              <!-- Étape 2 : Type de service -->
+              <div class="form-step" id="step2">
+                <div class="step-header">
+                  <span class="step-badge">Étape 2 / 3</span>
+                  <h3>Type de service</h3>
+                </div>
+                <div class="form-group">
+                  <label>Quel service vous intéresse ? * <span class="multi-hint">(plusieurs choix possibles)</span></label>
+                  <div class="service-checkboxes">
+                    <label class="checkbox-card">
+                      <input type="checkbox" name="services" value="cameras"/>
+                      <div class="checkbox-content">
+                        <i class="fas fa-video"></i>
+                        <span>Caméras de surveillance</span>
+                      </div>
+                    </label>
+                    <label class="checkbox-card">
+                      <input type="checkbox" name="services" value="construction"/>
+                      <div class="checkbox-content">
+                        <i class="fas fa-helmet-safety"></i>
+                        <span>Construction / Réhabilitation</span>
+                      </div>
+                    </label>
+                    <label class="checkbox-card">
+                      <input type="checkbox" name="services" value="split"/>
+                      <div class="checkbox-content">
+                        <i class="fas fa-wind"></i>
+                        <span>Climatisation Split</span>
+                      </div>
+                    </label>
+                    <label class="checkbox-card">
+                      <input type="checkbox" name="services" value="menuiserie"/>
+                      <div class="checkbox-content">
+                        <i class="fas fa-door-open"></i>
+                        <span>Portes & Fenêtres Alu</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="budget">Budget estimatif</label>
+                  <select id="budget" name="budget">
+                    <option value="">-- Sélectionnez une fourchette --</option>
+                    <option value="<500k">Moins de 500 000 FCFA</option>
+                    <option value="500k-1m">500 000 – 1 000 000 FCFA</option>
+                    <option value="1m-3m">1 000 000 – 3 000 000 FCFA</option>
+                    <option value="3m-10m">3 000 000 – 10 000 000 FCFA</option>
+                    <option value=">10m">Plus de 10 000 000 FCFA</option>
+                    <option value="nc">Je ne sais pas encore</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="delai">Délai souhaité *</label>
+                  <select id="delai" name="delai" required>
+                    <option value="">-- Sélectionnez un délai --</option>
+                    <option value="urgent">Urgent (moins d'une semaine)</option>
+                    <option value="1mois">Dans le mois</option>
+                    <option value="3mois">Dans les 3 mois</option>
+                    <option value="flexible">Je suis flexible</option>
+                  </select>
+                  <span class="error-msg">Veuillez choisir un délai.</span>
+                </div>
+                <div class="form-nav">
+                  <button type="button" class="btn-secondary" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Retour</button>
+                  <button type="button" class="btn-primary" onclick="nextStep(2)">Suivant <i class="fas fa-arrow-right"></i></button>
+                </div>
+              </div>
+
+              <!-- Étape 3 : Description -->
+              <div class="form-step" id="step3">
+                <div class="step-header">
+                  <span class="step-badge">Étape 3 / 3</span>
+                  <h3>Détails du projet</h3>
+                </div>
+                <div class="form-group">
+                  <label for="description">Décrivez votre projet *</label>
+                  <textarea id="description" name="description" rows="5" placeholder="Décrivez votre projet en quelques lignes : surface, nombre de pièces, spécificités, questions particulières..." required></textarea>
+                  <span class="error-msg">Veuillez décrire votre projet.</span>
+                </div>
+                <div class="form-group">
+                  <label for="comment">Comment avez-vous entendu parler de nous ?</label>
+                  <select id="comment" name="comment">
+                    <option value="">-- Optionnel --</option>
+                    <option value="recommandation">Recommandation</option>
+                    <option value="reseaux">Réseaux sociaux</option>
+                    <option value="internet">Recherche internet</option>
+                    <option value="panneau">Panneau publicitaire</option>
+                    <option value="autre">Autre</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Comment souhaitez-vous envoyer votre demande ? *</label>
+                  <div class="send-choice">
+                    <label class="choice-card">
+                      <input type="radio" name="envoi" value="whatsapp" required/>
+                      <div class="choice-content">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                      </div>
+                    </label>
+                    <label class="choice-card">
+                      <input type="radio" name="envoi" value="email"/>
+                      <div class="choice-content">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                      </div>
+                    </label>
+                    <label class="choice-card">
+                      <input type="radio" name="envoi" value="les-deux"/>
+                      <div class="choice-content">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Les deux</span>
+                      </div>
+                    </label>
+                  </div>
+                  <span class="error-msg" id="envoi-error">Veuillez choisir un moyen d'envoi.</span>
+                </div>
+                <div class="form-group checkbox-simple">
+                  <label>
+                    <input type="checkbox" name="rgpd" id="rgpd" required/>
+                    J'accepte que mes données soient utilisées pour traiter ma demande de devis. *
+                  </label>
+                  <span class="error-msg">Vous devez accepter.</span>
+                </div>
+                <div class="form-group">
+                  <div class="g-recaptcha" data-sitekey="6Ldbtj8tAAAAAFF7LSPW839BG-oyBVATGQ3cA70F"></div>
+                  <span class="error-msg" id="recaptcha-error">Veuillez cocher la case de vérification.</span>
+                </div>
+                <div class="form-nav">
+                  <button type="button" class="btn-secondary" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Retour</button>
+                  <button type="submit" class="btn-primary btn-large" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Envoyer ma demande
+                  </button>
+                </div>
+              </div>
+
+              <!-- Succès -->
+              <div class="form-success" id="formSuccess" style="display:none;">
+                <div class="success-icon"><i class="fas fa-circle-check"></i></div>
+                <h3>Demande envoyée !</h3>
+                <p>Merci <strong id="successName"></strong>, nous avons bien reçu votre demande de devis (réf. <strong id="successRef"></strong>). Notre équipe vous contactera dans les <strong>24 heures</strong>.</p>
+                <a href="../index.html" class="btn-secondary" style="margin-top: 16px;">Retour à l'accueil</a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- SIDEBAR infos -->
+        <div class="devis-sidebar reveal reveal-delay-2">
+          <div class="sidebar-card">
+            <div class="sidebar-icon"><i class="fas fa-clock"></i></div>
+            <h4>Réponse en 24h</h4>
+            <p>Nous traitons toutes les demandes rapidement et vous revenons avec une estimation personnalisée.</p>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-icon"><i class="fas fa-euro-sign" style="font-size:1.1rem;letter-spacing:-2px;">FCFA</i></div>
+            <h4>Devis 100% gratuit</h4>
+            <p>Notre devis est entièrement gratuit et sans aucun engagement de votre part.</p>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-icon"><i class="fas fa-user-tie"></i></div>
+            <h4>Expert dédié</h4>
+            <p>Un technicien viendra visiter votre chantier pour affiner l'estimation si nécessaire.</p>
+          </div>
+          <div class="sidebar-contact">
+            <h4>Vous préférez appeler ?</h4>
+            <a href="tel:+2250707953684" class="phone-link">
+              <i class="fas fa-phone"></i> +225 07 07 95 36 84
+            </a>
+            <p>Du lundi au samedi, 8h – 18h</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 24px;">
+        <p>© 2023 KALEO GROUPE. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/devis.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

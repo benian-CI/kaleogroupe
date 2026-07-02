@@ -1,0 +1,182 @@
+.realisations-section {
+  padding: 60px 0 100px;
+  background: rgba(5, 10, 20, 0.82);
+}
+
+/* ── FILTRES ───────────────────────────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.filter-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 9px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-body);
+}
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+/* ── GRILLE ────────────────────────────────────────────────────────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* ── CARD ──────────────────────────────────────────────────────────────────── */
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.project-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--border-accent);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+/* ── VIGNETTE IMAGE ────────────────────────────────────────────────────────── */
+.project-thumb {
+  height: 260px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fallback si image absente */
+.project-thumb.cameras      { background: linear-gradient(135deg,#1a1f35,#0d1628); }
+.project-thumb.construction { background: linear-gradient(135deg,#1a2a1a,#0d1f0d); }
+.project-thumb.split        { background: linear-gradient(135deg,#1a2035,#0d1828); }
+.project-thumb.menuiserie   { background: linear-gradient(135deg,#2a1f1a,#1f0d0d); }
+
+.thumb-fallback-icon {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 3rem;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.project-thumb.cameras      .thumb-fallback-icon { color: var(--accent); }
+.project-thumb.construction .thumb-fallback-icon { color: #34D399; }
+.project-thumb.split        .thumb-fallback-icon { color: #60A5FA; }
+.project-thumb.menuiserie   .thumb-fallback-icon { color: #FBBF24; }
+.thumb-fallback .thumb-fallback-icon { opacity: 1; }
+.thumb-fallback .project-thumb-overlay { opacity: 0; }
+
+/* Image réelle avec zoom au survol */
+.project-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.project-card:hover .project-img { transform: scale(1.08); }
+
+/* Overlay dégradé permanent en bas */
+.project-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(11,17,32,0)    40%,
+    rgba(11,17,32,0.55) 75%,
+    rgba(11,17,32,0.85) 100%
+  );
+  transition: opacity 0.3s ease;
+}
+.project-card:hover .project-thumb-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(11,17,32,0)    30%,
+    rgba(11,17,32,0.6)  70%,
+    rgba(11,17,32,0.9)  100%
+  );
+}
+
+/* ── BADGE CATÉGORIE ───────────────────────────────────────────────────────── */
+.project-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform 0.2s ease;
+}
+.project-card:hover .project-tag { transform: translateY(-1px); }
+
+.project-tag.cameras      { background: rgba(255,107,43,0.85); color: #fff; }
+.project-tag.construction { background: rgba(52,211,153,0.85); color: #0B1120; }
+.project-tag.split        { background: rgba(96,165,250,0.85); color: #0B1120; }
+.project-tag.menuiserie   { background: rgba(251,191,36,0.85); color: #0B1120; }
+
+/* ── INFOS ─────────────────────────────────────────────────────────────────── */
+.project-info { padding: 20px; }
+.project-info h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  transition: color 0.2s;
+}
+.project-card:hover .project-info h3 { color: var(--accent); }
+.project-info p {
+  font-size: 13px;
+  color: #C5D3E8;
+  line-height: 1.55;
+}
+.project-meta {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #A8BDD8;
+}
+.project-meta span { display: flex; align-items: center; gap: 5px; }
+.project-meta i { color: var(--accent); font-size: 10px; }
+
+/* ── ANIMATION D'ENTRÉE ────────────────────────────────────────────────────── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.project-card {
+  animation: fadeSlideUp 0.4s ease both;
+}
+.project-card:nth-child(2) { animation-delay: 0.06s; }
+.project-card:nth-child(3) { animation-delay: 0.12s; }
+.project-card:nth-child(4) { animation-delay: 0.18s; }
+.project-card:nth-child(5) { animation-delay: 0.24s; }
+.project-card:nth-child(6) { animation-delay: 0.30s; }
+.project-card:nth-child(7) { animation-delay: 0.36s; }
+.project-card:nth-child(8) { animation-delay: 0.42s; }
+.project-card:nth-child(9) { animation-delay: 0.48s; }
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px) { .projects-grid { grid-template-columns: 1fr; } }
