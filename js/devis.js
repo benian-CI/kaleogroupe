@@ -236,6 +236,12 @@ var BUDGET_RANGES = {
     { value: 'men-1m-3m',   label: '1 000 000 – 3 000 000 FCFA' },
     { value: 'men->3m',     label: 'Plus de 3 000 000 FCFA' }
   ],
+  electricite: [
+    { value: 'elec-<200k',     label: 'Moins de 200 000 FCFA' },
+    { value: 'elec-200k-800k', label: '200 000 – 800 000 FCFA' },
+    { value: 'elec-800k-2m',   label: '800 000 – 2 000 000 FCFA' },
+    { value: 'elec->2m',       label: 'Plus de 2 000 000 FCFA' }
+  ],
   multi: [
     { value: 'mul-<1m',    label: 'Moins de 1 000 000 FCFA' },
     { value: 'mul-1m-5m',  label: '1 000 000 – 5 000 000 FCFA' },

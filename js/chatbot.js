@@ -52,12 +52,16 @@
     'Construction':      'fas fa-helmet-safety',
     'Climatisation':     'fas fa-wind',
     'Portes & Fenêtres': 'fas fa-door-open',
+    'Électricité':       'fas fa-bolt',
     'Devis gratuit':     'fas fa-file-invoice',
     'Devis caméras':     'fas fa-file-invoice',
     'Devis construction':'fas fa-file-invoice',
     'Devis climatisation':'fas fa-file-invoice',
     'Devis menuiserie':  'fas fa-file-invoice',
+    'Devis électricité': 'fas fa-file-invoice',
     'Devis entretien':   'fas fa-file-invoice',
+    'Panne électrique':  'fas fa-bolt',
+    'Mise aux normes':   'fas fa-clipboard-check',
     'Appeler':           'fas fa-phone',
     'WhatsApp':          'fab fa-whatsapp',
     'Email':             'fas fa-envelope',
@@ -82,12 +86,16 @@
     'Construction':       'construction batiment',
     'Climatisation':      'climatisation split clim',
     'Portes & Fenêtres':  'menuiserie fenetres aluminium',
+    'Électricité':        'electricite electricien courant',
     'Devis gratuit':      'devis prix gratuit',
     'Devis caméras':      'devis prix gratuit',
     'Devis construction': 'devis prix gratuit',
     'Devis climatisation':'devis prix gratuit',
     'Devis menuiserie':   'devis prix gratuit',
+    'Devis électricité':  'devis prix gratuit',
     'Devis entretien':    'devis prix gratuit',
+    'Panne électrique':   'panne coupure disjoncteur court.circuit',
+    'Mise aux normes':    'normes tableau electrique conformite',
     'Appeler':            'numero contacter joindre',      // corrigé : évite le match cameras/smartphone
     'WhatsApp':           'whatsapp',
     'Email':              'email mail courriel',
@@ -125,7 +133,7 @@
           ])
         );
       },
-      quickReplies: ['Caméras','Construction','Climatisation','Portes & Fenêtres']
+      quickReplies: ['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres']
     },
 
     // SERVICES GÉNÉRAUX
@@ -134,17 +142,18 @@
       patterns: [/service|proposez|offre|faites.vous|domaine|activit|specialit/i],
       reply: function() {
         return card('fas fa-briefcase', 'Nos domaines d\'expertise',
-          'KALEO GROUPE couvre <strong>4 domaines</strong> à Abidjan :' +
+          'KALEO GROUPE couvre <strong>5 domaines</strong> à Abidjan :' +
           list([
             ['fas fa-video',        '<strong>Caméras de surveillance</strong> — CCTV, IP, filaire & Wi-Fi'],
             ['fas fa-helmet-safety','<strong>Construction & Réhabilitation</strong> — neuf & rénovation'],
             ['fas fa-wind',         '<strong>Climatisation Split</strong> — fourniture, pose & entretien'],
+            ['fas fa-bolt',         '<strong>Électricité</strong> — installation, mise aux normes & dépannage'],
             ['fas fa-door-open',    '<strong>Portes & Fenêtres Aluminium</strong> — sur mesure']
           ]) +
           '<br/>Sélectionnez un service pour plus d\'infos.'
         );
       },
-      quickReplies: ['Caméras','Construction','Climatisation','Portes & Fenêtres']
+      quickReplies: ['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres']
     },
 
     // CAMÉRAS — général
@@ -432,6 +441,65 @@
       quickReplies: ['Devis menuiserie','Appeler','WhatsApp']
     },
 
+    // ÉLECTRICITÉ — général
+    {
+      topic: 'electricite',
+      patterns: [/.lectricit.|.lectricien|courant|tableau.electrique|prise|c.blage|.clairage|disjoncteur|groupe.electrog.ne|onduleur/i],
+      reply: function() {
+        return card('fas fa-bolt', 'Électricité',
+          'Installations et dépannages électriques par des techniciens qualifiés :' +
+          list([
+            ['fas fa-plug',              '<strong>Installation neuve</strong> — câblage, prises, éclairage'],
+            ['fas fa-clipboard-check',   '<strong>Mise aux normes</strong> et tableaux électriques'],
+            ['fas fa-triangle-exclamation','<strong>Dépannage</strong> et recherche de panne'],
+            ['fas fa-car-battery',       '<strong>Groupes électrogènes</strong> et onduleurs'],
+            ['fas fa-shield-halved',     '<strong>Diagnostic</strong> et sécurité électrique']
+          ])
+        );
+      },
+      quickReplies: ['Panne électrique','Mise aux normes','Devis électricité']
+    },
+
+    // ÉLECTRICITÉ — panne
+    {
+      topic: 'electricite',
+      patterns: [/panne.*.lectri|coupure|court.circuit|disjoncte|.a saute|plus de courant/i],
+      reply: function() {
+        return card('fas fa-triangle-exclamation', 'Dépannage électrique',
+          'Nous intervenons rapidement sur toutes les pannes électriques :' +
+          list([
+            ['fas fa-bolt',        'Coupures et disjoncteurs qui sautent'],
+            ['fas fa-plug-circle-xmark', 'Prises ou circuits hors service'],
+            ['fas fa-fire',        'Recherche de court-circuit'],
+            ['fas fa-lightbulb',   'Problèmes d\'éclairage']
+          ]) +
+          badges([['fas fa-clock','Intervention rapide sur Abidjan']]) +
+          contactRow('tel:+2250707953684', 'fas fa-phone', '+225 07 07 95 36 84') +
+          contactRow('https://wa.me/2250102181848', 'fab fa-whatsapp', 'WhatsApp +225 01 02 18 18 48', true)
+        );
+      },
+      quickReplies: ['Devis électricité','Appeler','WhatsApp']
+    },
+
+    // ÉLECTRICITÉ — mise aux normes
+    {
+      topic: 'electricite',
+      patterns: [/norme|conformit.|tableau.electrique|s.curit..electrique|diagnostic/i],
+      reply: function() {
+        return card('fas fa-clipboard-check', 'Mise aux normes électriques',
+          'Nous mettons votre installation en conformité pour votre sécurité :' +
+          list([
+            ['fas fa-square-check', 'Remplacement de tableaux électriques vétustes'],
+            ['fas fa-square-check', 'Mise à la terre et protection différentielle'],
+            ['fas fa-square-check', 'Diagnostic complet de l\'installation'],
+            ['fas fa-square-check', 'Certificat de conformité sur demande']
+          ]) +
+          '<br/>Indispensable avant vente, location ou après rénovation.'
+        );
+      },
+      quickReplies: ['Devis électricité','Appeler']
+    },
+
     // DEVIS
     {
       topic: null,
@@ -482,6 +550,7 @@
             ['fas fa-video',         '<strong>Caméras</strong> : 12 mois pièces & main-d\'œuvre'],
             ['fas fa-helmet-safety', '<strong>Construction</strong> : garantie décennale'],
             ['fas fa-wind',          '<strong>Climatisation</strong> : 12 mois installation'],
+            ['fas fa-bolt',          '<strong>Électricité</strong> : 12 mois installation'],
             ['fas fa-door-open',     '<strong>Menuiserie</strong> : 12 mois pièces & pose']
           ]) +
           '<br/>Matériaux certifiés, techniciens formés — votre investissement est protégé.'
@@ -631,7 +700,7 @@
           'N\'hésitez pas si vous avez d\'autres questions. <strong>KALEO GROUPE</strong> reste à votre disposition.'
         );
       },
-      quickReplies: ['Caméras','Construction','Climatisation','Portes & Fenêtres']
+      quickReplies: ['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres']
     },
 
     // AU REVOIR
@@ -656,12 +725,13 @@
           ['fas fa-video',         'Renseignements sur les <strong>caméras</strong>'],
           ['fas fa-helmet-safety', 'Infos sur la <strong>construction</strong>'],
           ['fas fa-wind',          'Questions sur la <strong>climatisation</strong>'],
+          ['fas fa-bolt',          'Infos sur l\'<strong>électricité</strong>'],
           ['fas fa-door-open',     'Devis <strong>portes & fenêtres</strong>'],
           ['fas fa-file-invoice',  '<strong>Devis gratuit</strong> tous services']
         ])
       );
     },
-    quickReplies: ['Caméras','Construction','Climatisation','Portes & Fenêtres','Devis gratuit']
+    quickReplies: ['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres','Devis gratuit']
   };
 
   // ── Chemins dynamiques (root ou /pages/) ────────────────────────────────────
@@ -772,6 +842,7 @@
               '<label class="cb-service-item"><input type="checkbox" name="services" value="Construction"/><i class="fas fa-helmet-safety"></i><span>Construction</span></label>' +
               '<label class="cb-service-item"><input type="checkbox" name="services" value="Climatisation"/><i class="fas fa-wind"></i><span>Climatisation</span></label>' +
               '<label class="cb-service-item"><input type="checkbox" name="services" value="Portes & Fenêtres"/><i class="fas fa-door-open"></i><span>Menuiserie</span></label>' +
+              '<label class="cb-service-item"><input type="checkbox" name="services" value="Électricité"/><i class="fas fa-bolt"></i><span>Électricité</span></label>' +
             '</div>' +
           '</div>' +
 
@@ -937,7 +1008,7 @@
             '</div>';
 
           scrollToBottom();
-          setQuickReplies(['Caméras','Construction','Climatisation','Appeler']);
+          setQuickReplies(['Caméras','Construction','Climatisation','Électricité','Appeler']);
         });
       }, 80);
     }
@@ -1088,7 +1159,7 @@
           '<br/><em>Comment puis-je vous aider ?</em>'
         )
       );
-      setQuickReplies(['Caméras','Construction','Climatisation','Portes & Fenêtres','Devis gratuit','Appeler']);
+      setQuickReplies(['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres','Devis gratuit','Appeler']);
     }, 800);
   }
 

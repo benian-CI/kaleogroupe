@@ -63,6 +63,7 @@
 .project-thumb.construction { background: linear-gradient(135deg,#1a2a1a,#0d1f0d); }
 .project-thumb.split        { background: linear-gradient(135deg,#1a2035,#0d1828); }
 .project-thumb.menuiserie   { background: linear-gradient(135deg,#2a1f1a,#1f0d0d); }
+.project-thumb.electricite  { background: linear-gradient(135deg,#241a35,#160d28); }
 
 .thumb-fallback-icon {
   position: absolute;
@@ -77,6 +78,7 @@
 .project-thumb.construction .thumb-fallback-icon { color: #34D399; }
 .project-thumb.split        .thumb-fallback-icon { color: #60A5FA; }
 .project-thumb.menuiserie   .thumb-fallback-icon { color: #FBBF24; }
+.project-thumb.electricite  .thumb-fallback-icon { color: #A78BFA; }
 .thumb-fallback .thumb-fallback-icon { opacity: 1; }
 .thumb-fallback .project-thumb-overlay { opacity: 0; }
 
@@ -135,6 +137,7 @@
 .project-tag.construction { background: rgba(52,211,153,0.85); color: #0B1120; }
 .project-tag.split        { background: rgba(96,165,250,0.85); color: #0B1120; }
 .project-tag.menuiserie   { background: rgba(251,191,36,0.85); color: #0B1120; }
+.project-tag.electricite  { background: rgba(167,139,250,0.85); color: #0B1120; }
 
 /* ── INFOS ─────────────────────────────────────────────────────────────────── */
 .project-info { padding: 20px; }

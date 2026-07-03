@@ -6,14 +6,16 @@ var categoryLabel = {
   cameras:      'Caméras',
   construction: 'Construction',
   split:        'Climatisation',
-  menuiserie:   'Menuiserie Alu'
+  menuiserie:   'Menuiserie Alu',
+  electricite:  'Électricité'
 };
 
 var categoryIcon = {
   cameras:      'fas fa-video',
   construction: 'fas fa-helmet-safety',
   split:        'fas fa-wind',
-  menuiserie:   'fas fa-door-open'
+  menuiserie:   'fas fa-door-open',
+  electricite:  'fas fa-bolt'
 };
 
 var projets = [
