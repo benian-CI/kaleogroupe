@@ -5,8 +5,8 @@
 /* ── Bouton flottant ──────────────────────────────────── */
 .chatbot-toggle {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+  right: calc(30px + env(safe-area-inset-right, 0px));
   width: 62px;
   height: 62px;
   background: linear-gradient(135deg, #FF6B2B 0%, #e0531a 100%);
@@ -54,11 +54,12 @@
 /* ── Fenêtre principale ───────────────────────────────── */
 .chatbot-window {
   position: fixed;
-  bottom: 106px;
-  right: 30px;
+  bottom: calc(106px + env(safe-area-inset-bottom, 0px));
+  right: calc(30px + env(safe-area-inset-right, 0px));
   width: 390px;
   max-width: calc(100vw - 24px);
   max-height: 580px;
+  max-height: min(580px, 80dvh);
   background: #0A1628;
   border: 1px solid rgba(255,107,43,0.2);
   border-radius: 22px;
@@ -638,10 +639,14 @@ textarea.cb-form-field { resize: none; line-height: 1.45; }
 /* ── Responsive ───────────────────────────────────────── */
 @media (max-width: 480px) {
   .chatbot-window {
-    right: 10px;
-    bottom: 94px;
+    right: calc(10px + env(safe-area-inset-right, 0px));
+    bottom: calc(94px + env(safe-area-inset-bottom, 0px));
     width: calc(100vw - 20px);
     max-height: 75vh;
+    max-height: 75dvh;
   }
-  .chatbot-toggle { right: 16px; bottom: 20px; }
+  .chatbot-toggle {
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
 }
