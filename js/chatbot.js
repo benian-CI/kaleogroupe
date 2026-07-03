@@ -790,16 +790,38 @@
     var isOpen         = false;
     var defaultCount   = 0;
 
+    // ── Ajustement au clavier virtuel (iOS/Android) ─────────
+    function syncToVisualViewport() {
+      if (!isOpen || !window.visualViewport) return;
+      var vv = window.visualViewport;
+      var keyboardInset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      if (keyboardInset > 60) {
+        win.style.bottom = keyboardInset + 'px';
+        win.style.maxHeight = (vv.height - 16) + 'px';
+      } else {
+        win.style.bottom = '';
+        win.style.maxHeight = '';
+      }
+      scrollToBottom();
+    }
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', syncToVisualViewport);
+      window.visualViewport.addEventListener('scroll', syncToVisualViewport);
+    }
+
     function openChat() {
       isOpen = true;
       win.classList.add('cb-open');
       toggle.innerHTML = '<i class="fas fa-xmark"></i>';
       inputEl.focus();
+      syncToVisualViewport();
     }
     function closeChat() {
       isOpen = false;
       win.classList.remove('cb-open');
       toggle.innerHTML = '<i class="fas fa-comments"></i>';
+      win.style.bottom = '';
+      win.style.maxHeight = '';
     }
     function scrollToBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
 
@@ -1143,6 +1165,8 @@
       inputEl.style.height = 'auto';
       inputEl.style.height = Math.min(inputEl.scrollHeight, 88) + 'px';
     });
+    inputEl.addEventListener('focus', function() { setTimeout(syncToVisualViewport, 300); });
+    inputEl.addEventListener('blur', function() { setTimeout(syncToVisualViewport, 300); });
     document.addEventListener('click', function(e) {
       if (isOpen && !win.contains(e.target) && !toggle.contains(e.target)) { closeChat(); }
     });
