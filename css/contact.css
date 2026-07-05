@@ -121,7 +121,7 @@
 }
 .contact-cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
 }
 .contact-method-card {
@@ -169,6 +169,10 @@
 .cm-email .cm-tag { color: #8FC3F0; }
 .cm-email .cm-avail i { color: #8FC3F0; }
 .cm-email .cm-icon-wrap { color: #8FC3F0; }
+
+.cm-facebook .cm-tag { color: #5B9BF5; }
+.cm-facebook .cm-avail i { color: #5B9BF5; }
+.cm-facebook .cm-icon-wrap { color: #5B9BF5; }
 
 /* Icône — coque unifiée verre + filet or */
 .cm-icon-wrap {
