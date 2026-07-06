@@ -734,14 +734,10 @@
     quickReplies: ['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres','Devis gratuit']
   };
 
-  // ── Chemins dynamiques (root ou /pages/) ────────────────────────────────────
-  function getBasePath() {
-    var scripts = document.querySelectorAll('script[src*="chatbot"]');
-    return scripts.length ? scripts[0].src.replace(/js\/chatbot\.js.*$/, '') : '';
-  }
-  function getLogoPath()        { return getBasePath() + 'LOGO KALEO.png'; }
-  function getDevisPath()       { return getBasePath() + 'pages/devis.html'; }
-  function getRealisationsPath(){ return getBasePath() + 'pages/realisations.html'; }
+  // ── Chemins absolus (URLs propres) ──────────────────────────────────────────
+  function getLogoPath()        { return '/LOGO KALEO.png'; }
+  function getDevisPath()       { return '/devis'; }
+  function getRealisationsPath(){ return '/realisations'; }
 
   // ── Construction du DOM ─────────────────────────────────────────────────────
   function buildChatbot() {

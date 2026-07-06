@@ -24,7 +24,7 @@ var projets = [
     titre: 'Vidéosurveillance Supermarché Dabou',
     desc: 'Installation de caméras IP dôme extérieures avec vision nocturne pour la sécurisation d\'un supermarché à Dabou.',
     lieu: 'Dabou', date: 'Mars 2025',
-    img: '../camera.png',
+    img: '/camera.png',
     imgPos: 'center center'
   },
   {
@@ -32,7 +32,7 @@ var projets = [
     titre: 'Réhabilitation immeuble Bingerville',
     desc: 'Installation de garde-corps câblés inox sur les terrasses d\'une villa R+1 réhabilitée : pose des montants, tension des câbles et finitions.',
     lieu: 'Bingerville', date: 'Janvier 2025',
-    img: '../construction.png',
+    img: '/construction.png',
     imgPos: 'center center'
   },
   {
@@ -40,7 +40,7 @@ var projets = [
     titre: 'Climatisation Bureaux Plateau',
     desc: 'Fourniture et installation de 12 unités split pour des bureaux de 600m² au Plateau.',
     lieu: 'Plateau, Abidjan', date: 'Février 2025',
-    img: '../climatisseur.png',
+    img: '/climatisseur.png',
     imgPos: 'center center'
   },
   {
@@ -48,7 +48,7 @@ var projets = [
     titre: 'Pose de caméra Résidence Marcory',
     desc: 'Installation d\'une caméra bullet IR en façade pour une résidence privée. Câblage encastré, boîtier étanche et vision nocturne inclus.',
     lieu: 'Marcory, Abidjan', date: 'Avril 2025',
-    img: '../pose camera.png',
+    img: '/pose camera.png',
     imgPos: 'center 35%'
   }
 ];

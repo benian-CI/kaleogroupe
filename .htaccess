@@ -2,8 +2,18 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
   RewriteCond %{THE_REQUEST} ^GET\ /index\.html[\s?] [NC]
   RewriteRule ^index\.html$ / [R=301,L]
+
+  # Redirige les anciennes URLs .html vers les URLs propres
+  RewriteCond %{THE_REQUEST} \s/+pages/(services|realisations|devis|contact)\.html[\s?] [NC]
+  RewriteRule ^ /%1? [R=301,L]
+
+  # Sert les URLs propres depuis le dossier pages/ (sans changer l'adresse affichée)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(services|realisations|devis|contact)/?$ pages/$1.html [L]
 </IfModule>
 
 <IfModule mod_headers.c>
