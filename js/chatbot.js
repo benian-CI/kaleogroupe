@@ -1017,12 +1017,13 @@
           }
 
           var sentVia = envoi === 'whatsapp' ? 'WhatsApp' : envoi === 'email' ? 'Email' : 'WhatsApp & Email';
+          var safePrenom = prenom.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
           var body = form.closest('.cb-card-body');
           body.innerHTML =
             '<div class="cb-form-success">' +
               '<i class="fas fa-circle-check"></i>' +
               '<h4>Demande envoyée !</h4>' +
-              '<p>Merci <strong>' + prenom + '</strong>. Votre demande a été envoyée via <strong>' + sentVia + '</strong>.<br/>Notre équipe vous contactera dans les <strong>24 heures</strong>.</p>' +
+              '<p>Merci <strong>' + safePrenom + '</strong>. Votre demande a été envoyée via <strong>' + sentVia + '</strong>.<br/>Notre équipe vous contactera dans les <strong>24 heures</strong>.</p>' +
             '</div>';
 
           scrollToBottom();
