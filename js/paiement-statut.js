@@ -26,6 +26,16 @@ function renderPaymentStatus(order) {
       '<h1>Paiement non abouti</h1>' +
       '<p>Le paiement de votre commande <strong>' + escapeHtml(order.ref) + '</strong> n\'a pas pu être finalisé. Votre panier a été conservé, vous pouvez réessayer.</p>' +
       '<a href="/panier" class="btn-primary">Retour au panier</a>';
+  } else if (order.paymentMethod === 'cash') {
+    // Commande "espèces à la livraison" : rien à vérifier en ligne, la commande
+    // est déjà enregistrée et le stock réservé. Pas de polling ici.
+    clearCart();
+    box.className = 'payment-result success';
+    box.innerHTML =
+      '<i class="fas fa-circle-check"></i>' +
+      '<h1>Commande enregistrée !</h1>' +
+      '<p>Merci <strong>' + escapeHtml(order.customerName) + '</strong>, votre commande <strong>' + escapeHtml(order.ref) + '</strong> d\'un montant de <strong>' + formatFCFA(order.totalAmount) + '</strong> est confirmée. Vous paierez en espèces à la livraison.</p>' +
+      '<a href="/boutique" class="btn-primary">Continuer mes achats</a>';
   } else if (paymentPollAttempts >= PAYMENT_POLL_MAX_ATTEMPTS) {
     box.className = 'payment-result pending';
     box.innerHTML =

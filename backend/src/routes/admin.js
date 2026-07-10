@@ -140,4 +140,23 @@ router.get('/orders/:id', asyncHandler(async (req, res) => {
   res.json(order);
 }));
 
+// POST /api/admin/orders/:id/mark-paid — confirme manuellement une commande payée en espèces
+// (uniquement les commandes "cash" encore en attente : les commandes CinetPay ne peuvent être
+// confirmées que par la vérification serveur-à-serveur dans payment.js, jamais manuellement ici).
+router.post('/orders/:id/mark-paid', asyncHandler(async (req, res) => {
+  const order = await prisma.order.findUnique({ where: { id: Number(req.params.id) } });
+  if (!order) return res.status(404).json({ error: 'Commande introuvable' });
+  if (order.paymentMethod !== 'cash') {
+    return res.status(400).json({ error: 'Seules les commandes payées en espèces peuvent être confirmées manuellement.' });
+  }
+  if (order.status !== 'pending') {
+    return res.status(409).json({ error: 'Cette commande a déjà été traitée.' });
+  }
+  const updated = await prisma.order.update({
+    where: { id: order.id },
+    data: { status: 'paid', paidAt: new Date() }
+  });
+  res.json(updated);
+}));
+
 module.exports = router;

@@ -200,22 +200,32 @@ if (dashboardRoot && !getAdminToken()) {
       .then(function (orders) {
         var tbody = document.getElementById('ordersTableBody');
         if (orders.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6"><div class="admin-empty">Aucune commande pour le moment.</div></td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8"><div class="admin-empty">Aucune commande pour le moment.</div></td></tr>';
           return;
         }
         tbody.innerHTML = orders.map(function (o) {
+          var canMarkPaid = o.paymentMethod === 'cash' && o.status === 'pending';
           return '<tr>' +
             '<td>' + escapeHtml(o.ref) + '</td>' +
             '<td>' + escapeHtml(o.customerName) + '<br/><span style="color:var(--text-muted)">' + escapeHtml(o.customerPhone) + '</span></td>' +
             '<td>' + o.items.map(function (i) { return i.quantity + '× ' + escapeHtml(i.product.name); }).join('<br/>') + '</td>' +
             '<td>' + formatFCFA(o.totalAmount) + '</td>' +
+            '<td>' + (o.paymentMethod === 'cash' ? 'Espèces' : 'Mobile Money / Carte') + '</td>' +
             '<td><span class="admin-status ' + o.status + '">' + o.status + '</span></td>' +
             '<td>' + new Date(o.createdAt).toLocaleString('fr-FR') + '</td>' +
+            '<td>' + (canMarkPaid ? '<button class="admin-icon-btn" title="Marquer payée" onclick="markOrderPaid(' + o.id + ')"><i class="fas fa-check"></i></button>' : '') + '</td>' +
           '</tr>';
         }).join('');
       })
       .catch(function (err) { showToast(err.message, 'error'); });
   }
+
+  window.markOrderPaid = function (id) {
+    if (!confirm('Confirmer que cette commande a bien été payée en espèces à la livraison ?')) return;
+    adminFetch('/admin/orders/' + id + '/mark-paid', { method: 'POST' })
+      .then(function () { showToast('Commande marquée payée', 'success'); loadOrders(); })
+      .catch(function (err) { showToast(err.message, 'error'); });
+  };
 
   loadProducts();
   loadOrders();

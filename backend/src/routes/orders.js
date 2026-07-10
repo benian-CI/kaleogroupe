@@ -10,9 +10,9 @@ function generateRef() {
   return `KAL-${Date.now()}-${crypto.randomBytes(3).toString('hex')}`.toUpperCase();
 }
 
-// POST /api/orders — crée la commande et initie le paiement CinetPay
+// POST /api/orders — crée la commande et initie le paiement (CinetPay ou espèces à la livraison)
 router.post('/', asyncHandler(async (req, res) => {
-  const { items, customer } = req.body || {};
+  const { items, customer, paymentMethod } = req.body || {};
 
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: 'Le panier est vide' });
@@ -20,6 +20,10 @@ router.post('/', asyncHandler(async (req, res) => {
   if (!customer?.name || !customer?.phone || !customer?.address) {
     return res.status(400).json({ error: 'Nom, téléphone et adresse de livraison sont requis' });
   }
+  if (paymentMethod !== undefined && paymentMethod !== 'cinetpay' && paymentMethod !== 'cash') {
+    return res.status(400).json({ error: 'Mode de paiement invalide' });
+  }
+  const isCash = paymentMethod === 'cash';
 
   const productIds = items.map((i) => Number(i.productId));
   const products = await prisma.product.findMany({
@@ -61,6 +65,7 @@ router.post('/', asyncHandler(async (req, res) => {
       data: {
         ref,
         status: 'pending',
+        paymentMethod: isCash ? 'cash' : 'cinetpay',
         customerName: customer.name,
         customerPhone: customer.phone,
         customerEmail: customer.email || null,
@@ -72,6 +77,33 @@ router.post('/', asyncHandler(async (req, res) => {
   } catch (err) {
     console.error('Erreur création commande:', err);
     return res.status(500).json({ error: 'Impossible de créer la commande pour le moment. Réessayez.' });
+  }
+
+  // Paiement en espèces à la livraison : pas de passerelle en ligne, on réserve
+  // le stock tout de suite (aucun webhook ne viendra jamais confirmer ce paiement,
+  // c'est l'admin qui le marquera "payée" manuellement une fois la livraison faite).
+  if (isCash) {
+    try {
+      await prisma.$transaction(async (tx) => {
+        for (const item of orderItemsData) {
+          const result = await tx.product.updateMany({
+            where: { id: item.productId, stock: { gte: item.quantity } },
+            data: { stock: { decrement: item.quantity } }
+          });
+          if (result.count === 0) {
+            throw Object.assign(new Error('Stock insuffisant'), { code: 'OUT_OF_STOCK' });
+          }
+        }
+      });
+    } catch (err) {
+      await prisma.order.updateMany({ where: { ref }, data: { status: 'failed' } });
+      if (err.code === 'OUT_OF_STOCK') {
+        return res.status(409).json({ error: 'Un produit du panier vient d\'être épuisé, réessayez.' });
+      }
+      console.error('Erreur réservation stock (commande espèces):', err);
+      return res.status(500).json({ error: 'Impossible de finaliser la commande pour le moment. Réessayez.' });
+    }
+    return res.status(201).json({ ref: order.ref, paymentMethod: 'cash' });
   }
 
   try {
@@ -101,7 +133,7 @@ router.post('/', asyncHandler(async (req, res) => {
 router.get('/:ref/status', asyncHandler(async (req, res) => {
   const order = await prisma.order.findUnique({
     where: { ref: req.params.ref },
-    select: { ref: true, status: true, totalAmount: true, customerName: true, paidAt: true }
+    select: { ref: true, status: true, paymentMethod: true, totalAmount: true, customerName: true, paidAt: true }
   });
   if (!order) return res.status(404).json({ error: 'Commande introuvable' });
   res.json(order);

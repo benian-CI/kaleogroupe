@@ -80,12 +80,31 @@
                 <label for="coCity">Ville</label>
                 <input type="text" id="coCity" name="coCity" placeholder="Abidjan" value="Abidjan"/>
               </div>
+              <div class="form-group">
+                <label>Mode de paiement *</label>
+                <div class="send-choice">
+                  <label class="choice-card">
+                    <input type="radio" name="paymentMethod" value="cinetpay" checked/>
+                    <div class="choice-content">
+                      <i class="fas fa-mobile-screen-button"></i>
+                      <span>Mobile Money / Carte</span>
+                    </div>
+                  </label>
+                  <label class="choice-card">
+                    <input type="radio" name="paymentMethod" value="cash"/>
+                    <div class="choice-content">
+                      <i class="fas fa-money-bill-wave"></i>
+                      <span>Espèces à la livraison</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
               <div class="form-nav">
                 <button type="submit" class="btn-primary btn-large" id="checkoutSubmit">
                   <i class="fas fa-lock"></i> Payer maintenant
                 </button>
               </div>
-              <p style="font-size:12px; color: var(--text-muted); margin-top: 12px;">
+              <p style="font-size:12px; color: var(--text-muted); margin-top: 12px;" id="checkoutSecurityNote">
                 <i class="fas fa-shield-halved"></i> Paiement sécurisé par CinetPay — Orange Money, MTN Money, Moov Money, Wave et carte bancaire.
               </p>
             </form>

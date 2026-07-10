@@ -24,6 +24,27 @@ function hideCheckoutError() {
   document.getElementById('checkoutError').style.display = 'none';
 }
 
+function getSelectedPaymentMethod() {
+  var checked = document.querySelector('input[name="paymentMethod"]:checked');
+  return checked ? checked.value : 'cinetpay';
+}
+
+function updatePaymentUi() {
+  var isCash = getSelectedPaymentMethod() === 'cash';
+  var submitBtn = document.getElementById('checkoutSubmit');
+  var note = document.getElementById('checkoutSecurityNote');
+  submitBtn.innerHTML = isCash
+    ? '<i class="fas fa-check"></i> Confirmer ma commande'
+    : '<i class="fas fa-lock"></i> Payer maintenant';
+  note.innerHTML = isCash
+    ? '<i class="fas fa-truck"></i> Vous payerez en espèces directement au livreur, à la réception de votre commande.'
+    : '<i class="fas fa-shield-halved"></i> Paiement sécurisé par CinetPay — Orange Money, MTN Money, Moov Money, Wave et carte bancaire.';
+}
+
+document.querySelectorAll('input[name="paymentMethod"]').forEach(function (radio) {
+  radio.addEventListener('change', updatePaymentUi);
+});
+
 var checkoutForm = document.getElementById('checkoutForm');
 if (checkoutForm) {
   checkoutForm.addEventListener('submit', function (e) {
@@ -36,8 +57,10 @@ if (checkoutForm) {
       return;
     }
 
+    var paymentMethod = getSelectedPaymentMethod();
     var payload = {
       items: cart.map(function (i) { return { productId: i.productId, quantity: i.quantity }; }),
+      paymentMethod: paymentMethod,
       customer: {
         name: document.getElementById('coName').value.trim(),
         phone: document.getElementById('coPhone').value.trim(),
@@ -54,7 +77,7 @@ if (checkoutForm) {
 
     var submitBtn = document.getElementById('checkoutSubmit');
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirection vers le paiement...';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (paymentMethod === 'cash' ? 'Enregistrement...' : 'Redirection vers le paiement...');
 
     fetch(window.API_BASE_URL + '/orders', {
       method: 'POST',
@@ -68,11 +91,15 @@ if (checkoutForm) {
         if (!result.ok) throw new Error(result.data.error || 'Une erreur est survenue.');
         // Le panier est vidé seulement après confirmation du paiement (page paiement-succes),
         // pas ici, au cas où le client abandonne la page de paiement.
-        window.location.href = result.data.paymentUrl;
+        if (result.data.paymentUrl) {
+          window.location.href = result.data.paymentUrl;
+        } else {
+          window.location.href = '/paiement-succes?ref=' + encodeURIComponent(result.data.ref);
+        }
       })
       .catch(function (err) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-lock"></i> Payer maintenant';
+        updatePaymentUi();
         showCheckoutError(err.message || 'Impossible de traiter la commande. Réessayez.');
       });
   });
