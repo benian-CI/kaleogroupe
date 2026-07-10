@@ -5,7 +5,10 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
-  }
+  },
+  // Force IPv4 : certains hébergeurs annoncent une adresse IPv6 pour Gmail sans
+  // route sortante fonctionnelle, ce qui fait échouer la connexion (ENETUNREACH).
+  family: 4
 });
 
 function money(n) {

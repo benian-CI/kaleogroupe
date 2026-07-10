@@ -1,4 +1,9 @@
 require('dotenv').config();
+// Certains hébergeurs (dont Render) annoncent une adresse IPv6 pour les services
+// externes (ex: Gmail SMTP) sans avoir de route IPv6 sortante fonctionnelle, ce qui
+// fait échouer la connexion avec ENETUNREACH. On force la résolution DNS à préférer
+// IPv4, qui fonctionne partout, pour toutes les connexions sortantes de ce process.
+require('dns').setDefaultResultOrder('ipv4first');
 const express = require('express');
 const cors = require('cors');
 
