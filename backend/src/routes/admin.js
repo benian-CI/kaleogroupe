@@ -97,13 +97,22 @@ router.put('/products/:id', asyncHandler(async (req, res) => {
 }));
 
 router.delete('/products/:id', asyncHandler(async (req, res) => {
+  const id = Number(req.params.id);
+
+  // On vérifie explicitement AVANT de supprimer plutôt que de deviner après coup
+  // le type d'erreur renvoyé par Postgres : selon la façon exacte dont la contrainte
+  // de clé étrangère est violée, Prisma ne classe pas toujours ça sous le code connu
+  // "P2003" (parfois ça remonte comme une erreur générique non reconnue), ce qui
+  // masquait ce cas légitime derrière une erreur 500 au lieu du message clair.
+  const hasOrders = await prisma.orderItem.findFirst({ where: { productId: id } });
+  if (hasOrders) {
+    return res.status(409).json({ error: 'Impossible de supprimer : ce produit a déjà des commandes associées. Désactivez-le plutôt que de le supprimer.' });
+  }
+
   try {
-    await prisma.product.delete({ where: { id: Number(req.params.id) } });
+    await prisma.product.delete({ where: { id } });
     res.sendStatus(204);
   } catch (err) {
-    if (err.code === 'P2003') {
-      return res.status(409).json({ error: 'Impossible de supprimer : ce produit a déjà des commandes associées. Désactivez-le plutôt que de le supprimer.' });
-    }
     if (err.code === 'P2025') return res.status(404).json({ error: 'Produit introuvable' });
     throw err;
   }
