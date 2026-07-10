@@ -1,6 +1,7 @@
 const express = require('express');
 const prisma = require('../lib/prisma');
 const cinetpay = require('../services/cinetpay');
+const { sendOrderEmails } = require('../services/email');
 const asyncHandler = require('../lib/asyncHandler');
 
 const router = express.Router();
@@ -50,6 +51,11 @@ router.post('/notify', express.urlencoded({ extended: true }), asyncHandler(asyn
         }
       }
     });
+
+    // Best-effort, ne bloque jamais la réponse au webhook ni ne fait échouer la confirmation.
+    prisma.order.findUnique({ where: { id: order.id }, include: { items: { include: { product: true } } } })
+      .then(sendOrderEmails)
+      .catch((err) => console.error('Erreur notification email commande:', err));
   } else if (status === 'REFUSED' || status === 'CANCELLED' || status === 'EXPIRED') {
     await prisma.order.update({ where: { id: order.id }, data: { status: 'failed' } });
   }

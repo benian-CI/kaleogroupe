@@ -2,7 +2,15 @@ const express = require('express');
 const crypto = require('crypto');
 const prisma = require('../lib/prisma');
 const cinetpay = require('../services/cinetpay');
+const { sendOrderEmails } = require('../services/email');
 const asyncHandler = require('../lib/asyncHandler');
+
+function notifyOrderByEmail(orderId) {
+  // Best-effort, ne bloque jamais la réponse HTTP ni ne fait échouer la commande.
+  prisma.order.findUnique({ where: { id: orderId }, include: { items: { include: { product: true } } } })
+    .then(sendOrderEmails)
+    .catch((err) => console.error('Erreur notification email commande:', err));
+}
 
 const router = express.Router();
 
@@ -103,6 +111,7 @@ router.post('/', asyncHandler(async (req, res) => {
       console.error('Erreur réservation stock (commande espèces):', err);
       return res.status(500).json({ error: 'Impossible de finaliser la commande pour le moment. Réessayez.' });
     }
+    notifyOrderByEmail(order.id);
     return res.status(201).json({ ref: order.ref, paymentMethod: 'cash' });
   }
 
