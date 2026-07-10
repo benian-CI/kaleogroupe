@@ -1,0 +1,154 @@
+/* ============================================
+   ADMIN — LOGIN & DASHBOARD
+   ============================================ */
+
+.admin-body { min-height: 100vh; background: var(--bg-dark); }
+
+.admin-login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.admin-login-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+.admin-login-card img { height: 56px; margin-bottom: 20px; border-radius: 50%; background: #fff; padding: 4px; }
+.admin-login-card h1 { font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 24px; }
+.admin-login-card .form-group { text-align: left; margin-bottom: 16px; }
+.admin-login-card label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+.admin-login-card .checkout-error {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #F87171;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.admin-login-card input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+/* ── HEADER DASHBOARD ─────────────────────────────────────────────────────── */
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(11,17,32,0.95);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.admin-header .logo-text { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
+.admin-tabs { display: flex; gap: 8px; }
+.admin-tab-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.admin-tab-btn.active, .admin-tab-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.admin-logout { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; }
+.admin-logout:hover { color: #F87171; }
+
+.admin-main { max-width: 1200px; margin: 0 auto; padding: 32px 24px 80px; }
+.admin-panel { display: none; }
+.admin-panel.active { display: block; }
+.admin-panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.admin-panel-header h2 { font-family: var(--font-display); font-size: 1.6rem; }
+
+/* ── TABLE ────────────────────────────────────────────────────────────────── */
+.admin-table-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; overflow-x: auto; }
+.admin-table { width: 100%; border-collapse: collapse; min-width: 640px; }
+.admin-table th, .admin-table td { padding: 14px 16px; text-align: left; font-size: 13px; border-bottom: 1px solid var(--border); }
+.admin-table th { color: var(--text-muted); text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: rgba(255,255,255,0.05); }
+.admin-status { padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.admin-status.pending { background: rgba(251,191,36,0.15); color: #FBBF24; }
+.admin-status.paid { background: rgba(52,211,153,0.15); color: #34D399; }
+.admin-status.failed, .admin-status.cancelled { background: rgba(239,68,68,0.15); color: #F87171; }
+.admin-status.active { background: rgba(52,211,153,0.15); color: #34D399; }
+.admin-status.inactive { background: rgba(148,163,184,0.15); color: #94A3B8; }
+.admin-actions-cell { display: flex; gap: 8px; }
+.admin-icon-btn { background: none; border: 1px solid var(--border); color: var(--text-secondary); width: 30px; height: 30px; border-radius: 8px; cursor: pointer; }
+.admin-icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+.admin-icon-btn.danger:hover { border-color: #F87171; color: #F87171; }
+
+/* ── MODAL FORMULAIRE PRODUIT ────────────────────────────────────────────── */
+.admin-modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.admin-modal-overlay.open { display: flex; }
+.admin-modal {
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.admin-modal h3 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 20px; }
+.admin-modal .form-group { margin-bottom: 16px; }
+.admin-modal label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+.admin-modal input, .admin-modal textarea, .admin-modal select {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 11px 14px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: var(--font-body);
+}
+.admin-modal textarea { resize: vertical; min-height: 80px; }
+.admin-modal-row { display: flex; gap: 12px; }
+.admin-modal-row .form-group { flex: 1; }
+.admin-modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+.admin-image-preview { width: 100%; height: 140px; border-radius: var(--radius); background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 10px; }
+.admin-image-preview img { width: 100%; height: 100%; object-fit: cover; }
+.admin-image-preview i { color: var(--text-muted); font-size: 1.6rem; }
+
+.admin-empty { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
+.admin-toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  font-size: 13px;
+  z-index: 200;
+  display: none;
+}
+.admin-toast.show { display: block; }
+.admin-toast.error { border-color: rgba(239,68,68,0.4); color: #F87171; }
+.admin-toast.success { border-color: rgba(52,211,153,0.4); color: #34D399; }

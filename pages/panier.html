@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+  <meta name="referrer" content="no-referrer-when-downgrade"/>
+  <meta name="robots" content="noindex, follow"/>
+  <title>Mon panier — KALEO GROUPE</title>
+  <link rel="icon" type="image/png" href="/LOGO KALEO.png"/>
+  <link rel="stylesheet" href="/css/style.css?v=2"/>
+  <link rel="stylesheet" href="/css/animations.css?v=2"/>
+  <link rel="stylesheet" href="/css/boutique.css?v=1"/>
+  <link rel="stylesheet" href="/css/chatbot.css?v=2"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="/LOGO KALEO.png" alt="KALEO GROUPE Logo" class="logo-img-nav"/>
+        <span class="logo-text">KALEO<span class="accent"> GROUPE</span></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/boutique">Boutique</a></li>
+        <li><a href="/realisations">Réalisations</a></li>
+        <li><a href="/devis" class="btn-nav">Devis gratuit</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/panier" class="cart-icon-link active" aria-label="Panier"><i class="fas fa-cart-shopping"></i><span class="cart-badge" id="cartBadge">0</span></a></li>
+      </ul>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <span class="section-eyebrow">Boutique</span>
+      <h1>Mon <span class="accent">Panier</span></h1>
+    </div>
+  </div>
+
+  <section class="boutique-section">
+    <div class="container">
+
+      <div class="cart-empty" id="cartEmpty" style="display:none;">
+        <i class="fas fa-cart-shopping"></i>
+        <p>Votre panier est vide.</p>
+        <a href="/boutique" class="btn-primary" style="margin-top: 16px;">Découvrir la boutique</a>
+      </div>
+
+      <div class="cart-layout" id="cartLayout">
+        <div class="cart-items" id="cartItemsList"></div>
+        <div class="cart-summary">
+          <h3>Récapitulatif</h3>
+          <div class="cart-summary-row">
+            <span>Sous-total</span>
+            <span id="cartSubtotal">0 FCFA</span>
+          </div>
+          <div class="cart-summary-row">
+            <span>Livraison</span>
+            <span>À confirmer</span>
+          </div>
+          <div class="cart-summary-total">
+            <span>Total</span>
+            <span id="cartTotal">0 FCFA</span>
+          </div>
+          <a href="/checkout" class="btn-primary btn-large" style="width:100%; justify-content:center; margin-top: 20px;">
+            Passer commande <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 24px;">
+        <p>© 2023 KALEO GROUPE. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/main.js?v=2"></script>
+  <script src="/js/panier.js?v=1"></script>
+  <script src="/js/chatbot.js?v=2"></script>
+</body>
+</html>

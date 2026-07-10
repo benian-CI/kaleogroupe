@@ -13,6 +13,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://app.kaleogroupe.com/boutique</loc>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://app.kaleogroupe.com/realisations</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>weekly</changefreq>

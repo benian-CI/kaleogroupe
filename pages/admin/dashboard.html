@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Tableau de bord — KALEO GROUPE</title>
+  <link rel="icon" type="image/png" href="/LOGO KALEO.png"/>
+  <link rel="stylesheet" href="/css/style.css?v=2"/>
+  <link rel="stylesheet" href="/css/admin.css?v=1"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="admin-body">
+
+  <div id="adminDashboard">
+
+    <header class="admin-header">
+      <span class="logo-text">KALEO<span class="accent"> ADMIN</span></span>
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" data-panel="panelProducts">Produits</button>
+        <button class="admin-tab-btn" data-panel="panelOrders">Commandes</button>
+      </div>
+      <button class="admin-logout" id="adminLogoutBtn"><i class="fas fa-right-from-bracket"></i> Déconnexion</button>
+    </header>
+
+    <main class="admin-main">
+
+      <div class="admin-panel active" id="panelProducts">
+        <div class="admin-panel-header">
+          <h2>Produits</h2>
+          <button class="btn-primary" id="addProductBtn"><i class="fas fa-plus"></i> Ajouter un produit</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Image</th><th>Nom</th><th>Catégorie</th><th>Prix</th><th>Stock</th><th>Statut</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="productsTableBody">
+              <tr><td colspan="7"><div class="admin-empty"><i class="fas fa-spinner fa-spin"></i> Chargement...</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-panel" id="panelOrders">
+        <div class="admin-panel-header">
+          <h2>Commandes</h2>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Réf.</th><th>Client</th><th>Articles</th><th>Total</th><th>Statut</th><th>Date</th></tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr><td colspan="6"><div class="admin-empty"><i class="fas fa-spinner fa-spin"></i> Chargement...</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- MODAL PRODUIT -->
+  <div class="admin-modal-overlay" id="productModalOverlay">
+    <div class="admin-modal">
+      <h3 id="productModalTitle">Nouveau produit</h3>
+      <form id="productForm">
+        <div class="form-group">
+          <label>Image</label>
+          <div class="admin-image-preview" id="imagePreview"><i class="fas fa-image"></i></div>
+          <input type="file" id="pImageFile" accept="image/*"/>
+          <input type="hidden" id="pImageUrl"/>
+          <span id="imageUploadStatus" style="font-size:12px;color:var(--text-muted);"></span>
+        </div>
+        <div class="form-group">
+          <label for="pName">Nom *</label>
+          <input type="text" id="pName" required/>
+        </div>
+        <div class="form-group">
+          <label for="pDescription">Description *</label>
+          <textarea id="pDescription" required></textarea>
+        </div>
+        <div class="admin-modal-row">
+          <div class="form-group">
+            <label for="pPrice">Prix (FCFA) *</label>
+            <input type="number" id="pPrice" min="0" required/>
+          </div>
+          <div class="form-group">
+            <label for="pStock">Stock *</label>
+            <input type="number" id="pStock" min="0" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="pCategory">Catégorie *</label>
+          <select id="pCategory">
+            <option value="cameras">Caméras</option>
+            <option value="construction">Construction</option>
+            <option value="climatisation">Climatisation</option>
+            <option value="menuiserie">Menuiserie Alu</option>
+            <option value="electricite">Électricité</option>
+            <option value="autres">Autres</option>
+          </select>
+        </div>
+        <div class="form-group checkbox-simple">
+          <label><input type="checkbox" id="pActive" checked/> Produit actif (visible dans la boutique)</label>
+        </div>
+        <div class="admin-modal-actions">
+          <button type="button" class="btn-secondary" id="productModalCancel">Annuler</button>
+          <button type="submit" class="btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-toast" id="adminToast"></div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/admin.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Administration — KALEO GROUPE</title>
+  <link rel="icon" type="image/png" href="/LOGO KALEO.png"/>
+  <link rel="stylesheet" href="/css/style.css?v=2"/>
+  <link rel="stylesheet" href="/css/admin.css?v=1"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="admin-body">
+
+  <div class="admin-login-wrap">
+    <div class="admin-login-card">
+      <img src="/LOGO KALEO.png" alt="KALEO GROUPE"/>
+      <h1>Administration</h1>
+
+      <div class="checkout-error" id="adminLoginError" style="display:none;"></div>
+
+      <form id="adminLoginForm" novalidate>
+        <div class="form-group">
+          <label for="adminEmail">Email</label>
+          <input type="email" id="adminEmail" required/>
+        </div>
+        <div class="form-group">
+          <label for="adminPassword">Mot de passe</label>
+          <input type="password" id="adminPassword" required/>
+        </div>
+        <button type="submit" class="btn-primary btn-large" id="adminLoginBtn" style="width:100%; justify-content:center;">Se connecter</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/admin.js?v=1"></script>
+</body>
+</html>

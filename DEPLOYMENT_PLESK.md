@@ -13,9 +13,10 @@ Ce site est un site statique HTML/CSS/JavaScript. Il peut être déployé direct
 
 ## Important
 
-- Aucune base de données n’est nécessaire.
+- Aucune base de données n’est nécessaire pour le site statique.
 - Les liens utilisent des chemins relatifs, donc le site fonctionne sans configuration supplémentaire.
 - Si vous avez un sous-domaine ou un dossier spécifique, téléversez les fichiers dans ce dossier et configurez-le comme racine du site.
+- **Ne téléversez pas le dossier `backend/`** sur Plesk : il s'agit de l'API de la boutique, qui se déploie séparément (voir `backend/README-backend.md`). Seuls les fichiers HTML/CSS/JS/images du site vont sur Plesk.
 
 ## Si le site ne s’affiche pas
 

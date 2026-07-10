@@ -20,10 +20,26 @@ site-pro/
 ├── js/
 │   ├── main.js             ← Navbar, menu mobile, scroll reveal
 │   ├── devis.js            ← Logique formulaire multi-étapes
-│   └── realisations.js     ← Données projets + filtre dynamique
+│   ├── realisations.js     ← Données projets + filtre dynamique
+│   ├── config.js           ← URL de l'API backend boutique
+│   ├── cart.js             ← Panier (localStorage) + badge navbar
+│   ├── boutique.js         ← Catalogue produits + filtres
+│   ├── produit.js          ← Page détail produit
+│   ├── panier.js           ← Page panier
+│   ├── checkout.js         ← Formulaire de commande + paiement
+│   ├── paiement-statut.js  ← Pages de retour de paiement
+│   └── admin.js            ← Panel admin (login + dashboard)
+├── backend/                ← API boutique (Node/Express/Prisma), déployée séparément
+│                              → voir backend/README-backend.md
 └── images/                 ← Dossier pour vos photos
 
 ```
+
+## Boutique en ligne
+
+Le site inclut une boutique (`/boutique`) avec panier, commande et paiement Mobile Money (Orange Money, MTN Money, Moov Money, Wave) via CinetPay. Contrairement au reste du site (statique), la boutique a besoin d'un petit backend séparé (dossier `backend/`) : voir `backend/README-backend.md` pour le déployer et le configurer.
+
+Un panel d'administration (non lié dans le menu) permet de gérer le catalogue et de consulter les commandes : `/admin/login`.
 
 ## Comment ouvrir dans VS Code
 
