@@ -17,7 +17,8 @@ function renderPaymentStatus(order) {
     box.innerHTML =
       '<i class="fas fa-circle-check"></i>' +
       '<h1>Paiement confirmé !</h1>' +
-      '<p>Merci <strong>' + escapeHtml(order.customerName) + '</strong>, votre commande <strong>' + escapeHtml(order.ref) + '</strong> d\'un montant de <strong>' + formatFCFA(order.totalAmount) + '</strong> a bien été payée. Nous préparons votre livraison.</p>' +
+      '<p>Merci <strong>' + escapeHtml(order.customerName) + '</strong>, votre commande <strong>' + escapeHtml(order.ref) + '</strong> d\'un montant de <strong>' + formatFCFA(order.totalAmount) + '</strong> a bien été payée. Nous préparons votre livraison' +
+      (order.installationRequested ? ' et l\'installation par notre équipe' : '') + '.</p>' +
       '<a href="/boutique" class="btn-primary">Continuer mes achats</a>';
   } else if (order.status === 'failed' || order.status === 'cancelled') {
     box.className = 'payment-result failed';
@@ -34,7 +35,8 @@ function renderPaymentStatus(order) {
     box.innerHTML =
       '<i class="fas fa-circle-check"></i>' +
       '<h1>Commande enregistrée !</h1>' +
-      '<p>Merci <strong>' + escapeHtml(order.customerName) + '</strong>, votre commande <strong>' + escapeHtml(order.ref) + '</strong> d\'un montant de <strong>' + formatFCFA(order.totalAmount) + '</strong> est confirmée. Vous paierez en espèces à la livraison.</p>' +
+      '<p>Merci <strong>' + escapeHtml(order.customerName) + '</strong>, votre commande <strong>' + escapeHtml(order.ref) + '</strong> d\'un montant de <strong>' + formatFCFA(order.totalAmount) + '</strong> est confirmée. Vous paierez en espèces à la livraison' +
+      (order.installationRequested ? ', installation par notre équipe comprise' : '') + '.</p>' +
       '<a href="/boutique" class="btn-primary">Continuer mes achats</a>';
   } else if (paymentPollAttempts >= PAYMENT_POLL_MAX_ATTEMPTS) {
     box.className = 'payment-result pending';

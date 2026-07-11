@@ -35,20 +35,22 @@ model Product {
 }
 
 model Order {
-  id              Int           @id @default(autoincrement())
-  ref             String        @unique
-  status          OrderStatus   @default(pending)
-  paymentMethod   PaymentMethod @default(cinetpay)
-  customerName    String
-  customerPhone   String
-  customerEmail   String?
-  deliveryAddress String
-  totalAmount     Int
-  cinetpayTransId String?
-  paidAt          DateTime?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  items           OrderItem[]
+  id                     Int           @id @default(autoincrement())
+  ref                    String        @unique
+  status                 OrderStatus   @default(pending)
+  paymentMethod          PaymentMethod @default(cinetpay)
+  customerName           String
+  customerPhone          String
+  customerEmail          String?
+  deliveryAddress        String
+  totalAmount            Int
+  installationRequested  Boolean       @default(false)
+  installationFee        Int           @default(0)
+  cinetpayTransId        String?
+  paidAt                 DateTime?
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+  items                  OrderItem[]
 }
 
 model OrderItem {

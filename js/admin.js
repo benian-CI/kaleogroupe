@@ -208,7 +208,8 @@ if (dashboardRoot && !getAdminToken()) {
           return '<tr>' +
             '<td>' + escapeHtml(o.ref) + '</td>' +
             '<td>' + escapeHtml(o.customerName) + '<br/><span style="color:var(--text-muted)">' + escapeHtml(o.customerPhone) + '</span></td>' +
-            '<td>' + o.items.map(function (i) { return i.quantity + '× ' + escapeHtml(i.product.name); }).join('<br/>') + '</td>' +
+            '<td>' + o.items.map(function (i) { return i.quantity + '× ' + escapeHtml(i.product.name); }).join('<br/>') +
+              (o.installationRequested ? '<br/><span style="color:var(--accent);font-size:12px;"><i class="fas fa-screwdriver-wrench"></i> Installation demandée</span>' : '') + '</td>' +
             '<td>' + formatFCFA(o.totalAmount) + '</td>' +
             '<td>' + (o.paymentMethod === 'cash' ? 'Espèces' : 'Mobile Money / Carte') + '</td>' +
             '<td><span class="admin-status ' + o.status + '">' + o.status + '</span></td>' +

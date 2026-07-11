@@ -1,6 +1,13 @@
 // ============================================
 // CHECKOUT — CRÉATION DE COMMANDE + PAIEMENT
 // ============================================
+var INSTALLATION_FEE = 30000;
+
+function isInstallationRequested() {
+  var checkbox = document.getElementById('coInstallation');
+  return !!(checkbox && checkbox.checked);
+}
+
 function renderRecap() {
   var cart = getCart();
   if (cart.length === 0) {
@@ -8,9 +15,12 @@ function renderRecap() {
     return;
   }
   var recap = document.getElementById('checkoutRecap');
+  var total = getCartTotal() + (isInstallationRequested() ? INSTALLATION_FEE : 0);
   recap.innerHTML = cart.map(function (item) {
-    return '<div class="recap-item"><span>' + item.quantity + '× ' + item.name + '</span><span>' + formatFCFA(item.price * item.quantity) + '</span></div>';
-  }).join('') + '<div class="cart-summary-total"><span>Total</span><span>' + formatFCFA(getCartTotal()) + '</span></div>';
+    return '<div class="recap-item"><span>' + item.quantity + '× ' + escapeHtml(item.name) + '</span><span>' + formatFCFA(item.price * item.quantity) + '</span></div>';
+  }).join('') +
+    (isInstallationRequested() ? '<div class="recap-item"><span>Installation par notre équipe</span><span>' + formatFCFA(INSTALLATION_FEE) + '</span></div>' : '') +
+    '<div class="cart-summary-total"><span>Total</span><span>' + formatFCFA(total) + '</span></div>';
 }
 
 function showCheckoutError(message) {
@@ -45,6 +55,11 @@ document.querySelectorAll('input[name="paymentMethod"]').forEach(function (radio
   radio.addEventListener('change', updatePaymentUi);
 });
 
+var installationCheckbox = document.getElementById('coInstallation');
+if (installationCheckbox) {
+  installationCheckbox.addEventListener('change', renderRecap);
+}
+
 var checkoutForm = document.getElementById('checkoutForm');
 if (checkoutForm) {
   checkoutForm.addEventListener('submit', function (e) {
@@ -61,6 +76,7 @@ if (checkoutForm) {
     var payload = {
       items: cart.map(function (i) { return { productId: i.productId, quantity: i.quantity }; }),
       paymentMethod: paymentMethod,
+      installation: isInstallationRequested(),
       customer: {
         name: document.getElementById('coName').value.trim(),
         phone: document.getElementById('coPhone').value.trim(),

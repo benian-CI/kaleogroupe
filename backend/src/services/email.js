@@ -46,8 +46,10 @@ function orderSummaryHtml(order) {
     <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;">
       <h2 style="color:#FF6B2B;margin-bottom:4px;">Commande ${escapeHtml(order.ref)}</h2>
       ${itemsTableHtml(order.items)}
+      ${order.installationRequested ? `<p style="text-align:right;">Installation par notre équipe : ${money(order.installationFee)}</p>` : ''}
       <p style="text-align:right;font-size:18px;font-weight:bold;margin-top:12px;">Total : ${money(order.totalAmount)}</p>
       <p style="font-family:Arial,sans-serif;"><strong>Mode de paiement :</strong> ${paymentLabel}</p>
+      ${order.installationRequested ? '<p style="font-family:Arial,sans-serif;"><strong>Installation :</strong> demandée par le client — une équipe doit être envoyée.</p>' : ''}
       <p style="font-family:Arial,sans-serif;"><strong>Adresse de livraison :</strong> ${escapeHtml(order.deliveryAddress)}</p>
     </div>`;
 }

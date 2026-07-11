@@ -14,13 +14,18 @@ function notifyOrderByEmail(orderId) {
 
 const router = express.Router();
 
+// Frais fixe, jamais envoyé par le client : seul un booléen "je veux l'installation"
+// est accepté depuis le front, le montant est toujours celui-ci côté serveur.
+const INSTALLATION_FEE = 30000;
+
 function generateRef() {
   return `KAL-${Date.now()}-${crypto.randomBytes(3).toString('hex')}`.toUpperCase();
 }
 
 // POST /api/orders — crée la commande et initie le paiement (CinetPay ou espèces à la livraison)
 router.post('/', asyncHandler(async (req, res) => {
-  const { items, customer, paymentMethod } = req.body || {};
+  const { items, customer, paymentMethod, installation } = req.body || {};
+  const installationRequested = installation === true;
 
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: 'Le panier est vide' });
@@ -65,6 +70,9 @@ router.post('/', asyncHandler(async (req, res) => {
     orderItemsData.push({ productId, quantity, unitPrice: product.price });
   }
 
+  const installationFee = installationRequested ? INSTALLATION_FEE : 0;
+  totalAmount += installationFee;
+
   const ref = generateRef();
 
   let order;
@@ -79,6 +87,8 @@ router.post('/', asyncHandler(async (req, res) => {
         customerEmail: customer.email || null,
         deliveryAddress: customer.address,
         totalAmount,
+        installationRequested,
+        installationFee,
         items: { create: orderItemsData }
       }
     });
@@ -142,7 +152,7 @@ router.post('/', asyncHandler(async (req, res) => {
 router.get('/:ref/status', asyncHandler(async (req, res) => {
   const order = await prisma.order.findUnique({
     where: { ref: req.params.ref },
-    select: { ref: true, status: true, paymentMethod: true, totalAmount: true, customerName: true, paidAt: true }
+    select: { ref: true, status: true, paymentMethod: true, totalAmount: true, installationRequested: true, installationFee: true, customerName: true, paidAt: true }
   });
   if (!order) return res.status(404).json({ error: 'Commande introuvable' });
   res.json(order);
