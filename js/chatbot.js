@@ -30,6 +30,41 @@
     '</a>';
   }
 
+  var shopPreviewCounter = 0;
+  function shopPreviewHtml() {
+    var id = 'cbShop_' + (++shopPreviewCounter) + '_' + Date.now();
+    setTimeout(function() { loadShopPreview(id); }, 80);
+    return '<div class="cb-shop-products" id="' + id + '"><span style="font-size:12px;color:#8FA3C4;"><i class="fas fa-spinner fa-spin"></i> Chargement des produits...</span></div>';
+  }
+
+  function loadShopPreview(containerId) {
+    if (!window.API_BASE_URL) return;
+    fetch(window.API_BASE_URL + '/products')
+      .then(function(res) { return res.json(); })
+      .then(function(products) {
+        var el = document.getElementById(containerId);
+        if (!el) return;
+        if (!products || products.length === 0) {
+          el.innerHTML = '<span style="font-size:12px;color:#8FA3C4;">Catalogue en cours de mise à jour.</span>';
+          return;
+        }
+        el.innerHTML = products.slice(0, 3).map(function(p) {
+          var priceLabel = Number(p.price).toLocaleString('fr-FR') + ' FCFA';
+          var safeName = escapeHtml(p.name);
+          return '<a href="/produit?id=' + p.id + '" class="cb-shop-item">' +
+            (p.imageUrl
+              ? '<img src="' + escapeHtml(p.imageUrl) + '" alt="' + safeName + '"/>'
+              : '<div class="cb-shop-item-noimg"><i class="fas fa-box"></i></div>') +
+            '<div class="cb-shop-item-info"><span class="cb-shop-item-name">' + safeName + '</span><span class="cb-shop-item-price">' + priceLabel + '</span></div>' +
+          '</a>';
+        }).join('');
+      })
+      .catch(function() {
+        var el = document.getElementById(containerId);
+        if (el) el.innerHTML = '<span style="font-size:12px;color:#8FA3C4;">Catalogue indisponible pour le moment, réessayez plus tard.</span>';
+      });
+  }
+
   function devisEmailBtn() {
     return '<button type="button" class="cb-contact-row cb-devis-btn cb-devis-email-btn">' +
       '<i class="fas fa-file-invoice"></i>' +
@@ -77,7 +112,8 @@
     'Délai chantier':    'fas fa-calendar-days',
     'Rénovation':        'fas fa-rotate-left',
     'Nos réalisations':  'fas fa-images',
-    'Urgence':           'fas fa-circle-exclamation'
+    'Urgence':           'fas fa-circle-exclamation',
+    'Boutique':          'fas fa-cart-shopping'
   };
 
   // ── Boutons → texte de recherche ────────────────────────────────────────────
@@ -111,7 +147,8 @@
     'Délai chantier':     'delai chantier semaine',         // corrigé : 'construction' déclenchait construction général
     'Rénovation':         'renovation rehabilitation restaurer',
     'Nos réalisations':   'realisations references portfolio',
-    'Urgence':            'urgence immediat intervention'  // corrigé : 'panne' déclenchait clim
+    'Urgence':            'urgence immediat intervention',  // corrigé : 'panne' déclenchait clim
+    'Boutique':           'boutique acheter produit magasin'
   };
 
   // ── Réponses ────────────────────────────────────────────────────────────────
@@ -133,7 +170,7 @@
           ])
         );
       },
-      quickReplies: ['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres']
+      quickReplies: ['Boutique','Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres']
     },
 
     // SERVICES GÉNÉRAUX
@@ -153,7 +190,25 @@
           '<br/>Sélectionnez un service pour plus d\'infos.'
         );
       },
-      quickReplies: ['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres']
+      quickReplies: ['Boutique','Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres']
+    },
+
+    // BOUTIQUE EN LIGNE
+    {
+      topic: 'boutique',
+      patterns: [/boutique|acheter|achat|command(e|er).*(ligne|site)|produit|magasin|panier|shop|catalogue/i],
+      reply: function() {
+        return card('fas fa-cart-shopping', 'Notre boutique en ligne',
+          'Achetez directement sur le site : caméras, climatiseurs, matériel électrique et plus encore, livrés à Abidjan.' +
+          shopPreviewHtml() +
+          contactRow(getBoutiquePath(), 'fas fa-arrow-right', 'Voir toute la boutique') +
+          badges([
+            ['fas fa-money-bill-wave',     'Espèces à la livraison'],
+            ['fas fa-screwdriver-wrench',  'Installation en option']
+          ])
+        );
+      },
+      quickReplies: ['Devis gratuit','Appeler']
     },
 
     // CAMÉRAS — général
@@ -700,7 +755,7 @@
           'N\'hésitez pas si vous avez d\'autres questions. <strong>KALEO GROUPE</strong> reste à votre disposition.'
         );
       },
-      quickReplies: ['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres']
+      quickReplies: ['Boutique','Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres']
     },
 
     // AU REVOIR
@@ -731,13 +786,14 @@
         ])
       );
     },
-    quickReplies: ['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres','Devis gratuit']
+    quickReplies: ['Boutique','Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres','Devis gratuit']
   };
 
   // ── Chemins absolus (URLs propres) ──────────────────────────────────────────
   function getLogoPath()        { return '/LOGO KALEO.png'; }
   function getDevisPath()       { return '/devis'; }
   function getRealisationsPath(){ return '/realisations'; }
+  function getBoutiquePath()    { return '/boutique'; }
 
   // ── Construction du DOM ─────────────────────────────────────────────────────
   function buildChatbot() {
@@ -1180,7 +1236,7 @@
           '<br/><em>Comment puis-je vous aider ?</em>'
         )
       );
-      setQuickReplies(['Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres','Devis gratuit','Appeler']);
+      setQuickReplies(['Boutique','Caméras','Construction','Climatisation','Électricité','Portes & Fenêtres','Devis gratuit','Appeler']);
     }, 800);
   }
 
