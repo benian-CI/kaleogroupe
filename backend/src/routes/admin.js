@@ -29,7 +29,7 @@ router.post('/login', loginLimiter, asyncHandler(async (req, res) => {
   const valid = await bcrypt.compare(password, admin.passwordHash);
   if (!valid) return res.status(401).json({ error: 'Identifiants invalides' });
 
-  const token = jwt.sign({ adminId: admin.id, email: admin.email }, process.env.JWT_SECRET, { expiresIn: '12h' });
+  const token = jwt.sign({ type: 'admin', adminId: admin.id, email: admin.email }, process.env.JWT_SECRET, { expiresIn: '12h' });
   res.json({ token });
 }));
 

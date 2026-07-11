@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const prisma = require('../lib/prisma');
 const cinetpay = require('../services/cinetpay');
 const { sendOrderEmails } = require('../services/email');
+const { optionalCustomer } = require('../middleware/auth');
 const asyncHandler = require('../lib/asyncHandler');
 
 function notifyOrderByEmail(orderId) {
@@ -23,7 +24,9 @@ function generateRef() {
 }
 
 // POST /api/orders — crée la commande et initie le paiement (CinetPay ou espèces à la livraison)
-router.post('/', asyncHandler(async (req, res) => {
+// optionalCustomer : si un jeton client valide est fourni, la commande est liée
+// à son compte ; sinon elle reste une commande "invité", jamais bloquée.
+router.post('/', optionalCustomer, asyncHandler(async (req, res) => {
   const { items, customer, paymentMethod, installation } = req.body || {};
   const installationRequested = installation === true;
 
@@ -82,6 +85,7 @@ router.post('/', asyncHandler(async (req, res) => {
         ref,
         status: 'pending',
         paymentMethod: isCash ? 'cash' : 'cinetpay',
+        customerId: req.customer ? req.customer.customerId : null,
         customerName: customer.name,
         customerPhone: customer.phone,
         customerEmail: customer.email || null,

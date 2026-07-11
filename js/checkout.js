@@ -3,6 +3,30 @@
 // ============================================
 var INSTALLATION_FEE = 30000;
 
+// Compte optionnel façon Jumia : si connecté, on pré-remplit et on lie la
+// commande au compte ; sinon on laisse la commande "invité" fonctionner normalement.
+function renderAccountBanner() {
+  var banner = document.getElementById('checkoutAccountBanner');
+  if (!banner) return;
+  if (getCustomerToken()) {
+    banner.innerHTML =
+      '<p style="background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: #34D399; padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 16px;">' +
+        '<i class="fas fa-circle-check"></i> Connecté en tant que <strong>' + escapeHtml(getCustomerName()) + '</strong> — cette commande sera ajoutée à votre historique.' +
+      '</p>';
+    customerFetch('/customers/me').then(function (c) {
+      if (!document.getElementById('coName').value) document.getElementById('coName').value = c.name || '';
+      if (!document.getElementById('coPhone').value) document.getElementById('coPhone').value = c.phone || '';
+      if (!document.getElementById('coEmail').value) document.getElementById('coEmail').value = c.email || '';
+    }).catch(function () {});
+  } else {
+    banner.innerHTML =
+      '<p style="background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-secondary); padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 16px;">' +
+        '<i class="fas fa-circle-info"></i> Vous commandez en tant qu\'invité. <a href="/compte/connexion?next=/checkout" class="accent" style="text-decoration:underline;">Connectez-vous</a> pour retrouver vos commandes plus tard.' +
+      '</p>';
+  }
+}
+renderAccountBanner();
+
 function isInstallationRequested() {
   var checkbox = document.getElementById('coInstallation');
   return !!(checkbox && checkbox.checked);
@@ -95,9 +119,12 @@ if (checkoutForm) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (paymentMethod === 'cash' ? 'Enregistrement...' : 'Redirection vers le paiement...');
 
+    var orderHeaders = { 'Content-Type': 'application/json' };
+    if (getCustomerToken()) orderHeaders.Authorization = 'Bearer ' + getCustomerToken();
+
     fetch(window.API_BASE_URL + '/orders', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: orderHeaders,
       body: JSON.stringify(payload)
     })
       .then(function (res) {

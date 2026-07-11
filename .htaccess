@@ -13,6 +13,9 @@ Options -Indexes
   RewriteCond %{THE_REQUEST} \s/+pages/admin/(login|dashboard)\.html[\s?] [NC]
   RewriteRule ^ /admin/%1? [R=301,L]
 
+  RewriteCond %{THE_REQUEST} \s/+pages/compte/(connexion|inscription|commandes)\.html[\s?] [NC]
+  RewriteRule ^ /compte/%1? [R=301,L]
+
   # Sert les URLs propres depuis le dossier pages/ (sans changer l'adresse affichée)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
@@ -21,6 +24,10 @@ Options -Indexes
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^admin/(login|dashboard)/?$ pages/admin/$1.html [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^compte/(connexion|inscription|commandes)/?$ pages/compte/$1.html [L]
 </IfModule>
 
 <IfModule mod_headers.c>

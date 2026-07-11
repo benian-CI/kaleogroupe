@@ -39,6 +39,8 @@ model Order {
   ref                    String        @unique
   status                 OrderStatus   @default(pending)
   paymentMethod          PaymentMethod @default(cinetpay)
+  customer               Customer?     @relation(fields: [customerId], references: [id])
+  customerId             Int?
   customerName           String
   customerPhone          String
   customerEmail          String?
@@ -51,6 +53,19 @@ model Order {
   createdAt              DateTime      @default(now())
   updatedAt              DateTime      @updatedAt
   items                  OrderItem[]
+}
+
+// Compte client optionnel (façon Jumia) : la commande fonctionne toujours sans
+// compte (customerId reste null, "invité"), mais un client connecté retrouve
+// l'historique de ses commandes.
+model Customer {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  phone        String?
+  createdAt    DateTime @default(now())
+  orders       Order[]
 }
 
 model OrderItem {
