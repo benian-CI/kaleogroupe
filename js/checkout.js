@@ -41,7 +41,8 @@ function renderRecap() {
   var recap = document.getElementById('checkoutRecap');
   var total = getCartTotal() + (isInstallationRequested() ? INSTALLATION_FEE : 0);
   recap.innerHTML = cart.map(function (item) {
-    return '<div class="recap-item"><span>' + item.quantity + '× ' + escapeHtml(item.name) + '</span><span>' + formatFCFA(item.price * item.quantity) + '</span></div>';
+    var unit = item.unit || 'unite';
+    return '<div class="recap-item"><span>' + formatQuantity(item.quantity, unit) + (unit === 'unite' ? '×' : '') + ' ' + escapeHtml(item.name) + '</span><span>' + formatFCFA(item.price * item.quantity) + '</span></div>';
   }).join('') +
     (isInstallationRequested() ? '<div class="recap-item"><span>Installation par notre équipe</span><span>' + formatFCFA(INSTALLATION_FEE) + '</span></div>' : '') +
     '<div class="cart-summary-total"><span>Total</span><span>' + formatFCFA(total) + '</span></div>';

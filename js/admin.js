@@ -100,16 +100,17 @@ if (dashboardRoot && !getAdminToken()) {
         currentProducts = products;
         var tbody = document.getElementById('productsTableBody');
         if (products.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6"><div class="admin-empty">Aucun produit pour le moment.</div></td></tr>';
+          tbody.innerHTML = '<tr><td colspan="7"><div class="admin-empty">Aucun produit pour le moment.</div></td></tr>';
           return;
         }
         tbody.innerHTML = products.map(function (p) {
+          var unit = p.unit || 'unite';
           return '<tr>' +
             '<td>' + (p.imageUrl ? '<img class="admin-thumb" src="' + escapeHtml(p.imageUrl) + '"/>' : '<div class="admin-thumb"></div>') + '</td>' +
-            '<td>' + escapeHtml(p.name) + '</td>' +
+            '<td>' + escapeHtml(p.name) + (p.quality ? '<br/><span style="color:var(--text-muted);font-size:11px;">' + escapeHtml(qualityLabels[p.quality] || p.quality) + '</span>' : '') + '</td>' +
             '<td>' + escapeHtml(categoryLabels[p.category] || p.category) + '</td>' +
-            '<td>' + formatFCFA(p.price) + '</td>' +
-            '<td>' + p.stock + '</td>' +
+            '<td>' + formatFCFA(p.price) + (unitSuffix[unit] || '') + '</td>' +
+            '<td>' + formatQuantity(p.stock, unit) + '</td>' +
             '<td><span class="admin-status ' + (p.active ? 'active' : 'inactive') + '">' + (p.active ? 'Actif' : 'Inactif') + '</span></td>' +
             '<td class="admin-actions-cell">' +
               '<button class="admin-icon-btn" onclick="openProductModal(' + p.id + ')"><i class="fas fa-pen"></i></button>' +
@@ -136,6 +137,8 @@ if (dashboardRoot && !getAdminToken()) {
     document.getElementById('pDescription').value = product ? product.description : '';
     document.getElementById('pPrice').value = product ? product.price : '';
     document.getElementById('pCategory').value = product ? product.category : 'cameras';
+    document.getElementById('pUnit').value = product ? (product.unit || 'unite') : 'unite';
+    document.getElementById('pQuality').value = product ? (product.quality || '') : '';
     document.getElementById('pStock').value = product ? product.stock : 0;
     document.getElementById('pActive').checked = product ? product.active : true;
     document.getElementById('pImageUrl').value = product && product.imageUrl ? product.imageUrl : '';
@@ -177,6 +180,8 @@ if (dashboardRoot && !getAdminToken()) {
       description: document.getElementById('pDescription').value.trim(),
       price: Number(document.getElementById('pPrice').value),
       category: document.getElementById('pCategory').value,
+      unit: document.getElementById('pUnit').value,
+      quality: document.getElementById('pQuality').value || null,
       stock: Number(document.getElementById('pStock').value),
       active: document.getElementById('pActive').checked,
       imageUrl: document.getElementById('pImageUrl').value || null
@@ -208,7 +213,7 @@ if (dashboardRoot && !getAdminToken()) {
           return '<tr>' +
             '<td>' + escapeHtml(o.ref) + '</td>' +
             '<td>' + escapeHtml(o.customerName) + '<br/><span style="color:var(--text-muted)">' + escapeHtml(o.customerPhone) + '</span></td>' +
-            '<td>' + o.items.map(function (i) { return i.quantity + '× ' + escapeHtml(i.product.name); }).join('<br/>') +
+            '<td>' + o.items.map(function (i) { return formatQuantity(i.quantity, i.product.unit || 'unite') + '× ' + escapeHtml(i.product.name); }).join('<br/>') +
               (o.installationRequested ? '<br/><span style="color:var(--accent);font-size:12px;"><i class="fas fa-screwdriver-wrench"></i> Installation demandée</span>' : '') + '</td>' +
             '<td>' + formatFCFA(o.totalAmount) + '</td>' +
             '<td>' + (o.paymentMethod === 'cash' ? 'Espèces' : 'Mobile Money / Carte') + '</td>' +

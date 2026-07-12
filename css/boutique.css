@@ -56,12 +56,33 @@
   letter-spacing: 0.05em;
 }
 .product-badge.out { background: rgba(239,68,68,0.9); }
+.product-badge.quality { left: auto; right: 12px; background: rgba(96,165,250,0.9); color: #0B1120; }
 .product-info { padding: 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .product-info h3 { font-size: 15px; font-weight: 600; }
 .product-info p { font-size: 13px; color: #C5D3E8; line-height: 1.55; flex: 1; }
 .product-price { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--accent); }
 .product-actions { display: flex; gap: 10px; margin-top: 4px; }
 .product-actions .btn-primary { flex: 1; justify-content: center; padding: 11px 16px; font-size: 14px; }
+
+/* ── FILTRES PRIX & QUALITÉ ───────────────────────────────────────────────── */
+.boutique-filters-extra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.filter-select {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 9px 14px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+.filter-select:focus { outline: none; border-color: var(--border-accent); }
 .product-actions .btn-secondary { padding: 11px 14px; font-size: 14px; }
 
 /* ── DÉTAIL PRODUIT ───────────────────────────────────────────────────────── */

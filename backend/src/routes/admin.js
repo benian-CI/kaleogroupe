@@ -12,6 +12,9 @@ const asyncHandler = require('../lib/asyncHandler');
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 
+const VALID_UNITS = ['unite', 'metre', 'kg'];
+const VALID_QUALITIES = ['standard', 'superieure', 'premium'];
+
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
@@ -43,10 +46,17 @@ router.get('/products', asyncHandler(async (req, res) => {
 }));
 
 router.post('/products', asyncHandler(async (req, res) => {
-  const { name, description, price, category, imageUrl, stock, active } = req.body || {};
+  const { name, description, price, category, imageUrl, stock, active, unit, quality } = req.body || {};
   const priceNum = Number(price);
   if (!name || !description || !category || price === undefined || price === null || price === '' || Number.isNaN(priceNum)) {
     return res.status(400).json({ error: 'Nom, description, prix et catégorie sont requis' });
+  }
+  const productUnit = unit || 'unite';
+  if (!VALID_UNITS.includes(productUnit)) {
+    return res.status(400).json({ error: 'Unité de vente invalide' });
+  }
+  if (quality !== undefined && quality !== null && quality !== '' && !VALID_QUALITIES.includes(quality)) {
+    return res.status(400).json({ error: 'Qualité invalide' });
   }
 
   const baseSlug = slugify(name);
@@ -63,8 +73,10 @@ router.post('/products', asyncHandler(async (req, res) => {
       description,
       price: Math.round(priceNum),
       category,
+      quality: quality || null,
+      unit: productUnit,
       imageUrl: imageUrl || null,
-      stock: Math.max(0, Math.floor(Number(stock) || 0)),
+      stock: Math.max(0, Number(stock) || 0),
       active: active !== false
     }
   });
@@ -72,7 +84,13 @@ router.post('/products', asyncHandler(async (req, res) => {
 }));
 
 router.put('/products/:id', asyncHandler(async (req, res) => {
-  const { name, description, price, category, imageUrl, stock, active } = req.body || {};
+  const { name, description, price, category, imageUrl, stock, active, unit, quality } = req.body || {};
+  if (unit !== undefined && !VALID_UNITS.includes(unit)) {
+    return res.status(400).json({ error: 'Unité de vente invalide' });
+  }
+  if (quality !== undefined && quality !== null && quality !== '' && !VALID_QUALITIES.includes(quality)) {
+    return res.status(400).json({ error: 'Qualité invalide' });
+  }
   try {
     const product = await prisma.product.update({
       where: { id: Number(req.params.id) },
@@ -81,8 +99,10 @@ router.put('/products/:id', asyncHandler(async (req, res) => {
         ...(description !== undefined && { description }),
         ...(price !== undefined && { price: Math.round(Number(price)) }),
         ...(category !== undefined && { category }),
+        ...(unit !== undefined && { unit }),
+        ...(quality !== undefined && { quality: quality || null }),
         ...(imageUrl !== undefined && { imageUrl }),
-        ...(stock !== undefined && { stock: Math.max(0, Math.floor(Number(stock))) }),
+        ...(stock !== undefined && { stock: Math.max(0, Number(stock)) }),
         ...(active !== undefined && { active })
       }
     });

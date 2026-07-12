@@ -2,6 +2,8 @@
 // PAGE PANIER
 // ============================================
 function cartItemHtml(item) {
+  var unit = item.unit || 'unite';
+  var step = unit === 'unite' ? 1 : 0.5;
   return (
     '<div class="cart-item" data-id="' + item.productId + '">' +
       '<div class="cart-item-thumb">' +
@@ -9,13 +11,13 @@ function cartItemHtml(item) {
       '</div>' +
       '<div class="cart-item-info">' +
         '<h4>' + escapeHtml(item.name) + '</h4>' +
-        '<span class="item-unit-price">' + formatFCFA(item.price) + ' / unité</span>' +
+        '<span class="item-unit-price">' + formatFCFA(item.price) + (unitSuffix[unit] || ' / unité') + '</span>' +
       '</div>' +
       '<div class="cart-item-qty">' +
         '<div class="qty-selector">' +
-          '<button type="button" onclick="changeCartQty(' + item.productId + ', -1)">−</button>' +
-          '<input type="text" value="' + item.quantity + '" readonly/>' +
-          '<button type="button" onclick="changeCartQty(' + item.productId + ', 1)">+</button>' +
+          '<button type="button" onclick="changeCartQty(' + item.productId + ', -' + step + ')">−</button>' +
+          '<input type="text" value="' + formatQuantity(item.quantity, unit) + '" readonly/>' +
+          '<button type="button" onclick="changeCartQty(' + item.productId + ', ' + step + ')">+</button>' +
         '</div>' +
       '</div>' +
       '<span class="cart-item-total">' + formatFCFA(item.price * item.quantity) + '</span>' +

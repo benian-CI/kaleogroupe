@@ -54,11 +54,16 @@ router.post('/', optionalCustomer, asyncHandler(async (req, res) => {
   // jamais à partir des prix envoyés par le client.
   // On agrège d'abord les quantités par produit : si le même produit apparaît
   // deux fois dans le panier, la limite de stock doit s'appliquer à la somme,
-  // pas à chaque ligne indépendamment.
+  // pas à chaque ligne indépendamment. Les produits vendus au mètre/kilo
+  // acceptent des quantités décimales (ex: 2.5), les autres restent entiers.
   const quantityByProduct = new Map();
   for (const item of items) {
     const id = Number(item.productId);
-    const quantity = Math.max(1, Math.floor(Number(item.quantity) || 1));
+    const product = products.find((p) => p.id === id);
+    const rawQty = Number(item.quantity) || 1;
+    const quantity = product.unit === 'unite'
+      ? Math.max(1, Math.floor(rawQty))
+      : Math.round(Math.max(0.1, rawQty) * 100) / 100;
     quantityByProduct.set(id, (quantityByProduct.get(id) || 0) + quantity);
   }
 
@@ -74,7 +79,7 @@ router.post('/', optionalCustomer, asyncHandler(async (req, res) => {
   }
 
   const installationFee = installationRequested ? INSTALLATION_FEE : 0;
-  totalAmount += installationFee;
+  totalAmount = Math.round(totalAmount + installationFee);
 
   const ref = generateRef();
 

@@ -14,7 +14,8 @@ var statusLabels = {
 
 function orderCardHtml(o) {
   var itemsHtml = o.items.map(function (i) {
-    return '<div class="recap-item"><span>' + i.quantity + '× ' + escapeHtml(i.product.name) + '</span><span>' + formatFCFA(i.quantity * i.unitPrice) + '</span></div>';
+    var unit = i.product.unit || 'unite';
+    return '<div class="recap-item"><span>' + formatQuantity(i.quantity, unit) + (unit === 'unite' ? '×' : '') + ' ' + escapeHtml(i.product.name) + '</span><span>' + formatFCFA(i.quantity * i.unitPrice) + '</span></div>';
   }).join('');
   return (
     '<div class="form-card" style="margin-bottom: 20px;">' +

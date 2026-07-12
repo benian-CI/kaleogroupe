@@ -12,7 +12,14 @@ const transporter = nodemailer.createTransport({
 });
 
 function money(n) {
-  return Number(n).toLocaleString('fr-FR') + ' FCFA';
+  return Math.round(Number(n)).toLocaleString('fr-FR') + ' FCFA';
+}
+
+const unitLabels = { unite: '', metre: 'm', kg: 'kg' };
+function formatQty(quantity, unit) {
+  const label = unitLabels[unit] || '';
+  const num = unit === 'unite' ? String(quantity) : (Math.round(quantity * 100) / 100).toString().replace('.', ',');
+  return num + (label ? ' ' + label : '');
 }
 
 function escapeHtml(str) {
@@ -31,7 +38,7 @@ function itemsTableHtml(items) {
       </td>
       <td style="padding:12px;border-bottom:1px solid #eee;">
         <strong>${escapeHtml(item.product.name)}</strong><br/>
-        <span style="color:#888;font-size:13px;">${item.quantity} × ${money(item.unitPrice)}</span>
+        <span style="color:#888;font-size:13px;">${formatQty(item.quantity, item.product.unit || 'unite')} × ${money(item.unitPrice)}</span>
       </td>
       <td style="padding:12px;border-bottom:1px solid #eee;text-align:right;font-weight:bold;white-space:nowrap;">
         ${money(item.quantity * item.unitPrice)}

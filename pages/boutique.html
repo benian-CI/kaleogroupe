@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="/css/style.css?v=4"/>
   <link rel="stylesheet" href="/css/animations.css?v=2"/>
   <link rel="stylesheet" href="/css/realisations.css?v=2"/>
-  <link rel="stylesheet" href="/css/boutique.css?v=2"/>
+  <link rel="stylesheet" href="/css/boutique.css?v=3"/>
   <link rel="stylesheet" href="/css/chatbot.css?v=3"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -62,6 +62,21 @@
 
   <section class="boutique-section">
     <div class="container">
+      <div class="boutique-filters-extra reveal">
+        <select class="filter-select" id="priceFilter">
+          <option value="">Tous les prix</option>
+          <option value="0-25000">Moins de 25 000 FCFA</option>
+          <option value="25000-100000">25 000 – 100 000 FCFA</option>
+          <option value="100000-300000">100 000 – 300 000 FCFA</option>
+          <option value="300000-">Plus de 300 000 FCFA</option>
+        </select>
+        <div class="filter-bar" id="qualityFilterBar">
+          <button class="filter-btn active" data-quality="">Toutes qualités</button>
+          <button class="filter-btn" data-quality="standard">Standard</button>
+          <button class="filter-btn" data-quality="superieure">Supérieure</button>
+          <button class="filter-btn" data-quality="premium">Premium</button>
+        </div>
+      </div>
       <div class="filter-bar reveal"></div>
       <div class="products-grid reveal reveal-delay-1"></div>
     </div>
@@ -76,10 +91,10 @@
   </footer>
 
   <script src="/js/config.js?v=2"></script>
-  <script src="/js/cart.js"></script>
+  <script src="/js/cart.js?v=1"></script>
   <script src="/js/customer-auth.js?v=1"></script>
   <script src="/js/main.js?v=2"></script>
-  <script src="/js/boutique.js?v=2"></script>
+  <script src="/js/boutique.js?v=3"></script>
   <script src="/js/chatbot.js?v=3"></script>
 </body>
 </html>

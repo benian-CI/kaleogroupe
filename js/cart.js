@@ -4,7 +4,19 @@
 var CART_KEY = 'kaleo_cart';
 
 function formatFCFA(amount) {
-  return Number(amount).toLocaleString('fr-FR') + ' FCFA';
+  // Le FCFA n'a pas de sous-unité : on arrondit toujours à l'entier, même quand
+  // le montant vient d'un prix au mètre/kilo multiplié par une quantité décimale.
+  return Math.round(Number(amount)).toLocaleString('fr-FR') + ' FCFA';
+}
+
+var unitLabels = { unite: '', metre: 'm', kg: 'kg' };
+var unitSuffix = { unite: '', metre: ' / mètre', kg: ' / kg' };
+var qualityLabels = { standard: 'Standard', superieure: 'Supérieure', premium: 'Premium' };
+
+function formatQuantity(quantity, unit) {
+  var label = unitLabels[unit] || '';
+  var num = (unit === 'unite') ? String(quantity) : (Math.round(quantity * 100) / 100).toString().replace('.', ',');
+  return num + (label ? ' ' + label : '');
 }
 
 function getCart() {
@@ -20,18 +32,25 @@ function saveCart(cart) {
   updateCartBadge();
 }
 
+function normalizeQuantity(quantity, unit) {
+  quantity = Number(quantity) || 0;
+  return unit === 'unite' ? Math.floor(quantity) : Math.round(quantity * 100) / 100;
+}
+
 function addToCart(product, quantity) {
-  quantity = Math.max(1, Math.floor(Number(quantity) || 1));
+  var unit = product.unit || 'unite';
+  quantity = Math.max(unit === 'unite' ? 1 : 0.1, normalizeQuantity(quantity, unit) || 1);
   var cart = getCart();
   var existing = cart.find(function (i) { return i.productId === product.id; });
   if (existing) {
-    existing.quantity += quantity;
+    existing.quantity = normalizeQuantity(existing.quantity + quantity, unit);
   } else {
     cart.push({
       productId: product.id,
       name: product.name,
       price: product.price,
       imageUrl: product.imageUrl || '',
+      unit: unit,
       quantity: quantity
     });
   }
@@ -39,13 +58,14 @@ function addToCart(product, quantity) {
 }
 
 function updateCartItemQuantity(productId, quantity) {
-  quantity = Math.floor(Number(quantity) || 0);
   var cart = getCart();
+  var item = cart.find(function (i) { return i.productId === productId; });
+  var unit = item ? (item.unit || 'unite') : 'unite';
+  quantity = normalizeQuantity(quantity, unit);
   if (quantity <= 0) {
     cart = cart.filter(function (i) { return i.productId !== productId; });
-  } else {
-    var item = cart.find(function (i) { return i.productId === productId; });
-    if (item) item.quantity = quantity;
+  } else if (item) {
+    item.quantity = quantity;
   }
   saveCart(cart);
 }
