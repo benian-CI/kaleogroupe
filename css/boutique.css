@@ -83,6 +83,7 @@
   cursor: pointer;
 }
 .filter-select:focus { outline: none; border-color: var(--border-accent); }
+.filter-select option { background: #1A2B4A; color: var(--text-primary); }
 .product-actions .btn-secondary { padding: 11px 14px; font-size: 14px; }
 
 /* ── DÉTAIL PRODUIT ───────────────────────────────────────────────────────── */

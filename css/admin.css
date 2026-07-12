@@ -129,6 +129,7 @@
   font-size: 14px;
   font-family: var(--font-body);
 }
+.admin-modal select option { background: #1A2B4A; color: var(--text-primary); }
 .admin-modal textarea { resize: vertical; min-height: 80px; }
 .admin-modal-row { display: flex; gap: 12px; }
 .admin-modal-row .form-group { flex: 1; }
