@@ -20,6 +20,10 @@ function adminFetch(path, options) {
       adminLogout();
       throw new Error('Session expirée');
     }
+    if (res.status === 204) {
+      if (!res.ok) throw new Error('Erreur serveur');
+      return null;
+    }
     return res.json().then(function (data) {
       if (!res.ok) throw new Error(data.error || 'Erreur serveur');
       return data;
