@@ -8,12 +8,41 @@ const { requireAdmin } = require('../middleware/auth');
 const { uploadImageBuffer } = require('../services/cloudinary');
 const { slugify } = require('../lib/slugify');
 const asyncHandler = require('../lib/asyncHandler');
+const { httpError, requireString, optionalString, nonNegativeNumber } = require('../lib/validate');
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 
 const VALID_UNITS = ['unite', 'metre', 'kg'];
 const VALID_QUALITIES = ['standard', 'superieure', 'premium'];
+
+// Champs produit communs à la création et à la modification. En modification,
+// un champ absent (undefined) est simplement laissé tel quel.
+function validateProductFields(body, { partial }) {
+  const field = (key, fn) => (partial && body[key] === undefined ? undefined : fn(body[key]));
+  const data = {
+    name: field('name', (v) => requireString(v, 'Le nom', 200)),
+    description: field('description', (v) => requireString(v, 'La description', 5000)),
+    category: field('category', (v) => requireString(v, 'La catégorie', 50)),
+    price: field('price', (v) => {
+      if (v === undefined) throw httpError(400, 'Le prix est requis');
+      return Math.round(nonNegativeNumber(v, 'Le prix'));
+    }),
+    stock: field('stock', (v) => (v === undefined || v === '' ? 0 : Math.round(nonNegativeNumber(v, 'Le stock') * 100) / 100)),
+    imageUrl: field('imageUrl', (v) => {
+      const url = optionalString(v, 'L\'URL de l\'image', 1000);
+      if (url && !/^(https:\/\/|\/(?![\/\\]))/.test(url)) throw httpError(400, 'L\'image doit être une adresse https:// ou un chemin du site');
+      return url;
+    }),
+    active: field('active', (v) => {
+      if (v === undefined) return true;
+      if (typeof v !== 'boolean') throw httpError(400, 'Statut actif invalide');
+      return v;
+    })
+  };
+  Object.keys(data).forEach((k) => data[k] === undefined && delete data[k]);
+  return data;
+}
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -24,7 +53,9 @@ const loginLimiter = rateLimit({
 // POST /api/admin/login
 router.post('/login', loginLimiter, asyncHandler(async (req, res) => {
   const { email, password } = req.body || {};
-  if (!email || !password) return res.status(400).json({ error: 'Email et mot de passe requis' });
+  if (typeof email !== 'string' || typeof password !== 'string' || !email || !password) {
+    return res.status(400).json({ error: 'Email et mot de passe requis' });
+  }
 
   const admin = await prisma.adminUser.findUnique({ where: { email } });
   if (!admin) return res.status(401).json({ error: 'Identifiants invalides' });
@@ -38,6 +69,9 @@ router.post('/login', loginLimiter, asyncHandler(async (req, res) => {
 
 router.use(requireAdmin);
 
+// Un :id non numérique ferait échouer Prisma (erreur 500) : on répond 404 directement.
+router.param('id', (req, res, next, id) => (/^\d+$/.test(id) ? next() : res.status(404).json({ error: 'Introuvable' })));
+
 // ---- Produits ----
 
 router.get('/products', asyncHandler(async (req, res) => {
@@ -46,11 +80,11 @@ router.get('/products', asyncHandler(async (req, res) => {
 }));
 
 router.post('/products', asyncHandler(async (req, res) => {
-  const { name, description, price, category, imageUrl, stock, active, unit, quality } = req.body || {};
-  const priceNum = Number(price);
-  if (!name || !description || !category || price === undefined || price === null || price === '' || Number.isNaN(priceNum)) {
+  const { name, description, price, category, unit, quality } = req.body || {};
+  if (!name || !description || !category || price === undefined || price === null || price === '') {
     return res.status(400).json({ error: 'Nom, description, prix et catégorie sont requis' });
   }
+  const fields = validateProductFields(req.body, { partial: false });
   const productUnit = unit || 'unite';
   if (!VALID_UNITS.includes(productUnit)) {
     return res.status(400).json({ error: 'Unité de vente invalide' });
@@ -59,7 +93,7 @@ router.post('/products', asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'Qualité invalide' });
   }
 
-  const baseSlug = slugify(name);
+  const baseSlug = slugify(fields.name) || 'produit';
   let slug = baseSlug;
   let i = 1;
   while (await prisma.product.findUnique({ where: { slug } })) {
@@ -68,23 +102,18 @@ router.post('/products', asyncHandler(async (req, res) => {
 
   const product = await prisma.product.create({
     data: {
-      name,
+      ...fields,
       slug,
-      description,
-      price: Math.round(priceNum),
-      category,
       quality: quality || null,
-      unit: productUnit,
-      imageUrl: imageUrl || null,
-      stock: Math.max(0, Number(stock) || 0),
-      active: active !== false
+      unit: productUnit
     }
   });
   res.status(201).json(product);
 }));
 
 router.put('/products/:id', asyncHandler(async (req, res) => {
-  const { name, description, price, category, imageUrl, stock, active, unit, quality } = req.body || {};
+  const { unit, quality } = req.body || {};
+  const fields = validateProductFields(req.body || {}, { partial: true });
   if (unit !== undefined && !VALID_UNITS.includes(unit)) {
     return res.status(400).json({ error: 'Unité de vente invalide' });
   }
@@ -95,15 +124,9 @@ router.put('/products/:id', asyncHandler(async (req, res) => {
     const product = await prisma.product.update({
       where: { id: Number(req.params.id) },
       data: {
-        ...(name !== undefined && { name }),
-        ...(description !== undefined && { description }),
-        ...(price !== undefined && { price: Math.round(Number(price)) }),
-        ...(category !== undefined && { category }),
+        ...fields,
         ...(unit !== undefined && { unit }),
-        ...(quality !== undefined && { quality: quality || null }),
-        ...(imageUrl !== undefined && { imageUrl }),
-        ...(stock !== undefined && { stock: Math.max(0, Number(stock)) }),
-        ...(active !== undefined && { active })
+        ...(quality !== undefined && { quality: quality || null })
       }
     });
     res.json(product);
@@ -186,6 +209,37 @@ router.post('/orders/:id/mark-paid', asyncHandler(async (req, res) => {
     data: { status: 'paid', paidAt: new Date() }
   });
   res.json(updated);
+}));
+
+// POST /api/admin/orders/:id/cancel — annule une commande "cash" encore en attente
+// (client injoignable, fausse commande...) et remet en stock ce qu'elle avait réservé.
+// Les commandes CinetPay ne sont pas annulables ici : leur stock n'est pas réservé,
+// et les annuler risquerait d'ignorer un paiement confirmé plus tard par le webhook.
+router.post('/orders/:id/cancel', asyncHandler(async (req, res) => {
+  const order = await prisma.order.findUnique({ where: { id: Number(req.params.id) } });
+  if (!order) return res.status(404).json({ error: 'Commande introuvable' });
+  if (order.paymentMethod !== 'cash') {
+    return res.status(400).json({ error: 'Seules les commandes payées en espèces peuvent être annulées ici.' });
+  }
+
+  const cancelled = await prisma.$transaction(async (tx) => {
+    const { count } = await tx.order.updateMany({
+      where: { id: order.id, status: 'pending' },
+      data: { status: 'cancelled' }
+    });
+    if (count === 0) return false;
+    const items = await tx.orderItem.findMany({ where: { orderId: order.id } });
+    for (const item of items) {
+      await tx.product.update({
+        where: { id: item.productId },
+        data: { stock: { increment: item.quantity } }
+      });
+    }
+    return true;
+  });
+  if (!cancelled) return res.status(409).json({ error: 'Cette commande a déjà été traitée.' });
+
+  res.json(await prisma.order.findUnique({ where: { id: order.id } }));
 }));
 
 module.exports = router;

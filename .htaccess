@@ -13,7 +13,7 @@ Options -Indexes
   RewriteCond %{THE_REQUEST} \s/+pages/admin/(login|dashboard)\.html[\s?] [NC]
   RewriteRule ^ /admin/%1? [R=301,L]
 
-  RewriteCond %{THE_REQUEST} \s/+pages/compte/(connexion|inscription|commandes)\.html[\s?] [NC]
+  RewriteCond %{THE_REQUEST} \s/+pages/compte/(connexion|inscription|commandes|mot-de-passe-oublie|reinitialiser)\.html[\s?] [NC]
   RewriteRule ^ /compte/%1? [R=301,L]
 
   # Sert les URLs propres depuis le dossier pages/ (sans changer l'adresse affichée)
@@ -27,22 +27,32 @@ Options -Indexes
 
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^compte/(connexion|inscription|commandes)/?$ pages/compte/$1.html [L]
+  RewriteRule ^compte/(connexion|inscription|commandes|mot-de-passe-oublie|reinitialiser)/?$ pages/compte/$1.html [L]
 </IfModule>
 
 <IfModule mod_headers.c>
   Header always set X-Frame-Options "DENY"
   Header always set X-Content-Type-Options "nosniff"
-  Header always set X-XSS-Protection "1; mode=block"
-  Header always set Referrer-Policy "no-referrer-when-downgrade"
+  Header always set X-XSS-Protection "0"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://www.gstatic.com https://res.cloudinary.com; connect-src 'self' https://api.emailjs.com https://kaleo-groupe-backend.onrender.com; frame-src https://www.google.com; frame-ancestors 'none'"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/@emailjs/ https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://www.gstatic.com https://res.cloudinary.com; connect-src 'self' https://api.emailjs.com https://api.kaleogroupe.com https://kaleo-groupe-backend.onrender.com; frame-src https://www.google.com https://recaptcha.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
 <FilesMatch "\.md$">
   Require all denied
 </FilesMatch>
+
+# Filet de sécurité si le dossier backend/ ou un fichier caché (.env, .git...) est
+# téléversé par erreur : ils ne doivent jamais être servis publiquement.
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+<IfModule mod_alias.c>
+  RedirectMatch 404 ^/backend(/|$)
+  RedirectMatch 404 /\.(env|git)
+</IfModule>
 
 <IfModule mod_expires.c>
     ExpiresActive On

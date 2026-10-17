@@ -4,6 +4,14 @@
 var CUSTOMER_TOKEN_KEY = 'kaleo_customer_token';
 var CUSTOMER_NAME_KEY = 'kaleo_customer_name';
 
+// Destination après connexion/inscription (?next=...) : uniquement un chemin
+// interne au site. Sans ce contrôle, un lien piégé pourrait renvoyer le client
+// vers un site externe (hameçonnage) ou exécuter du code via "javascript:".
+function getSafeNextUrl(fallback) {
+  var next = new URLSearchParams(window.location.search).get('next') || '';
+  return /^\/(?![\/\\])/.test(next) ? next : fallback;
+}
+
 function getCustomerToken() {
   return localStorage.getItem(CUSTOMER_TOKEN_KEY);
 }
@@ -17,9 +25,13 @@ function setCustomerSession(token, customer) {
   localStorage.setItem(CUSTOMER_NAME_KEY, customer && customer.name ? customer.name : '');
 }
 
-function customerLogout() {
+function clearCustomerSession() {
   localStorage.removeItem(CUSTOMER_TOKEN_KEY);
   localStorage.removeItem(CUSTOMER_NAME_KEY);
+}
+
+function customerLogout() {
+  clearCustomerSession();
   window.location.href = '/';
 }
 
@@ -28,6 +40,12 @@ function customerFetch(path, options) {
   options.headers = Object.assign({}, options.headers, { Authorization: 'Bearer ' + getCustomerToken() });
   return fetch(window.API_BASE_URL + path, options).then(function (res) {
     return res.json().then(function (data) {
+      // Session expirée ou révoquée (ex: mot de passe réinitialisé ailleurs) :
+      // on l'oublie et on renvoie vers la connexion.
+      if (res.status === 401) {
+        clearCustomerSession();
+        window.location.href = '/compte/connexion?next=' + encodeURIComponent(window.location.pathname);
+      }
       if (!res.ok) throw new Error(data.error || 'Erreur serveur');
       return data;
     });

@@ -1,10 +1,12 @@
 const express = require('express');
 const crypto = require('crypto');
+const rateLimit = require('express-rate-limit');
 const prisma = require('../lib/prisma');
 const cinetpay = require('../services/cinetpay');
 const { sendOrderEmails } = require('../services/email');
 const { optionalCustomer } = require('../middleware/auth');
 const asyncHandler = require('../lib/asyncHandler');
+const { requireString, optionalString, isValidEmail } = require('../lib/validate');
 
 function notifyOrderByEmail(orderId) {
   // Best-effort, ne bloque jamais la réponse HTTP ni ne fait échouer la commande.
@@ -14,6 +16,15 @@ function notifyOrderByEmail(orderId) {
 }
 
 const router = express.Router();
+
+// Création de commande publique (invités acceptés) : sans limite, un script
+// pourrait vider le stock via des commandes "espèces" (qui le réservent tout de
+// suite) et faire envoyer des emails en masse depuis notre compte Gmail.
+const createOrderLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 10,
+  message: { error: 'Trop de commandes depuis cette connexion, réessayez plus tard ou contactez-nous.' }
+});
 
 // Frais fixe, jamais envoyé par le client : seul un booléen "je veux l'installation"
 // est accepté depuis le front, le montant est toujours celui-ci côté serveur.
@@ -26,12 +37,15 @@ function generateRef() {
 // POST /api/orders — crée la commande et initie le paiement (CinetPay ou espèces à la livraison)
 // optionalCustomer : si un jeton client valide est fourni, la commande est liée
 // à son compte ; sinon elle reste une commande "invité", jamais bloquée.
-router.post('/', optionalCustomer, asyncHandler(async (req, res) => {
+router.post('/', createOrderLimiter, optionalCustomer, asyncHandler(async (req, res) => {
   const { items, customer, paymentMethod, installation } = req.body || {};
   const installationRequested = installation === true;
 
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: 'Le panier est vide' });
+  }
+  if (items.length > 50) {
+    return res.status(400).json({ error: 'Trop d\'articles différents dans le panier' });
   }
   if (!customer?.name || !customer?.phone || !customer?.address) {
     return res.status(400).json({ error: 'Nom, téléphone et adresse de livraison sont requis' });
@@ -41,7 +55,21 @@ router.post('/', optionalCustomer, asyncHandler(async (req, res) => {
   }
   const isCash = paymentMethod === 'cash';
 
-  const productIds = items.map((i) => Number(i.productId));
+  // Champs bornés : ils sont stockés tels quels puis réaffichés dans les emails
+  // et le tableau de bord admin.
+  const customerName = requireString(customer.name, 'Le nom', 100);
+  const customerPhone = requireString(customer.phone, 'Le téléphone', 30);
+  const deliveryAddress = requireString(customer.address, 'L\'adresse de livraison', 300);
+  const customerCity = optionalString(customer.city, 'La ville', 100);
+  const customerEmail = optionalString(customer.email, 'L\'email', 254);
+  if (customerEmail && !isValidEmail(customerEmail)) {
+    return res.status(400).json({ error: 'Adresse email invalide' });
+  }
+
+  const productIds = items.map((i) => Number(i?.productId));
+  if (!productIds.every(Number.isInteger)) {
+    return res.status(400).json({ error: 'Panier invalide' });
+  }
   const products = await prisma.product.findMany({
     where: { id: { in: productIds }, active: true }
   });
@@ -91,10 +119,10 @@ router.post('/', optionalCustomer, asyncHandler(async (req, res) => {
         status: 'pending',
         paymentMethod: isCash ? 'cash' : 'cinetpay',
         customerId: req.customer ? req.customer.customerId : null,
-        customerName: customer.name,
-        customerPhone: customer.phone,
-        customerEmail: customer.email || null,
-        deliveryAddress: customer.address,
+        customerName,
+        customerPhone,
+        customerEmail,
+        deliveryAddress,
         totalAmount,
         installationRequested,
         installationFee,
@@ -140,11 +168,11 @@ router.post('/', optionalCustomer, asyncHandler(async (req, res) => {
       amount: totalAmount,
       description: `Commande KALEO GROUPE ${ref}`,
       customer: {
-        name: customer.name,
-        phone: customer.phone,
-        email: customer.email,
-        address: customer.address,
-        city: customer.city
+        name: customerName,
+        phone: customerPhone,
+        email: customerEmail,
+        address: deliveryAddress,
+        city: customerCity
       }
     });
 
@@ -164,7 +192,9 @@ router.get('/:ref/status', asyncHandler(async (req, res) => {
     select: { ref: true, status: true, paymentMethod: true, totalAmount: true, installationRequested: true, installationFee: true, customerName: true, paidAt: true }
   });
   if (!order) return res.status(404).json({ error: 'Commande introuvable' });
-  res.json(order);
+  // Route publique (seule la référence est demandée) : on ne renvoie que le
+  // prénom, suffisant pour le message de remerciement, pas le nom complet.
+  res.json({ ...order, customerName: order.customerName.split(/\s+/)[0] });
 }));
 
 module.exports = router;

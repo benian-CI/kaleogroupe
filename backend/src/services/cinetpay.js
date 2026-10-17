@@ -67,7 +67,11 @@ async function checkStatus(transactionId) {
     err.cinetpay = data;
     throw err;
   }
-  return { status: data.data?.status }; // 'ACCEPTED' | 'REFUSED' | 'CANCELLED' | ...
+  return {
+    status: data.data?.status, // 'ACCEPTED' | 'REFUSED' | 'CANCELLED' | ...
+    amount: Number(data.data?.amount),
+    currency: data.data?.currency
+  };
 }
 
 module.exports = { initPayment, checkStatus };

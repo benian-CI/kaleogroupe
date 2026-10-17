@@ -17,10 +17,15 @@ Ces comptes demandent tes informations personnelles/professionnelles, je ne peux
 3. Sur Render : **New +** → **Web Service** → connecte ton dépôt GitHub.
 4. Render détecte Node.js automatiquement. Renseigne :
    - **Root Directory** : `backend` (si le dépôt contient tout `site-pro/`)
-   - **Build Command** : `npm install && npx prisma generate`
+   - **Build Command** : `npm install && npx prisma generate && npx prisma migrate deploy` (applique automatiquement les nouvelles migrations de la base à chaque déploiement)
    - **Start Command** : `npm start`
 5. Ajoute les variables d'environnement (voir section 2 ci-dessous) dans l'onglet **Environment**.
 6. Une fois déployé, Render te donne une URL du type `https://kaleo-groupe-backend.onrender.com`.
+7. **Domaine personnalisé `api.kaleogroupe.com`** (c'est l'adresse qu'utilise le site) :
+   - Render → le service → **Settings → Custom Domains** → ajouter `api.kaleogroupe.com`.
+   - Dans le DNS de `kaleogroupe.com` (Plesk ou registrar), créer un enregistrement **CNAME** `api` → `kaleo-groupe-backend.onrender.com`.
+   - Attendre que Render affiche le domaine **Verified** et le certificat HTTPS émis, puis vérifier que `https://api.kaleogroupe.com/api/health` répond `{"ok":true}`.
+   - L'adresse `onrender.com` continue de fonctionner en parallèle (utile pour les anciens paiements CinetPay en cours).
 
 > Sur le plan gratuit, le service se met en veille après 15 min d'inactivité et met ~30-60s à redémarrer sur la première requête suivante. C'est acceptable pour démarrer ; tu pourras passer au plan payant (~7$/mois) plus tard si besoin.
 
@@ -42,7 +47,8 @@ Copie `.env.example` et remplis les valeurs réelles récupérées à l'étape 1
 |---|---|
 | `DATABASE_URL` | Neon.tech → Connection string |
 | `FRONTEND_URL` | `https://app.kaleogroupe.com` (ton domaine réel) |
-| `BACKEND_URL` | L'URL Render une fois le service créé |
+| `BACKEND_URL` | `https://api.kaleogroupe.com` (domaine personnalisé, voir étape 1, point 7) — c'est l'adresse que CinetPay appelle pour confirmer les paiements |
+| `NODE_ENV` | `production` |
 | `CINETPAY_API_KEY`, `CINETPAY_SITE_ID`, `CINETPAY_SECRET` | Tableau de bord CinetPay |
 | `CINETPAY_TEST_MODE` | `true` en développement, `false` une fois validé |
 | `JWT_SECRET` | Une longue chaîne aléatoire (ex: générée avec `openssl rand -hex 32`) |
@@ -70,15 +76,9 @@ npx prisma migrate deploy   # crée les tables
 npm run seed                 # crée le compte admin à partir de ADMIN_EMAIL / ADMIN_PASSWORD
 ```
 
-## 5. Mettre à jour le frontend avec l'URL réelle du backend
+## 5. Adresse du backend dans le frontend
 
-Dans `site-pro/js/config.js`, remplace :
-```js
-: 'https://kaleo-groupe-backend.onrender.com/api';
-```
-par l'URL Render réelle obtenue à l'étape 1b.
-
-Dans `site-pro/.htaccess`, fais la même mise à jour dans la ligne `connect-src` de la Content-Security-Policy.
+Le site appelle l'API sur `https://api.kaleogroupe.com/api` (`site-pro/js/config.js`), autorisée dans la ligne `connect-src` de la Content-Security-Policy (`site-pro/.htaccess` et `site-pro/_headers`). Si l'adresse change un jour, mettre à jour ces trois fichiers et incrémenter le `?v=` de `config.js` dans toutes les pages.
 
 Redéploie ensuite le site statique sur Plesk comme d'habitude (voir `DEPLOYMENT_PLESK.md`).
 

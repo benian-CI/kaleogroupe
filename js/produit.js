@@ -33,9 +33,9 @@ function renderProductDetail(p) {
       '<div class="product-add-row">' +
         (outOfStock ? '' :
           '<div class="qty-selector">' +
-            '<button type="button" onclick="changeQty(-' + step + ')">−</button>' +
+            '<button type="button" data-qty-delta="-' + step + '">−</button>' +
             '<input type="text" id="qtyInput" value="' + (unit === 'unite' ? '1' : step) + '" readonly/>' +
-            '<button type="button" onclick="changeQty(' + step + ')">+</button>' +
+            '<button type="button" data-qty-delta="' + step + '">+</button>' +
           '</div>' +
           '<button class="btn-primary btn-large" id="addToCartBtn"><i class="fas fa-cart-plus"></i> Ajouter au panier</button>'
         ) +
@@ -43,6 +43,9 @@ function renderProductDetail(p) {
     '</div>';
 
   if (!outOfStock) {
+    wrap.querySelectorAll('[data-qty-delta]').forEach(function (btn) {
+      btn.addEventListener('click', function () { changeQty(Number(btn.dataset.qtyDelta)); });
+    });
     document.getElementById('addToCartBtn').addEventListener('click', function () {
       var qty = Number(document.getElementById('qtyInput').value) || 1;
       addToCart(currentProduct, qty);

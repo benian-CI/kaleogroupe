@@ -213,6 +213,15 @@
   margin-bottom: 16px;
   display: none;
 }
+.checkout-success {
+  background: rgba(52,211,153,0.1);
+  border: 1px solid rgba(52,211,153,0.3);
+  color: #34D399;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
 
 /* ── PAGES RETOUR PAIEMENT ───────────────────────────────────────────────── */
 .payment-result { text-align: center; padding: 80px 20px; max-width: 520px; margin: 0 auto; }

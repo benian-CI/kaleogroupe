@@ -15,13 +15,13 @@ function cartItemHtml(item) {
       '</div>' +
       '<div class="cart-item-qty">' +
         '<div class="qty-selector">' +
-          '<button type="button" onclick="changeCartQty(' + item.productId + ', -' + step + ')">−</button>' +
+          '<button type="button" data-action="qty" data-delta="-' + step + '">−</button>' +
           '<input type="text" value="' + formatQuantity(item.quantity, unit) + '" readonly/>' +
-          '<button type="button" onclick="changeCartQty(' + item.productId + ', ' + step + ')">+</button>' +
+          '<button type="button" data-action="qty" data-delta="' + step + '">+</button>' +
         '</div>' +
       '</div>' +
       '<span class="cart-item-total">' + formatFCFA(item.price * item.quantity) + '</span>' +
-      '<button class="cart-item-remove" onclick="removeCartItem(' + item.productId + ')" aria-label="Retirer"><i class="fas fa-trash"></i></button>' +
+      '<button class="cart-item-remove" data-action="remove" aria-label="Retirer"><i class="fas fa-trash"></i></button>' +
     '</div>'
   );
 }
@@ -57,5 +57,13 @@ function removeCartItem(productId) {
   removeFromCart(productId);
   renderCartPage();
 }
+
+document.getElementById('cartItemsList').addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  var productId = Number(btn.closest('.cart-item').dataset.id);
+  if (btn.dataset.action === 'qty') changeCartQty(productId, Number(btn.dataset.delta));
+  else if (btn.dataset.action === 'remove') removeCartItem(productId);
+});
 
 renderCartPage();

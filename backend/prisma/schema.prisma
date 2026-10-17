@@ -66,6 +66,14 @@ model Customer {
   email        String   @unique
   passwordHash String
   phone        String?
+  // Incrémenté pour révoquer d'un coup toutes les sessions ouvertes du client
+  // (ex: après une réinitialisation de mot de passe) : un jeton JWT qui porte
+  // une version plus ancienne est refusé.
+  tokenVersion Int      @default(0)
+  // Réinitialisation de mot de passe : on ne stocke que le hash SHA-256 du jeton
+  // envoyé par email, jamais le jeton lui-même.
+  passwordResetTokenHash String?   @unique
+  passwordResetExpires   DateTime?
   createdAt    DateTime @default(now())
   orders       Order[]
 }

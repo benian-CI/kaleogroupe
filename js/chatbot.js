@@ -790,7 +790,7 @@
   };
 
   // ── Chemins absolus (URLs propres) ──────────────────────────────────────────
-  function getLogoPath()        { return '/LOGO KALEO.png'; }
+  function getLogoPath()        { return '/logo-kaleo.webp'; }
   function getDevisPath()       { return '/devis'; }
   function getRealisationsPath(){ return '/realisations'; }
   function getBoutiquePath()    { return '/boutique'; }

@@ -88,6 +88,13 @@ function prevStep(current) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+document.addEventListener('click', function(e) {
+  const next = e.target.closest('[data-next-step]');
+  if (next) return nextStep(Number(next.dataset.nextStep));
+  const prev = e.target.closest('[data-prev-step]');
+  if (prev) prevStep(Number(prev.dataset.prevStep));
+});
+
 // Soumission finale
 const devisForm = document.getElementById('devisForm');
 if (devisForm) {

@@ -2,10 +2,11 @@
 // CONFIGURATION API BOUTIQUE
 // ============================================
 // En local (Live Server, etc.) on parle au backend lancé sur localhost:4000.
-// En production, on parle au backend déployé (à mettre à jour une fois déployé sur Render).
+// En production, on parle au backend hébergé sur Render, servi sous notre propre
+// domaine (api.kaleogroupe.com, CNAME vers kaleo-groupe-backend.onrender.com).
 window.API_BASE_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
   ? 'http://localhost:4000/api'
-  : 'https://kaleo-groupe-backend.onrender.com/api';
+  : 'https://api.kaleogroupe.com/api';
 
 var categoryLabels = {
   cameras: 'Caméras',

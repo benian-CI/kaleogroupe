@@ -117,8 +117,8 @@ if (dashboardRoot && !getAdminToken()) {
             '<td>' + formatQuantity(p.stock, unit) + '</td>' +
             '<td><span class="admin-status ' + (p.active ? 'active' : 'inactive') + '">' + (p.active ? 'Actif' : 'Inactif') + '</span></td>' +
             '<td class="admin-actions-cell">' +
-              '<button class="admin-icon-btn" onclick="openProductModal(' + p.id + ')"><i class="fas fa-pen"></i></button>' +
-              '<button class="admin-icon-btn danger" onclick="deleteProduct(' + p.id + ')"><i class="fas fa-trash"></i></button>' +
+              '<button class="admin-icon-btn" data-action="edit-product" data-id="' + p.id + '"><i class="fas fa-pen"></i></button>' +
+              '<button class="admin-icon-btn danger" data-action="delete-product" data-id="' + p.id + '"><i class="fas fa-trash"></i></button>' +
             '</td>' +
           '</tr>';
         }).join('');
@@ -223,7 +223,10 @@ if (dashboardRoot && !getAdminToken()) {
             '<td>' + (o.paymentMethod === 'cash' ? 'Espèces' : 'Mobile Money / Carte') + '</td>' +
             '<td><span class="admin-status ' + o.status + '">' + o.status + '</span></td>' +
             '<td>' + new Date(o.createdAt).toLocaleString('fr-FR') + '</td>' +
-            '<td>' + (canMarkPaid ? '<button class="admin-icon-btn" title="Marquer payée" onclick="markOrderPaid(' + o.id + ')"><i class="fas fa-check"></i></button>' : '') + '</td>' +
+            '<td>' + (canMarkPaid
+              ? '<button class="admin-icon-btn" title="Marquer payée" data-action="mark-paid" data-id="' + o.id + '"><i class="fas fa-check"></i></button> ' +
+                '<button class="admin-icon-btn danger" title="Annuler et remettre en stock" data-action="cancel-order" data-id="' + o.id + '"><i class="fas fa-xmark"></i></button>'
+              : '') + '</td>' +
           '</tr>';
         }).join('');
       })
@@ -236,6 +239,28 @@ if (dashboardRoot && !getAdminToken()) {
       .then(function () { showToast('Commande marquée payée', 'success'); loadOrders(); })
       .catch(function (err) { showToast(err.message, 'error'); });
   };
+
+  window.cancelOrder = function (id) {
+    if (!confirm('Annuler cette commande ? Les articles réservés seront remis en stock.')) return;
+    adminFetch('/admin/orders/' + id + '/cancel', { method: 'POST' })
+      .then(function () { showToast('Commande annulée, stock restauré', 'success'); loadOrders(); loadProducts(); })
+      .catch(function (err) { showToast(err.message, 'error'); });
+  };
+
+  // Délégation d'événements plutôt que des onclick="" dans le HTML généré :
+  // permet une Content-Security-Policy sans 'unsafe-inline' pour les scripts.
+  var adminActions = {
+    'edit-product': openProductModal,
+    'delete-product': deleteProduct,
+    'mark-paid': markOrderPaid,
+    'cancel-order': cancelOrder
+  };
+  ['productsTableBody', 'ordersTableBody'].forEach(function (tbodyId) {
+    document.getElementById(tbodyId).addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action]');
+      if (btn && adminActions[btn.dataset.action]) adminActions[btn.dataset.action](Number(btn.dataset.id));
+    });
+  });
 
   loadProducts();
   loadOrders();

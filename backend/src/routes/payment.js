@@ -19,9 +19,9 @@ router.post('/notify', express.urlencoded({ extended: true }), asyncHandler(asyn
   // Idempotent : si la commande a déjà été traitée (paid/failed), on ne refait rien.
   if (order.status !== 'pending') return res.sendStatus(200);
 
-  let status;
+  let status, amount, currency;
   try {
-    ({ status } = await cinetpay.checkStatus(transactionId));
+    ({ status, amount, currency } = await cinetpay.checkStatus(transactionId));
   } catch (err) {
     // La VÉRIFICATION a échoué (panne réseau/API CinetPay passagère) — ce n'est pas
     // un refus de paiement. On laisse la commande "pending" et on répond en erreur
@@ -32,11 +32,21 @@ router.post('/notify', express.urlencoded({ extended: true }), asyncHandler(asyn
   }
 
   if (status === 'ACCEPTED') {
-    await prisma.$transaction(async (tx) => {
-      await tx.order.update({
-        where: { id: order.id },
+    // Le montant réellement encaissé doit correspondre exactement à la commande :
+    // sinon on ne la valide pas, elle reste "pending" pour vérification manuelle.
+    if (amount !== order.totalAmount || (currency && currency !== 'XOF')) {
+      console.error(`Montant CinetPay incohérent pour ${order.ref} : reçu ${amount} ${currency}, attendu ${order.totalAmount} XOF — commande laissée en attente, vérification manuelle nécessaire.`);
+      return res.sendStatus(200);
+    }
+
+    const confirmed = await prisma.$transaction(async (tx) => {
+      // Passage pending -> paid conditionnel et atomique : si deux webhooks arrivent
+      // en même temps, un seul gagne, et le stock n'est décrémenté qu'une fois.
+      const { count } = await tx.order.updateMany({
+        where: { id: order.id, status: 'pending' },
         data: { status: 'paid', paidAt: new Date(), cinetpayTransId: transactionId }
       });
+      if (count === 0) return false;
       const items = await tx.orderItem.findMany({ where: { orderId: order.id } });
       for (const item of items) {
         // Décrément conditionnel : n'enlève du stock que s'il y en a assez, pour ne
@@ -50,14 +60,16 @@ router.post('/notify', express.urlencoded({ extended: true }), asyncHandler(asyn
           console.error(`Stock insuffisant pour le produit ${item.productId} lors de la confirmation de la commande ${order.ref} — survente détectée, vérification manuelle nécessaire.`);
         }
       }
+      return true;
     });
+    if (!confirmed) return res.sendStatus(200);
 
     // Best-effort, ne bloque jamais la réponse au webhook ni ne fait échouer la confirmation.
     prisma.order.findUnique({ where: { id: order.id }, include: { items: { include: { product: true } } } })
       .then(sendOrderEmails)
       .catch((err) => console.error('Erreur notification email commande:', err));
   } else if (status === 'REFUSED' || status === 'CANCELLED' || status === 'EXPIRED') {
-    await prisma.order.update({ where: { id: order.id }, data: { status: 'failed' } });
+    await prisma.order.updateMany({ where: { id: order.id, status: 'pending' }, data: { status: 'failed' } });
   }
   // Tout autre statut (ex: encore "en attente" côté CinetPay) : on ne change rien,
   // la commande reste "pending" jusqu'à un prochain webhook qui tranchera.

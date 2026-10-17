@@ -1,0 +1,4 @@
+# Secrets et dépendances : jamais dans git
+.env
+node_modules/
+*.log

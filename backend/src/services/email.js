@@ -111,4 +111,27 @@ async function sendOrderEmails(order) {
   }
 }
 
-module.exports = { sendOrderEmails };
+// Contrairement aux emails de commande, celui-ci n'est pas "best-effort" : sans
+// lui le client ne peut rien faire, donc l'erreur remonte à la route.
+async function sendPasswordResetEmail(customer, resetUrl) {
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    throw new Error('SMTP_USER/SMTP_PASS non configurés');
+  }
+  await transporter.sendMail({
+    from: `"KALEO GROUPE" <${process.env.SMTP_USER}>`,
+    to: customer.email,
+    subject: 'Réinitialisation de votre mot de passe — KALEO GROUPE',
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;">
+        <p>Bonjour ${escapeHtml(customer.name)},</p>
+        <p>Vous avez demandé à réinitialiser le mot de passe de votre compte KALEO GROUPE.</p>
+        <p style="text-align:center;margin:28px 0;">
+          <a href="${escapeHtml(resetUrl)}" style="background:#FF6B2B;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Choisir un nouveau mot de passe</a>
+        </p>
+        <p style="color:#888;font-size:13px;">Ce lien est valable 1 heure et ne peut servir qu'une fois. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email : votre mot de passe reste inchangé.</p>
+        <p>L'équipe KALEO GROUPE</p>
+      </div>`
+  });
+}
+
+module.exports = { sendOrderEmails, sendPasswordResetEmail };
