@@ -288,3 +288,6 @@
 }
 .sidebar-points li { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
 .sidebar-points i { width: 18px; color: var(--accent); }
+
+/* Champ piège anti-robots : hors écran, jamais visible ni atteignable au clavier */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }

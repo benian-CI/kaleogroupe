@@ -2,11 +2,16 @@
 // FORMULAIRE DE DEVIS — MULTI-ÉTAPES
 // ============================================
 
-// ⚠️ Remplace ces 3 valeurs par celles de ton compte EmailJS
-const EMAILJS_PUBLIC_KEY  = 'fxjsxJderkG52kGED';
-const EMAILJS_SERVICE_ID  = 'service_wap3ttv';
-const EMAILJS_TEMPLATE_ID = 'template_kuho9vf';
-if (typeof emailjs !== 'undefined') emailjs.init(EMAILJS_PUBLIC_KEY);
+// Envoi par email : via notre propre API (POST /api/devis), qui fixe le
+// destinataire côté serveur. EmailJS a été retiré : sa clé publique permettait
+// à n'importe qui d'utiliser le compte pour envoyer des emails.
+const SERVICE_LABELS = {
+  cameras: 'Caméras de surveillance',
+  construction: 'Construction & Réhabilitation',
+  split: 'Climatisation Split',
+  menuiserie: 'Portes & Fenêtres Alu',
+  electricite: 'Électricité'
+};
 
 function showStep(n) {
   document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
@@ -107,7 +112,8 @@ if (devisForm) {
     const telephone   = document.getElementById('telephone').value;
     const email       = document.getElementById('email').value;
     const adresse     = document.getElementById('adresse').value;
-    const services    = [...document.querySelectorAll('input[name="services"]:checked')].map(cb => cb.value).join(', ');
+    const serviceIds  = [...document.querySelectorAll('input[name="services"]:checked')].map(cb => cb.value);
+    const services    = serviceIds.map(id => SERVICE_LABELS[id] || id).join(', ');
     const budget      = document.getElementById('budget').value || 'Non précisé';
     const delai       = document.getElementById('delai').value;
     const description = document.getElementById('description').value;
@@ -158,13 +164,11 @@ if (devisForm) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
 
-    const templateParams = {
-      prenom, nom, telephone, email, adresse, services, budget, delai, description, source, ref, date,
-      to_email: 'kaleogroupe@gmail.com',
-      from_name: 'KALEO GROUPE',
-      reply_to: email || 'kaleogroupe@gmail.com',
-      subject:  'Nouvelle demande de devis - ' + prenom + ' ' + nom,
-      'g-recaptcha-response': recaptchaResponse
+    const payload = {
+      ref, prenom, nom, telephone, email, adresse, description, budget, delai, source,
+      services: serviceIds,
+      recaptcha: recaptchaResponse,
+      website: (document.getElementById('website') || {}).value || ''   // champ piège anti-robots
     };
 
     function afficherSucces() {
@@ -180,7 +184,14 @@ if (devisForm) {
     }
 
     function envoyerEmail() {
-      return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      return fetch(window.API_BASE_URL + '/devis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(res => res.json().then(data => {
+        if (!res.ok) throw new Error(data.error || 'Erreur d\'envoi');
+        return data;
+      }));
     }
 
     if (envoi.value === 'whatsapp') {
@@ -190,11 +201,11 @@ if (devisForm) {
     } else if (envoi.value === 'email') {
       envoyerEmail()
         .then(() => afficherSucces())
-        .catch(() => {
+        .catch((err) => {
           submitBtn.disabled = false;
           submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer ma demande';
           if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
-          alert('Erreur d\'envoi. Vérifiez votre connexion ou utilisez WhatsApp.');
+          alert((err && err.message) || 'Erreur d\'envoi. Vérifiez votre connexion ou utilisez WhatsApp.');
         });
 
     } else if (envoi.value === 'les-deux') {

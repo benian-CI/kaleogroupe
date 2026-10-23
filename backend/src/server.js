@@ -27,6 +27,7 @@ const ordersRouter = require('./routes/orders');
 const paymentRouter = require('./routes/payment');
 const adminRouter = require('./routes/admin');
 const customersRouter = require('./routes/customers');
+const devisRouter = require('./routes/devis');
 
 const app = express();
 
@@ -72,6 +73,7 @@ app.use('/api/orders', ordersRouter);
 app.use('/api/payment', paymentRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/customers', customersRouter);
+app.use('/api/devis', devisRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

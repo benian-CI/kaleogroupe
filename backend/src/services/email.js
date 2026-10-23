@@ -134,4 +134,36 @@ async function sendPasswordResetEmail(customer, resetUrl) {
   });
 }
 
-module.exports = { sendOrderEmails, sendPasswordResetEmail };
+// Demande de devis du site : envoyée à l'entreprise, avec l'email du client en
+// « Répondre à » pour lui répondre directement depuis Gmail.
+async function sendDevisEmail(d) {
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    throw new Error('SMTP_USER/SMTP_PASS non configurés');
+  }
+  const row = (label, value) => `<tr><td style="padding:8px 12px;color:#555;white-space:nowrap;vertical-align:top;"><strong>${label}</strong></td><td style="padding:8px 12px;">${escapeHtml(value)}</td></tr>`;
+  await transporter.sendMail({
+    from: `"Site KALEO GROUPE" <${process.env.SMTP_USER}>`,
+    to: process.env.NOTIFY_EMAIL || process.env.SMTP_USER,
+    ...(d.email ? { replyTo: d.email } : {}),
+    subject: `Demande de devis ${d.ref} — ${d.prenom} ${d.nom}`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+        <h2 style="color:#14213D;margin-bottom:4px;">Nouvelle demande de devis</h2>
+        <p style="color:#888;margin-top:0;">Référence ${escapeHtml(d.ref)}</p>
+        <table style="width:100%;border-collapse:collapse;border-top:2px solid #2563EB;">
+          ${row('Client', d.prenom + ' ' + d.nom)}
+          ${row('Téléphone', d.telephone)}
+          ${d.email ? row('Email', d.email) : ''}
+          ${row('Adresse du chantier', d.adresse)}
+          ${row('Services', d.services.join(', '))}
+          ${row('Budget', d.budget)}
+          ${row('Délai', d.delai)}
+          ${row('Source', d.source)}
+        </table>
+        <h3 style="color:#14213D;">Description du projet</h3>
+        <p style="white-space:pre-wrap;background:#F4F5F2;padding:12px;">${escapeHtml(d.description)}</p>
+      </div>`
+  });
+}
+
+module.exports = { sendOrderEmails, sendPasswordResetEmail, sendDevisEmail };
