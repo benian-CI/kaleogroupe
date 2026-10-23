@@ -67,3 +67,4 @@ document.getElementById('cartItemsList').addEventListener('click', function (e) 
 });
 
 renderCartPage();
+refreshCartFromCatalog(renderCartPage);

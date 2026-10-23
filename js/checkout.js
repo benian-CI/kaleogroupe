@@ -5,25 +5,35 @@ var INSTALLATION_FEE = 30000;
 
 // Compte optionnel façon Jumia : si connecté, on pré-remplit et on lie la
 // commande au compte ; sinon on laisse la commande "invité" fonctionner normalement.
+function renderGuestBanner(banner) {
+  banner.innerHTML =
+    '<p class="checkout-banner">' +
+      '<i class="fas fa-circle-info"></i> Vous commandez en tant qu\'invité. <a href="/compte/connexion?next=/checkout">Connectez-vous</a> pour retrouver vos commandes plus tard.' +
+    '</p>';
+}
+
 function renderAccountBanner() {
   var banner = document.getElementById('checkoutAccountBanner');
   if (!banner) return;
-  if (getCustomerToken()) {
-    banner.innerHTML =
-      '<p style="background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: #34D399; padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 16px;">' +
-        '<i class="fas fa-circle-check"></i> Connecté en tant que <strong>' + escapeHtml(getCustomerName()) + '</strong> — cette commande sera ajoutée à votre historique.' +
-      '</p>';
-    customerFetch('/customers/me').then(function (c) {
+  if (!getCustomerToken()) return renderGuestBanner(banner);
+  banner.innerHTML =
+    '<p class="checkout-banner checkout-banner-ok">' +
+      '<i class="fas fa-circle-check"></i> Connecté en tant que <strong>' + escapeHtml(getCustomerName()) + '</strong> — cette commande sera ajoutée à votre historique.' +
+    '</p>';
+  // Appel direct (pas customerFetch) : si la session a expiré, on bascule en
+  // commande invité au lieu de renvoyer le client vers la page de connexion.
+  fetch(window.API_BASE_URL + '/customers/me', { headers: { Authorization: 'Bearer ' + getCustomerToken() } })
+    .then(function (res) {
+      if (res.status === 401) { clearCustomerSession(); renderGuestBanner(banner); return null; }
+      return res.ok ? res.json() : null;
+    })
+    .then(function (c) {
+      if (!c) return;
       if (!document.getElementById('coName').value) document.getElementById('coName').value = c.name || '';
       if (!document.getElementById('coPhone').value) document.getElementById('coPhone').value = c.phone || '';
       if (!document.getElementById('coEmail').value) document.getElementById('coEmail').value = c.email || '';
-    }).catch(function () {});
-  } else {
-    banner.innerHTML =
-      '<p style="background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-secondary); padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 16px;">' +
-        '<i class="fas fa-circle-info"></i> Vous commandez en tant qu\'invité. <a href="/compte/connexion?next=/checkout" class="accent" style="text-decoration:underline;">Connectez-vous</a> pour retrouver vos commandes plus tard.' +
-      '</p>';
-  }
+    })
+    .catch(function () {});
 }
 renderAccountBanner();
 
@@ -150,3 +160,4 @@ if (checkoutForm) {
 }
 
 renderRecap();
+refreshCartFromCatalog(renderRecap);

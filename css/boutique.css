@@ -252,3 +252,18 @@
   .cart-item { flex-wrap: wrap; }
   .cart-item-total { text-align: left; }
 }
+
+/* Bandeau compte de la page commande (invité / connecté) */
+.checkout-banner {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  background: var(--bg-alt);
+  border-left: 3px solid var(--navy);
+}
+.checkout-banner a { color: var(--navy); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.checkout-banner-ok { color: #14532D; background: #ECF6EF; border-left-color: #15803D; }

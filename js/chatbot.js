@@ -1062,7 +1062,7 @@
             '\nDescription du projet :\n' + description;
 
           if (envoi === 'whatsapp' || envoi === 'les-deux') {
-            window.open('https://wa.me/2250102181848?text=' + encodeURIComponent(waMsg), '_blank');
+            window.open('https://wa.me/2250102181848?text=' + encodeURIComponent(waMsg), '_blank', 'noopener');
           }
           if (envoi === 'email' || envoi === 'les-deux') {
             setTimeout(function() {

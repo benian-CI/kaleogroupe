@@ -11,7 +11,16 @@ const asyncHandler = require('../lib/asyncHandler');
 const { httpError, requireString, optionalString, nonNegativeNumber } = require('../lib/validate');
 
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
+// Images uniquement (5 Mo max) : un autre type de fichier est refusé dès la
+// réception, plutôt que d'être envoyé à Cloudinary pour y échouer.
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024, files: 1 },
+  fileFilter(req, file, cb) {
+    if (/^image\/(jpeg|png|webp|gif|avif)$/.test(file.mimetype)) return cb(null, true);
+    cb(Object.assign(new Error('Format non accepté : envoyez une image JPG, PNG, WebP, GIF ou AVIF.'), { status: 400 }));
+  }
+});
 
 const VALID_UNITS = ['unite', 'metre', 'kg'];
 const VALID_QUALITIES = ['standard', 'superieure', 'premium'];

@@ -176,7 +176,7 @@ if (devisForm) {
     }
 
     function envoyerWhatsApp() {
-      window.open('https://wa.me/2250102181848?text=' + message, '_blank');
+      window.open('https://wa.me/2250102181848?text=' + message, '_blank', 'noopener');
     }
 
     function envoyerEmail() {
