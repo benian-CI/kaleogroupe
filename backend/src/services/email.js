@@ -51,7 +51,7 @@ function orderSummaryHtml(order) {
   const paymentLabel = order.paymentMethod === 'cash' ? 'Espèces à la livraison' : 'Mobile Money / Carte bancaire';
   return `
     <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;">
-      <h2 style="color:#FF6B2B;margin-bottom:4px;">Commande ${escapeHtml(order.ref)}</h2>
+      <h2 style="color:#2563EB;margin-bottom:4px;">Commande ${escapeHtml(order.ref)}</h2>
       ${itemsTableHtml(order.items)}
       ${order.installationRequested ? `<p style="text-align:right;">Installation par notre équipe : ${money(order.installationFee)}</p>` : ''}
       <p style="text-align:right;font-size:18px;font-weight:bold;margin-top:12px;">Total : ${money(order.totalAmount)}</p>
@@ -126,7 +126,7 @@ async function sendPasswordResetEmail(customer, resetUrl) {
         <p>Bonjour ${escapeHtml(customer.name)},</p>
         <p>Vous avez demandé à réinitialiser le mot de passe de votre compte KALEO GROUPE.</p>
         <p style="text-align:center;margin:28px 0;">
-          <a href="${escapeHtml(resetUrl)}" style="background:#FF6B2B;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Choisir un nouveau mot de passe</a>
+          <a href="${escapeHtml(resetUrl)}" style="background:#2563EB;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Choisir un nouveau mot de passe</a>
         </p>
         <p style="color:#888;font-size:13px;">Ce lien est valable 1 heure et ne peut servir qu'une fois. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email : votre mot de passe reste inchangé.</p>
         <p>L'équipe KALEO GROUPE</p>
