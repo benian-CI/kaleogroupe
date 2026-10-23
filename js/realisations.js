@@ -23,33 +23,25 @@ var projets = [
     id: 1, category: 'cameras',
     titre: 'Vidéosurveillance Supermarché Dabou',
     desc: 'Installation de caméras IP dôme extérieures avec vision nocturne pour la sécurisation d\'un supermarché à Dabou.',
-    lieu: 'Dabou', date: 'Mars 2025',
-    img: '/camera.webp',
-    imgPos: 'center center'
+    lieu: 'Dabou', date: 'Mars 2025'
   },
   {
     id: 2, category: 'construction',
     titre: 'Réhabilitation immeuble Bingerville',
     desc: 'Installation de garde-corps câblés inox sur les terrasses d\'une villa R+1 réhabilitée : pose des montants, tension des câbles et finitions.',
-    lieu: 'Bingerville', date: 'Janvier 2025',
-    img: '/construction.webp',
-    imgPos: 'center center'
+    lieu: 'Bingerville', date: 'Janvier 2025'
   },
   {
     id: 3, category: 'split',
     titre: 'Climatisation Bureaux Plateau',
     desc: 'Fourniture et installation de 12 unités split pour des bureaux de 600m² au Plateau.',
-    lieu: 'Plateau, Abidjan', date: 'Février 2025',
-    img: '/climatisseur.webp',
-    imgPos: 'center center'
+    lieu: 'Plateau, Abidjan', date: 'Février 2025'
   },
   {
     id: 5, category: 'cameras',
     titre: 'Pose de caméra Résidence Marcory',
     desc: 'Installation d\'une caméra bullet IR en façade pour une résidence privée. Câblage encastré, boîtier étanche et vision nocturne inclus.',
-    lieu: 'Marcory, Abidjan', date: 'Avril 2025',
-    img: '/pose-camera.webp',
-    imgPos: 'center 35%'
+    lieu: 'Marcory, Abidjan', date: 'Avril 2025'
   }
 ];
 
@@ -63,9 +55,11 @@ function renderProjects(filter) {
     card.className = 'project-card';
     card.setAttribute('data-cat', p.category);
     card.innerHTML =
-      '<div class="project-thumb ' + p.category + '">' +
-        '<img src="' + p.img + '" alt="' + p.titre + '" class="project-img" loading="lazy"' +
-          ' style="object-position:' + (p.imgPos || 'center center') + '"/>' +
+      '<div class="project-thumb ' + p.category + (p.img ? '' : ' thumb-fallback') + '">' +
+        (p.img
+          ? '<img src="' + p.img + '" alt="' + p.titre + '" class="project-img" loading="lazy"' +
+            ' style="object-position:' + (p.imgPos || 'center center') + '"/>'
+          : '') +
         '<div class="project-thumb-overlay"></div>' +
         '<i class="' + categoryIcon[p.category] + ' thumb-fallback-icon"></i>' +
         '<span class="project-tag ' + p.category + '">' +
@@ -83,7 +77,8 @@ function renderProjects(filter) {
       '</div>';
     // Image manquante : on affiche l'icône de repli (écouteur JS plutôt qu'un
     // onerror="" inline, bloqué par la Content-Security-Policy).
-    card.querySelector('.project-img').addEventListener('error', function () {
+    var img = card.querySelector('.project-img');
+    if (img) img.addEventListener('error', function () {
       this.style.display = 'none';
       this.parentNode.classList.add('thumb-fallback');
     });

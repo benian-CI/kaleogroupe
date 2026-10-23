@@ -18,17 +18,23 @@ if (navbar) {
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
 if (hamburger && navLinks) {
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    hamburger.classList.toggle('open');
-  });
-  // Fermer au clic sur un lien
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      hamburger.classList.remove('open');
-    });
-  });
+  hamburger.setAttribute('aria-expanded', 'false');
+  hamburger.setAttribute('aria-controls', 'navLinks');
+
+  const setMenu = (open) => {
+    navLinks.classList.toggle('open', open);
+    hamburger.classList.toggle('open', open);
+    // Bloque le défilement de la page derrière le menu, masque le chatbot
+    document.body.classList.toggle('menu-open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    hamburger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+  };
+
+  hamburger.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+  // Fermer au clic sur un lien, avec la touche Échap, ou si l'écran s'élargit
+  navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+  window.matchMedia('(min-width: 961px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
 }
 
 // Reveal on scroll

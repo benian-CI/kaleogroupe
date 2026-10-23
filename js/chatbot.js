@@ -164,7 +164,7 @@
           'Je peux répondre à toutes vos questions sur nos services, tarifs, délais et coordonnées.<br/><br/>' +
           '<em>Comment puis-je vous aider ?</em>' +
           badges([
-            ['fas fa-star',         '4.9/5'],
+            ['fas fa-circle-check', '30+ projets'],
             ['fas fa-bolt',         'Réponse immédiate'],
             ['fas fa-shield-halved','3 ans d\'expérience']
           ])
@@ -640,7 +640,7 @@
           badges([
             ['fas fa-trophy',   '30+ projets'],
             ['fas fa-calendar', '3 ans d\'expérience'],
-            ['fas fa-star',     '4.9/5 clients']
+            ['fas fa-circle-check', '30+ projets']
           ])
         );
       },
@@ -696,7 +696,7 @@
           'KALEO GROUPE est votre partenaire de confiance depuis <strong>3 ans</strong> en Côte d\'Ivoire.' +
           badges([
             ['fas fa-trophy',        '30+ projets'],
-            ['fas fa-star',          '4.9/5'],
+            ['fas fa-circle-check', '30+ projets'],
             ['fas fa-users',         'Équipe certifiée'],
             ['fas fa-calendar-days', '3 ans']
           ])
@@ -724,7 +724,7 @@
       patterns: [/appel|t.l.phone|num.ro|appeler|contact/i],
       reply: function() {
         return card('fas fa-phone', 'Nous appeler',
-          'Disponible <strong>Lun–Sam, 7h30–18h30</strong> :' +
+          'Disponible <strong>Lun–Ven 7h30–18h30, Sam 8h–16h</strong> :' +
           contactRow('tel:+2250707953684',          'fas fa-phone',    '+225 07 07 95 36 84') +
           '<br/>Pour les urgences et en dehors des horaires, préférez <strong>WhatsApp</strong> :' +
           contactRow('https://wa.me/2250102181848', 'fab fa-whatsapp', 'WhatsApp +225 01 02 18 18 48', true)
@@ -801,7 +801,7 @@
     var toggle = document.createElement('button');
     toggle.className = 'chatbot-toggle';
     toggle.setAttribute('aria-label', 'Ouvrir le chat');
-    toggle.innerHTML = '<i class="fas fa-comments"></i><span class="cb-badge">1</span>';
+    toggle.innerHTML = '<i class="fas fa-comments"></i>';
 
     var win = document.createElement('div');
     win.className = 'chatbot-window';
@@ -1141,7 +1141,7 @@
       return card('fas fa-headset', 'Notre service client est là pour vous',
         'Votre demande nécessite l\'attention directe de notre équipe. Nous vous répondrons rapidement.' +
         list([
-          ['fas fa-clock',       'Disponible <strong>Lun–Sam, 7h30–18h30</strong>'],
+          ['fas fa-clock',       'Disponible <strong>Lun–Ven 7h30–18h30, Sam 8h–16h</strong>'],
           ['fab fa-whatsapp',    'WhatsApp — réponse rapide <strong>7j/7</strong>'],
           ['fas fa-bolt',        'Devis et réponse sous <strong>24 heures</strong>']
         ]) +
@@ -1229,7 +1229,7 @@
         card('fas fa-comments', 'Bienvenue chez KALEO GROUPE',
           'Bonjour ! Je suis votre assistant virtuel. Je peux répondre à vos questions sur nos <strong>services, tarifs, délais et coordonnées</strong>.' +
           badges([
-            ['fas fa-star',          '4.9/5'],
+            ['fas fa-circle-check', '30+ projets'],
             ['fas fa-bolt',          'Devis sous 24h'],
             ['fas fa-shield-halved', '3 ans d\'expérience']
           ]) +

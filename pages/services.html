@@ -22,11 +22,10 @@
   <meta name="twitter:description" content="Caméras de surveillance, construction, climatisation split, électricité, menuiserie aluminium à Abidjan."/>
   <meta name="twitter:image" content="https://app.kaleogroupe.com/logo-kaleo.png"/>
   <link rel="icon" type="image/png" href="/logo-kaleo.png"/>
-  <link rel="stylesheet" href="/css/style.css?v=4"/>
-  <link rel="stylesheet" href="/css/animations.css?v=2"/>
-  <link rel="stylesheet" href="/css/services.css?v=2"/>
-  <link rel="stylesheet" href="/css/chatbot.css?v=3"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css?v=37"/>
+  <link rel="stylesheet" href="/css/animations.css?v=5"/>
+  <link rel="stylesheet" href="/css/chatbot.css?v=6"/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,600..800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
@@ -35,7 +34,7 @@
     <div class="nav-container">
       <a href="/" class="logo">
         <img src="/logo-kaleo.webp" alt="KALEO GROUPE Logo" class="logo-img-nav"/>
-        <span class="logo-text">KALEO<span class="accent"> GROUPE</span></span>
+
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="/">Accueil</a></li>
@@ -51,156 +50,87 @@
     </div>
   </nav>
 
-  <div class="page-header" id="page-header-services">
+  <div class="page-header">
     <div class="container">
-      <span class="section-eyebrow" id="service-eyebrow">Ce que nous proposons</span>
-      <h1 id="service-page-title">Nos <span class="accent">Services</span></h1>
-      <p id="service-page-desc">Des solutions professionnelles et durables pour votre sécurité, votre confort et vos projets de construction.</p>
-      <a href="/services" class="btn-back-services" id="btn-back-all" style="display:none;">
-        <i class="fas fa-arrow-left"></i> Voir tous les services
-      </a>
+      <span class="section-eyebrow">Nos services</span>
+      <h1>5 métiers.<br/>Un seul interlocuteur.</h1>
+      <p>Pour votre sécurité, votre confort et vos chantiers à Abidjan.</p>
     </div>
   </div>
 
-  <!-- CAMERAS -->
-  <section class="service-detail reveal" id="cameras">
+  <section class="panel-section">
     <div class="container">
-      <div class="service-detail-inner">
-        <div class="service-detail-icon">
-          <i class="fas fa-video"></i>
-        </div>
-        <div class="service-detail-text">
-          <span class="section-eyebrow">Service 01</span>
-          <h2 class="section-title">Caméras de Surveillance</h2>
-          <p>Sécurisez votre domicile ou votre entreprise grâce à nos systèmes de vidéosurveillance dernière génération. Nous assurons la fourniture, la pose et la configuration complète de votre installation.</p>
-          <ul class="feature-list">
-            <li><i class="fas fa-check"></i> Caméras IP et CCTV analogiques</li>
-            <li><i class="fas fa-check"></i> Vision nocturne et détection de mouvement</li>
-            <li><i class="fas fa-check"></i> Accès à distance via smartphone</li>
-            <li><i class="fas fa-check"></i> Enregistrement sur DVR / NVR</li>
-            <li><i class="fas fa-check"></i> Installation intérieure et extérieure</li>
-            <li><i class="fas fa-check"></i> Maintenance et SAV inclus</li>
+      <div class="icon-panel icon-panel-5">
+        <article class="icon-card" id="cameras">
+          <span class="icon-card-badge"><i class="fas fa-video"></i></span>
+          <h3>Caméras de surveillance</h3>
+          <p>Vidéosurveillance pour particuliers et entreprises.</p>
+          <ul class="icon-card-points">
+            <li>Caméras IP &amp; CCTV</li>
+            <li>Vision nocturne</li>
+            <li>Accès sur smartphone</li>
           </ul>
-          <a href="/devis" class="btn-primary"><i class="fas fa-file-invoice"></i> Devis caméras</a>
-        </div>
+        </article>
+        <article class="icon-card" id="construction">
+          <span class="icon-card-badge"><i class="fas fa-helmet-safety"></i></span>
+          <h3>Construction &amp; Réhabilitation</h3>
+          <p>Du gros œuvre aux finitions, en neuf comme en rénovation.</p>
+          <ul class="icon-card-points">
+            <li>Gros &amp; second œuvre</li>
+            <li>Ravalement de façade</li>
+            <li>Suivi de chantier</li>
+          </ul>
+        </article>
+        <article class="icon-card" id="split">
+          <span class="icon-card-badge"><i class="fas fa-wind"></i></span>
+          <h3>Climatisation Split</h3>
+          <p>Installation, entretien et dépannage toutes marques.</p>
+          <ul class="icon-card-points">
+            <li>Mono &amp; multi-split</li>
+            <li>Pose propre et rapide</li>
+            <li>Contrat de maintenance</li>
+          </ul>
+        </article>
+        <article class="icon-card" id="menuiserie">
+          <span class="icon-card-badge"><i class="fas fa-door-open"></i></span>
+          <h3>Portes &amp; Fenêtres Alu</h3>
+          <p>Menuiserie aluminium sur mesure.</p>
+          <ul class="icon-card-points">
+            <li>Baies coulissantes</li>
+            <li>Rideaux métalliques</li>
+            <li>Finitions laquées</li>
+          </ul>
+        </article>
+        <article class="icon-card" id="electricite">
+          <span class="icon-card-badge"><i class="fas fa-bolt"></i></span>
+          <h3>Électricité</h3>
+          <p>Installation, mise aux normes et dépannage.</p>
+          <ul class="icon-card-points">
+            <li>Tableaux électriques</li>
+            <li>Éclairage &amp; câblage</li>
+            <li>Groupes électrogènes</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="section-separator"></div>
-
-  <!-- CONSTRUCTION -->
-  <section class="service-detail reveal" id="construction">
-    <div class="container">
-      <div class="service-detail-inner reverse">
-        <div class="service-detail-icon green">
-          <i class="fas fa-helmet-safety"></i>
-        </div>
-        <div class="service-detail-text">
-          <span class="section-eyebrow">Service 02</span>
-          <h2 class="section-title">Construction & Réhabilitation</h2>
-          <p>Du projet neuf à la rénovation complète, notre équipe de professionnels prend en charge l'intégralité de vos travaux de construction et de réhabilitation avec rigueur et transparence.</p>
-          <ul class="feature-list">
-            <li><i class="fas fa-check"></i> Gros œuvre : fondations, murs, dalle</li>
-            <li><i class="fas fa-check"></i> Second œuvre : plomberie, électricité, carrelage</li>
-            <li><i class="fas fa-check"></i> Réhabilitation de bâtiments anciens</li>
-            <li><i class="fas fa-check"></i> Ravalement de façade</li>
-            <li><i class="fas fa-check"></i> Faux-plafond et cloisons</li>
-            <li><i class="fas fa-check"></i> Suivi de chantier et rapports réguliers</li>
-          </ul>
-          <a href="/devis" class="btn-primary"><i class="fas fa-file-invoice"></i> Devis construction</a>
-        </div>
-      </div>
+  <section class="split-cta">
+    <div class="split-cta-text">
+      <span class="section-eyebrow">Devis gratuit</span>
+      <h2>Un projet ?<br/>Parlons-en</h2>
+      <p>Devis gratuit et sans engagement sous 24h.</p>
+      <a href="/devis" class="btn-solid">Demander un devis <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <div class="split-cta-media split-cta-media-chantier">
+      <img src="/photo-chantier.webp" alt="Chantier avec casque et plans de construction" width="736" height="930" loading="lazy"/>
     </div>
   </section>
-
-  <div class="section-separator"></div>
-
-  <!-- SPLIT -->
-  <section class="service-detail reveal" id="split">
-    <div class="container">
-      <div class="service-detail-inner">
-        <div class="service-detail-icon blue">
-          <i class="fas fa-wind"></i>
-        </div>
-        <div class="service-detail-text">
-          <span class="section-eyebrow">Service 03</span>
-          <h2 class="section-title">Installation Climatisation Split</h2>
-          <p>Pour un confort thermique optimal en toutes saisons, nous installons, maintenons et dépannons vos systèmes de climatisation split pour particuliers et professionnels.</p>
-          <ul class="feature-list">
-            <li><i class="fas fa-check"></i> Climatiseurs mono et multi-split</li>
-            <li><i class="fas fa-check"></i> Toutes marques : Daikin, Mitsubishi, Samsung…</li>
-            <li><i class="fas fa-check"></i> Dimensionnement et conseil adapté</li>
-            <li><i class="fas fa-check"></i> Pose propre et rapide</li>
-            <li><i class="fas fa-check"></i> Contrat de maintenance annuelle</li>
-            <li><i class="fas fa-check"></i> Dépannage et remplacement de pièces</li>
-          </ul>
-          <a href="/devis" class="btn-primary"><i class="fas fa-file-invoice"></i> Devis climatisation</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-separator"></div>
-
-  <!-- MENUISERIE -->
-  <section class="service-detail reveal" id="menuiserie">
-    <div class="container">
-      <div class="service-detail-inner reverse">
-        <div class="service-detail-icon yellow">
-          <i class="fas fa-door-open"></i>
-        </div>
-        <div class="service-detail-text">
-          <span class="section-eyebrow">Service 04</span>
-          <h2 class="section-title">Portes & Fenêtres Aluminium</h2>
-          <p>La menuiserie aluminium allie esthétique moderne, robustesse et isolation performante. Nos menuisiers fabriquent et posent vos ouvertures sur mesure, adaptées à votre style et votre budget.</p>
-          <ul class="feature-list">
-            <li><i class="fas fa-check"></i> Portes d'entrée et portes d'intérieur</li>
-            <li><i class="fas fa-check"></i> Fenêtres et baies coulissantes</li>
-            <li><i class="fas fa-check"></i> Rideaux métalliques et volets roulants</li>
-            <li><i class="fas fa-check"></i> Garde-corps et verrières aluminium</li>
-            <li><i class="fas fa-check"></i> Fabrication sur mesure</li>
-            <li><i class="fas fa-check"></i> Finitions laquées ou anodisées</li>
-          </ul>
-          <a href="/devis" class="btn-primary"><i class="fas fa-file-invoice"></i> Devis menuiserie</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-separator"></div>
-
-  <!-- ELECTRICITE -->
-  <section class="service-detail reveal" id="electricite">
-    <div class="container">
-      <div class="service-detail-inner">
-        <div class="service-detail-icon purple">
-          <i class="fas fa-bolt"></i>
-        </div>
-        <div class="service-detail-text">
-          <span class="section-eyebrow">Service 05</span>
-          <h2 class="section-title">Électricité</h2>
-          <p>Installations électriques neuves, mises aux normes et dépannages : nos électriciens qualifiés interviennent pour votre sécurité et votre confort, chez les particuliers comme pour les professionnels.</p>
-          <ul class="feature-list">
-            <li><i class="fas fa-check"></i> Installation électrique neuve et rénovation</li>
-            <li><i class="fas fa-check"></i> Mise aux normes et tableaux électriques</li>
-            <li><i class="fas fa-check"></i> Câblage, prises et éclairage</li>
-            <li><i class="fas fa-check"></i> Dépannage et recherche de panne</li>
-            <li><i class="fas fa-check"></i> Groupes électrogènes et onduleurs</li>
-            <li><i class="fas fa-check"></i> Diagnostic et sécurité électrique</li>
-          </ul>
-          <a href="/devis" class="btn-primary"><i class="fas fa-file-invoice"></i> Devis électricité</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
 
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <p class="footer-brand-name">KALEO<span class="accent"> GROUPE</span></p>
           <p>Votre partenaire de confiance pour la sécurité, le confort et la construction.</p>
           <div class="social-links">
             <a href="https://www.facebook.com/share/1KQN2kojNy/" target="_blank" rel="noopener" aria-label="KALEO GROUPE sur Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -234,15 +164,14 @@
           </ul>
         </div>
       </div>
-      <div class="footer-bottom"><p>© 2023 KALEO GROUPE. Tous droits réservés.</p></div>
+      <div class="footer-bottom"><p>© 2026 KALEO GROUPE. Tous droits réservés.</p></div>
     </div>
   </footer>
 
   <script src="/js/config.js?v=3"></script>
   <script src="/js/cart.js?v=1"></script>
   <script src="/js/customer-auth.js?v=3"></script>
-  <script src="/js/main.js?v=2"></script>
-  <script src="/js/chatbot.js?v=4"></script>
-  <script src="/js/services.js?v=1"></script>
+  <script src="/js/main.js?v=3"></script>
+  <script src="/js/chatbot.js?v=7"></script>
 </body>
 </html>

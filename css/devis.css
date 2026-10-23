@@ -1,6 +1,6 @@
 .devis-section {
   padding: 80px 0 100px;
-  background: rgba(5, 10, 20, 0.82);
+  background: var(--bg-dark);
 }
 .devis-layout {
   display: grid;
@@ -36,7 +36,7 @@
   font-size: 12px;
   font-weight: 600;
   padding: 4px 12px;
-  border-radius: 100px;
+  border-radius: var(--radius);
   margin-bottom: 10px;
   letter-spacing: 0.5px;
 }
@@ -73,7 +73,7 @@
 .form-group select,
 .form-group textarea {
   width: 100%;
-  background: rgba(255,255,255,0.04);
+  background: var(--surface-muted);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 12px 16px;
@@ -87,12 +87,12 @@
 .form-group textarea::placeholder {
   color: var(--text-muted);
 }
-.form-group select option { background: #1A2B4A; }
+.form-group select option { background: var(--bg-card); }
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--accent);
-  background: rgba(255,107,43,0.04);
+  background: rgba(37, 99, 235, 0.04);
 }
 .form-group input.invalid,
 .form-group select.invalid,
@@ -122,7 +122,7 @@
   justify-content: center;
   gap: 10px;
   padding: 20px 12px;
-  background: rgba(255,255,255,0.03);
+  background: var(--surface-muted);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   cursor: pointer;
@@ -142,7 +142,7 @@
   color: var(--text-primary);
 }
 .checkbox-card input:checked + .checkbox-content i { color: var(--accent); }
-.checkbox-card:hover .checkbox-content { border-color: rgba(255,107,43,0.4); }
+.checkbox-card:hover .checkbox-content { border-color: rgba(37, 99, 235, 0.4); }
 
 /* Choix envoi WhatsApp / Email / Les deux */
 .send-choice {
@@ -159,7 +159,7 @@
   justify-content: center;
   gap: 10px;
   padding: 20px 12px;
-  background: rgba(255,255,255,0.03);
+  background: var(--surface-muted);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   cursor: pointer;
@@ -179,7 +179,7 @@
   color: var(--text-primary);
 }
 .choice-card input:checked + .choice-content i { color: var(--accent); }
-.choice-card:hover .choice-content { border-color: rgba(255,107,43,0.4); }
+.choice-card:hover .choice-content { border-color: rgba(37, 99, 235, 0.4); }
 #envoi-error { display: none; }
 
 /* Checkbox simple */
@@ -237,44 +237,17 @@
   position: sticky;
   top: 100px;
 }
-.sidebar-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-}
-.sidebar-icon {
-  width: 40px;
-  height: 40px;
-  background: var(--accent-glow);
-  border: 1px solid var(--border-accent);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-  font-size: 15px;
-  margin-bottom: 12px;
-}
-.sidebar-card h4 {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-.sidebar-card p {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
+
 .sidebar-contact {
-  background: var(--blue-steel);
-  border: 1px solid var(--border);
+  background: var(--navy);
+  border: none;
   border-radius: var(--radius);
   padding: 24px;
 }
 .sidebar-contact h4 {
   font-size: 14px;
   font-weight: 600;
+  color: #fff;
   margin-bottom: 12px;
 }
 .phone-link {
@@ -288,7 +261,7 @@
 }
 .sidebar-contact p {
   font-size: 12px;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 @media (max-width: 900px) {
@@ -301,3 +274,17 @@
 @media (max-width: 480px) {
   .service-checkboxes { grid-template-columns: 1fr; }
 }
+
+/* Colonne latérale réduite : 3 points courts au lieu de 3 encadrés */
+.sidebar-points {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.sidebar-points li { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.sidebar-points i { width: 18px; color: var(--accent); }
