@@ -22,7 +22,7 @@
   <meta name="twitter:description" content="Caméras de surveillance, construction, climatisation, électricité, menuiserie aluminium à Abidjan. Devis gratuit sous 24h."/>
   <meta name="twitter:image" content="https://app.kaleogroupe.com/logo-kaleo.png"/>
   <link rel="icon" type="image/png" href="/logo-kaleo.png"/>
-  <link rel="stylesheet" href="/css/style.css?v=37" />
+  <link rel="stylesheet" href="/css/style.css?v=38" />
   <link rel="stylesheet" href="/css/animations.css?v=5" />
   <link rel="stylesheet" href="/css/chatbot.css?v=6" />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,600..800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -92,7 +92,12 @@
 
   <!-- HERO -->
   <section class="hero-pro">
-    <img class="hero-pro-bg" src="/photo-casque.webp" alt="" width="736" height="1051" fetchpriority="high"/>
+    <!-- Diaporama : les photos se succèdent en fondu enchaîné -->
+    <div class="hero-slides" aria-hidden="true">
+      <img class="hero-slide slide-casque" src="/photo-casque.webp" alt="" width="736" height="1051" fetchpriority="high"/>
+      <img class="hero-slide slide-solaire" src="/photo-solaire.webp" alt="" width="736" height="736" loading="lazy"/>
+      <img class="hero-slide slide-chantier" src="/photo-chantier.webp" alt="" width="736" height="930" loading="lazy"/>
+    </div>
     <div class="container hero-pro-inner">
       <span class="section-eyebrow">Abidjan — Côte d'Ivoire</span>
       <h1 class="hero-pro-title">Votre confort.<br/><em>Notre priorité.</em></h1>
