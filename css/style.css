@@ -486,7 +486,7 @@ img { max-width: 100%; }
   animation: hero-fondu 12s ease-in-out infinite;
 }
 .slide-casque   { object-position: 35% 38%; animation-delay: 0s; }
-.slide-camera   { object-position: 45% 12%; animation-delay: -6s; }
+.slide-cle      { object-position: 50% 40%; animation-delay: -6s; }
 @keyframes hero-fondu {
   0%       { opacity: 1; transform: scale(1.06); }
   42%      { opacity: 1; }
