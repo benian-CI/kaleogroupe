@@ -135,54 +135,52 @@
 /* Colonne gauche */
 .ci-left { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
 .ci-card {
-  background: var(--bg-card);
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-top: 4px solid var(--navy);
+  border-radius: 0;
   padding: 26px;
   transition: border-color 0.3s ease;
 }
-.ci-card:hover { border-color: var(--gold-border); }
+.ci-card:hover { border-top-color: var(--accent); }
 
 /* Adresse */
 .ci-address { display: flex; gap: 16px; align-items: flex-start; }
 .ci-card-icon {
-  width: 44px;
-  min-width: 44px;
-  height: 44px;
-  background: var(--gold-soft);
-  border: 1px solid var(--gold-border);
-  border-radius: var(--radius);
+  min-width: 26px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold-light);
-  font-size: 17px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: var(--accent);
+  font-size: 22px;
+  line-height: 1;
 }
 .ci-card-content h4 {
+  font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--gold-light);
+  color: var(--text-secondary);
   margin-bottom: 8px;
 }
 .ci-card-content p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
 .ci-card-content strong { color: var(--text-primary); }
-.ci-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.ci-tags { display: flex; flex-wrap: wrap; gap: 6px 20px; }
 .ci-tag-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: var(--gold-light);
-  background: var(--gold-soft);
-  border: 1px solid var(--gold-border);
-  border-radius: var(--radius);
-  padding: 4px 10px;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  padding: 4px 0;
   text-decoration: none;
-  transition: background 0.2s, border-color 0.2s;
 }
-.ci-tag-badge:hover { background: rgba(201,162,77,0.18); border-color: var(--gold); }
+.ci-tag-badge i { color: var(--accent); }
+a.ci-tag-badge { color: var(--navy); border-bottom: 2px solid var(--accent); }
+a.ci-tag-badge:hover { color: var(--accent); }
 
 /* Horaires */
 .ci-hours .ci-card-header {
@@ -205,14 +203,15 @@
 }
 .hours-list li:last-child { border-bottom: none; }
 .hours-list li span { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); }
-.hours-list li span i { color: var(--gold-light); font-size: 11px; }
+.hours-list li span i { color: var(--accent); font-size: 11px; }
 .hours-list li strong { color: var(--text-primary); font-weight: 600; }
 .hours-wa-note {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #6FE3A0;
+  color: #15803D;
+  font-weight: 500;
   margin-top: 14px;
   padding-top: 12px;
   border-top: 1px solid var(--border);
