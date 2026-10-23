@@ -55,7 +55,11 @@ const isLocalOrigin = (origin) => /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/
 app.use(cors({
   origin(origin, callback) {
     if (!origin || allowedOrigins.includes(origin) || (allowLocalOrigins && isLocalOrigin(origin))) return callback(null, true);
-    callback(new Error('Origine non autorisée'));
+    // Origine non autorisée : on n'ajoute simplement pas les en-têtes CORS, le
+    // navigateur bloque alors la lecture de la réponse. Pas d'exception levée :
+    // sinon chaque appel d'un site tiers (ou d'un robot) produisait une erreur
+    // 500 et une trace complète dans les logs.
+    callback(null, false);
   }
 }));
 
