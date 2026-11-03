@@ -1,8 +1,9 @@
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const { PrismaClient } = require('@prisma/client');
+const { PrismaPg } = require('@prisma/adapter-pg');
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }) });
 
 async function main() {
   const email = process.env.ADMIN_EMAIL;

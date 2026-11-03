@@ -18,7 +18,10 @@ Ces comptes demandent tes informations personnelles/professionnelles, je ne peux
 4. Render détecte Node.js automatiquement. Renseigne :
    - **Root Directory** : `backend` (si le dépôt contient tout `site-pro/`)
    - **Build Command** : `npm install && npx prisma generate && npx prisma migrate deploy` (applique automatiquement les nouvelles migrations de la base à chaque déploiement)
-   - **Start Command** : `npm start`
+   - **Start Command** : `npm start` (applique aussi les migrations avant de démarrer)
+   - **Version de Node** : 20.19 ou plus (exigée par Prisma 7 et nodemailer 10). Si besoin, ajouter la variable d'environnement `NODE_VERSION=22`.
+
+> **Prisma 7** : l'adresse de la base n'est plus dans `prisma/schema.prisma` mais dans `prisma.config.ts` (lue depuis `DATABASE_URL`), et le serveur se connecte via l'adaptateur `@prisma/adapter-pg` (`src/lib/prisma.js`). Rien à changer sur Render : `DATABASE_URL` suffit.
 5. Ajoute les variables d'environnement (voir section 2 ci-dessous) dans l'onglet **Environment**.
 6. Une fois déployé, Render te donne une URL du type `https://kaleo-groupe-backend.onrender.com`.
 7. **Domaine personnalisé `api.kaleogroupe.com`** (c'est l'adresse qu'utilise le site) :
