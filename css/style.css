@@ -562,6 +562,18 @@ img { max-width: 100%; }
 }
 .planche-droite { text-align: right; }
 
+/* Variantes : texte sur bleu nuit, photo à droite, photo sur fond sombre */
+.planche-nuit .planche-ciel { background: var(--navy); color: #fff; }
+.planche-nuit .planche-titre,
+.planche-nuit .planche-lignes { border-color: rgba(255, 255, 255, 0.2); }
+.planche-nuit .planche-lignes { color: rgba(255, 255, 255, 0.75); }
+.planche-nuit .planche-photo img { object-position: 50% 28%; }
+.planche-inverse { grid-template-columns: 1.3fr 1fr; }
+.planche-inverse .planche-photo { order: 2; }
+.planche-inverse .planche-ciel { padding: 64px 56px 64px max(24px, calc((100vw - 1200px) / 2 + 24px)); }
+.planche-photo-sombre { background: #111; }
+.planche-photo-sombre img { object-fit: contain; object-position: center; }
+
 /* Bannière devis à trois panneaux (blanc | photo | bleu nuit), sur fond bleu
    ciel comme les planches de présentation Astrix */
 .banniere { padding: 72px 0; background: var(--sky); }
@@ -885,6 +897,10 @@ body.menu-open .chatbot-window { display: none !important; }
   .tri-photo { min-height: 320px; }
   .tri-orange { padding: 40px 24px; gap: 32px; }
   .planche { grid-template-columns: 1fr; }
+  .planche-inverse { grid-template-columns: 1fr; }
+  .planche-inverse .planche-photo { order: 0; }
+  .planche-inverse .planche-ciel { padding: 48px 24px; }
+  .planche-photo-sombre { min-height: 320px; }
   .planche-photo { min-height: 260px; }
   .planche-ciel { padding: 48px 24px 120px; }
   .planche-lignes { grid-template-columns: 1fr; }
