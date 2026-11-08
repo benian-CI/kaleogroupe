@@ -3,11 +3,11 @@
    Palette premium : Anthracite/Bleu nuit + Orange (accent de marque)
 ══════════════════════════════════════════════════════ */
 :root {
-  --gold: #2563EB;
-  --gold-light: #3B82F6;
-  --gold-soft: rgba(37, 99, 235, 0.10);
-  --gold-border: rgba(37, 99, 235, 0.32);
-  --gold-glow: rgba(37, 99, 235, 0.22);
+  --gold: #F24E24;
+  --gold-light: #FF6B47;
+  --gold-soft: rgba(242, 78, 36, 0.10);
+  --gold-border: rgba(242, 78, 36, 0.32);
+  --gold-glow: rgba(242, 78, 36, 0.22);
 }
 
 /* ══════════════════════════════════════════════════════

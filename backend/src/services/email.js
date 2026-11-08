@@ -51,7 +51,7 @@ function orderSummaryHtml(order) {
   const paymentLabel = order.paymentMethod === 'cash' ? 'Espèces à la livraison' : 'Mobile Money / Carte bancaire';
   return `
     <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;">
-      <h2 style="color:#2563EB;margin-bottom:4px;">Commande ${escapeHtml(order.ref)}</h2>
+      <h2 style="color:#F24E24;margin-bottom:4px;">Commande ${escapeHtml(order.ref)}</h2>
       ${itemsTableHtml(order.items)}
       ${order.installationRequested ? `<p style="text-align:right;">Installation par notre équipe : ${money(order.installationFee)}</p>` : ''}
       <p style="text-align:right;font-size:18px;font-weight:bold;margin-top:12px;">Total : ${money(order.totalAmount)}</p>
@@ -126,7 +126,7 @@ async function sendPasswordResetEmail(customer, resetUrl) {
         <p>Bonjour ${escapeHtml(customer.name)},</p>
         <p>Vous avez demandé à réinitialiser le mot de passe de votre compte KALEO GROUPE.</p>
         <p style="text-align:center;margin:28px 0;">
-          <a href="${escapeHtml(resetUrl)}" style="background:#2563EB;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Choisir un nouveau mot de passe</a>
+          <a href="${escapeHtml(resetUrl)}" style="background:#F24E24;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Choisir un nouveau mot de passe</a>
         </p>
         <p style="color:#888;font-size:13px;">Ce lien est valable 1 heure et ne peut servir qu'une fois. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email : votre mot de passe reste inchangé.</p>
         <p>L'équipe KALEO GROUPE</p>
@@ -148,9 +148,9 @@ async function sendDevisEmail(d) {
     subject: `Demande de devis ${d.ref} — ${d.prenom} ${d.nom}`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
-        <h2 style="color:#14213D;margin-bottom:4px;">Nouvelle demande de devis</h2>
+        <h2 style="color:#0B2639;margin-bottom:4px;">Nouvelle demande de devis</h2>
         <p style="color:#888;margin-top:0;">Référence ${escapeHtml(d.ref)}</p>
-        <table style="width:100%;border-collapse:collapse;border-top:2px solid #2563EB;">
+        <table style="width:100%;border-collapse:collapse;border-top:2px solid #F24E24;">
           ${row('Client', d.prenom + ' ' + d.nom)}
           ${row('Téléphone', d.telephone)}
           ${d.email ? row('Email', d.email) : ''}
@@ -160,7 +160,7 @@ async function sendDevisEmail(d) {
           ${row('Délai', d.delai)}
           ${row('Source', d.source)}
         </table>
-        <h3 style="color:#14213D;">Description du projet</h3>
+        <h3 style="color:#0B2639;">Description du projet</h3>
         <p style="white-space:pre-wrap;background:#F4F5F2;padding:12px;">${escapeHtml(d.description)}</p>
       </div>`
   });

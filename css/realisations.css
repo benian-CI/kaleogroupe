@@ -141,7 +141,7 @@
 .project-card:hover .project-tag { transform: translateY(-1px); }
 
 /* Une seule couleur pour toutes les catégories : plus sobre que l'arc-en-ciel */
-.project-tag { background: rgba(20, 33, 61, 0.88); color: #fff; backdrop-filter: blur(6px); }
+.project-tag { background: rgba(11, 38, 57, 0.88); color: #fff; backdrop-filter: blur(6px); }
 .project-tag i { color: var(--accent); }
 
 /* ── INFOS ─────────────────────────────────────────────────────────────────── */

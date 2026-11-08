@@ -92,7 +92,7 @@
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--accent);
-  background: rgba(37, 99, 235, 0.04);
+  background: rgba(242, 78, 36, 0.04);
 }
 .form-group input.invalid,
 .form-group select.invalid,
@@ -142,7 +142,7 @@
   color: var(--text-primary);
 }
 .checkbox-card input:checked + .checkbox-content i { color: var(--accent); }
-.checkbox-card:hover .checkbox-content { border-color: rgba(37, 99, 235, 0.4); }
+.checkbox-card:hover .checkbox-content { border-color: rgba(242, 78, 36, 0.4); }
 
 /* Choix envoi WhatsApp / Email / Les deux */
 .send-choice {
@@ -179,7 +179,7 @@
   color: var(--text-primary);
 }
 .choice-card input:checked + .choice-content i { color: var(--accent); }
-.choice-card:hover .choice-content { border-color: rgba(37, 99, 235, 0.4); }
+.choice-card:hover .choice-content { border-color: rgba(242, 78, 36, 0.4); }
 #envoi-error { display: none; }
 
 /* Checkbox simple */

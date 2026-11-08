@@ -1,35 +1,40 @@
 /* ============================================
    KALEO GROUPE — STYLE PRINCIPAL
-   Direction : entreprise du bâtiment / bureau d'études.
-   Titres Archivo (légèrement condensé), texte IBM Plex Sans, étiquettes
-   IBM Plex Mono. Angles nets, filets de 1px plutôt que des ombres, grilles
-   bordées plutôt que des cartes flottantes. Orange utilisé avec parcimonie.
+   Direction inspirée de l'identité « Astrix Builders » : trois couleurs
+   franches (bleu nuit, rouge-orangé, bleu ciel), police Geist en casse
+   normale, mosaïques d'aplats de couleur et de photos, angles nets et filets
+   fins. Le motif graphique est l'arc du logo KALEO, utilisé en très grand.
    Espace admin en thème sombre (.admin-body).
    ============================================ */
 
 :root {
   --bg-dark: #FFFFFF;           /* fond principal de page (nom historique) */
-  --bg-alt: #F4F5F2;            /* sections alternées : gris chaud, pas bleuté */
+  --bg-alt: #EEF4F7;            /* sections alternées : bleu ciel très pâle */
   --bg-card: #FFFFFF;
   --bg-card-hover: #FFFFFF;
-  --surface-muted: #F4F5F2;     /* champs de formulaire, zones discrètes */
-  --hover-bg: #EEF0EC;
-  --navy: #14213D;
-  --navy-deep: #0E1830;
+  --surface-muted: #F1F5F7;     /* champs de formulaire, zones discrètes */
+  --hover-bg: #E6EFF4;
+  --navy: #0B2639;
+  --navy-deep: #081C2B;
   --blue-steel: #1A2B4A;
-  --accent: #2563EB;            /* bleu électrique */
-  --accent-light: #3B82F6;
-  --accent-on-dark: #7AAEFF;    /* même bleu, éclairci pour rester lisible sur le marine */
-  --accent-glow: rgba(37, 99, 235, 0.10);
-  --text-primary: #111A2C;
-  --text-secondary: #4A5466;
-  --text-muted: #6E7686;
-  --border: #DADDD6;
-  --border-strong: #B9BEB4;
-  --border-accent: rgba(37, 99, 235, 0.45);
-  --font-display: 'Archivo', 'Arial Narrow', sans-serif;
-  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --accent: #F24E24;            /* rouge-orangé */
+  --accent-light: #FF6B47;
+  --accent-on-dark: #AACFDF;    /* bleu ciel : accent lisible sur le bleu nuit */
+  --sky: #AACFDF;               /* bleu ciel : aplats, en-têtes de pages */
+  --sky-light: #DCEBF2;
+  /* Croissant du logo KALEO, utilisé en très grand comme motif graphique */
+  --croissant: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M48.4 26.3 A90 90 0 1 1 48.4 173.7 A83.8 83.8 0 1 0 48.4 26.3 Z' fill='white'/%3E%3C/svg%3E");
+  --croissant-navy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M48.4 26.3 A90 90 0 1 1 48.4 173.7 A83.8 83.8 0 1 0 48.4 26.3 Z' fill='%230B2639'/%3E%3C/svg%3E");
+  --accent-glow: rgba(242, 78, 36, 0.10);
+  --text-primary: #0B2639;
+  --text-secondary: #43586A;
+  --text-muted: #6B7D8C;
+  --border: #D5E0E7;
+  --border-strong: #AFC2CE;
+  --border-accent: rgba(242, 78, 36, 0.45);
+  --font-display: 'Geist', system-ui, sans-serif;
+  --font-body: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
   --radius: 3px;
   --radius-lg: 4px;
   --shadow: 0 1px 0 rgba(17, 26, 44, 0.04);
@@ -65,7 +70,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.015em; }
+h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.03em; }
 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
@@ -97,7 +102,7 @@ img { max-width: 100%; }
   transition: background 0.2s ease;
 }
 .btn-primary:hover,
-.btn-solid:hover { background: #1D4ED8; }
+.btn-solid:hover { background: #D63E17; }
 .btn-solid .arrow { transition: transform 0.2s ease; }
 .btn-solid:hover .arrow { transform: translateX(4px); }
 .btn-primary.btn-large { padding: 16px 32px; font-size: 16px; }
@@ -155,8 +160,7 @@ img { max-width: 100%; }
 }
 .section-title {
   font-size: clamp(2rem, 3.8vw, 3rem);
-  font-weight: 800;
-  font-stretch: 88%;
+  font-weight: 600;
   line-height: 1.02;
   color: var(--text-primary);
   margin-bottom: 18px;
@@ -402,26 +406,28 @@ img { max-width: 100%; }
 /* ============================================
    PAGE HEADER (pages internes) — couleurs uniquement, pas de photo
    ============================================ */
+/* Aplat bleu ciel, texte bleu nuit, et l'arc du logo KALEO en très grand,
+   recadré sur la droite (comme le symbole d'Astrix sur ses aplats). */
 .page-header {
   position: relative;
   overflow: hidden;
-  padding: 150px 0 72px;
+  padding: 150px 0 76px;
   text-align: left;
-  background: var(--navy);
+  background: var(--sky);
 }
-/* Trame discrète façon plan technique, côté droit */
 .page-header::before {
   content: '';
   position: absolute;
-  inset: 0 0 0 45%;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 48px 48px;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%);
-  mask-image: linear-gradient(90deg, transparent, #000 40%);
+  right: -4%;
+  top: 50%;
+  width: min(50vw, 600px);
+  aspect-ratio: 1;
+  transform: translateY(-46%);
+  background: var(--croissant) center / contain no-repeat;
+  opacity: 0.85;
+  pointer-events: none;
 }
-/* Filet orange en pied d'en-tête */
+/* Filet rouge-orangé en pied d'en-tête */
 .page-header::after {
   content: '';
   position: absolute;
@@ -431,20 +437,20 @@ img { max-width: 100%; }
   background: var(--accent);
 }
 .page-header .container { position: relative; z-index: 1; }
-.page-header .section-eyebrow { color: rgba(255, 255, 255, 0.7); }
-.page-header .accent { color: var(--accent-on-dark); }
+.page-header .section-eyebrow { color: var(--navy); }
+.page-header .section-eyebrow::before { background: var(--accent); }
+.page-header .accent { color: var(--accent); }
 .page-header h1 {
-  font-size: clamp(2.3rem, 5vw, 4rem);
-  font-weight: 800;
-  font-stretch: 85%;
-  line-height: 0.98;
-  text-transform: uppercase;
-  color: #fff;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--navy);
   margin-bottom: 18px;
+  max-width: 760px;
 }
 .page-header p {
   font-size: 17px;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(11, 38, 57, 0.78);
   max-width: 520px;
 }
 
@@ -499,7 +505,7 @@ img { max-width: 100%; }
   inset: 0;
   z-index: 1;
   /* Marine uni sous le texte, puis fondu sur le bord gauche de la photo */
-  background: linear-gradient(90deg, var(--navy) 0%, var(--navy) 47%, rgba(20, 33, 61, 0.55) 58%, rgba(20, 33, 61, 0.08) 78%, rgba(20, 33, 61, 0) 100%);
+  background: linear-gradient(90deg, var(--navy) 0%, var(--navy) 47%, rgba(11, 38, 57, 0.55) 58%, rgba(11, 38, 57, 0.08) 78%, rgba(11, 38, 57, 0) 100%);
 }
 .hero-pro-inner { position: relative; z-index: 2; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 72px; }
 .hero-pro-inner > * { max-width: 640px; }
@@ -507,11 +513,9 @@ img { max-width: 100%; }
 .hero-pro .section-eyebrow { color: rgba(255, 255, 255, 0.72); }
 .hero-pro-title {
   font-size: clamp(2.8rem, 6.4vw, 5.4rem);
-  font-weight: 800;
-  font-stretch: 82%;
+  font-weight: 600;
   line-height: 0.95;
   letter-spacing: -0.01em;
-  text-transform: uppercase;
   color: #fff;
   margin-bottom: 24px;
 }
@@ -530,7 +534,7 @@ img { max-width: 100%; }
   position: relative;
   z-index: 2;
   border-top: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(14, 24, 48, 0.55);
+  background: rgba(11, 38, 57, 0.55);
   backdrop-filter: blur(6px);
 }
 .hero-strip ul {
@@ -548,6 +552,64 @@ img { max-width: 100%; }
 }
 .hero-strip li + li { padding-left: 24px; border-left: 1px solid rgba(255, 255, 255, 0.16); }
 .hero-strip .num { font-family: var(--font-mono); font-size: 12px; color: var(--accent-on-dark); }
+
+/* Mosaïque sous le bandeau : aplat bleu ciel | photo | aplat rouge-orangé */
+.mosaique {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr 1fr;
+  min-height: 420px;
+}
+.tuile {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 44px 40px;
+}
+.tuile-ciel { background: var(--sky); color: var(--navy); }
+.tuile-orange { background: var(--accent); color: #fff; justify-content: flex-end; gap: 22px; }
+.tuile-photo { padding: 0; }
+.tuile-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; display: block; }
+.tuile-titre {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+.tuile-texte {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(11, 38, 57, 0.25);
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(11, 38, 57, 0.8);
+}
+.tuile-lien {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+  padding-bottom: 3px;
+  border-bottom: 2px solid #fff;
+}
+/* L'arc du logo KALEO, en très grand et recadré */
+.tuile-arc {
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 1;
+  background: var(--croissant) center / contain no-repeat;
+  pointer-events: none;
+}
+.tuile-ciel .tuile-arc { right: 8%; bottom: 22%; width: 52%; opacity: 0.9; }
+.tuile-orange .tuile-arc { right: 10%; top: 12%; width: 56%; opacity: 0.95; }
 
 /* Sections */
 .panel-section { padding: 110px 0; background: #fff; }
@@ -620,8 +682,7 @@ img { max-width: 100%; }
 }
 .icon-card h3 {
   font-size: 1.45rem;
-  font-weight: 800;
-  font-stretch: 88%;
+  font-weight: 600;
   line-height: 1.1;
   color: var(--navy);
   margin-bottom: 12px;
@@ -691,15 +752,13 @@ img { max-width: 100%; }
   font-family: var(--font-display);
   font-size: 3.4rem;
   font-weight: 800;
-  font-stretch: 80%;
   line-height: 1;
   color: var(--accent);
   margin-bottom: 18px;
 }
 .engagements h3 {
   font-size: 1.3rem;
-  font-weight: 800;
-  font-stretch: 88%;
+  font-weight: 600;
   color: var(--navy);
   margin-bottom: 10px;
 }
@@ -723,10 +782,8 @@ img { max-width: 100%; }
 .split-cta-text .section-eyebrow { color: rgba(255, 255, 255, 0.7); }
 .split-cta-text h2 {
   font-size: clamp(2.2rem, 4vw, 3.4rem);
-  font-weight: 800;
-  font-stretch: 82%;
+  font-weight: 600;
   line-height: 0.98;
-  text-transform: uppercase;
   color: #fff;
   margin-bottom: 18px;
 }
@@ -742,16 +799,16 @@ img { max-width: 100%; }
 /* Variante page Services : photo de chantier, casque et grues bien visibles,
    fondu marine plus court pour ne pas assombrir le casque */
 .split-cta-media-chantier img { object-position: 40% 48%; }
-.split-cta-media-chantier::before { background: linear-gradient(90deg, var(--navy) 0%, rgba(20, 33, 61, 0.4) 14%, rgba(20, 33, 61, 0) 38%) !important; }
+.split-cta-media-chantier::before { background: linear-gradient(90deg, var(--navy) 0%, rgba(11, 38, 57, 0.4) 14%, rgba(11, 38, 57, 0) 38%) !important; }
 /* Variante accueil : photo noir et blanc bureau + casque, cadrée sur le casque */
 .split-cta-media-bureau img { object-position: 60% 42%; }
-.split-cta-media-bureau::before { background: linear-gradient(90deg, var(--navy) 0%, rgba(20, 33, 61, 0.45) 18%, rgba(20, 33, 61, 0) 45%) !important; }
+.split-cta-media-bureau::before { background: linear-gradient(90deg, var(--navy) 0%, rgba(11, 38, 57, 0.45) 18%, rgba(11, 38, 57, 0) 45%) !important; }
 .split-cta-media::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, var(--navy) 0%, rgba(20, 33, 61, 0.35) 45%, rgba(20, 33, 61, 0.1) 100%);
+  background: linear-gradient(90deg, var(--navy) 0%, rgba(11, 38, 57, 0.35) 45%, rgba(11, 38, 57, 0.1) 100%);
 }
 
 /* ============================================
@@ -829,6 +886,11 @@ body.menu-open .chatbot-window { display: none !important; }
    RESPONSIVE
    ============================================ */
 @media (max-width: 900px) {
+  .mosaique { grid-template-columns: 1fr; }
+  .tuile { min-height: 300px; padding: 36px 24px; }
+  .tuile-photo { min-height: 260px; padding: 0; }
+  .tuile-ciel .tuile-arc, .tuile-orange .tuile-arc { width: 150px; right: 6%; top: auto; bottom: 18%; opacity: 0.5; }
+  .tuile-orange .tuile-arc { bottom: auto; top: 14%; }
   .split-header { grid-template-columns: 1fr; gap: 20px; }
   .icon-panel, .icon-panel-5 { grid-template-columns: 1fr; }
   .icon-panel-5 > .icon-card,
@@ -838,14 +900,14 @@ body.menu-open .chatbot-window { display: none !important; }
   .split-cta { grid-template-columns: 1fr; }
   .split-cta-text { padding: 64px 24px; }
   .split-cta-media { height: 240px; }
-  .split-cta-media::before { background: linear-gradient(180deg, var(--navy) 0%, rgba(20, 33, 61, 0.2) 60%); }
+  .split-cta-media::before { background: linear-gradient(180deg, var(--navy) 0%, rgba(11, 38, 57, 0.2) 60%); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 640px) {
   .footer-grid { grid-template-columns: 1fr; }
   .hero-pro { min-height: 0; padding-top: 120px; }
   .hero-slides { width: 100%; max-width: none; }
-  .hero-pro::before { background: rgba(14, 24, 48, 0.82); }
+  .hero-pro::before { background: rgba(11, 38, 57, 0.82); }
   .hero-strip ul { grid-template-columns: 1fr; }
   .hero-strip li + li { padding-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.16); }
   .panel-section { padding: 80px 0; }
