@@ -439,13 +439,12 @@ img { max-width: 100%; }
 /* ============================================
    ACCUEIL
    ============================================ */
-/* Bandeau en triptyque, comme le panneau d'affichage Astrix :
-   bleu nuit (texte) | photo (diaporama) | rouge-orangé (slogan + marque).
-   La photo n'occupe qu'un tiers de la largeur : elle reste nette. */
+/* Bandeau en deux colonnes : texte sur bleu nuit | photo (diaporama).
+   La photo occupe la moitié de la largeur, près de sa taille réelle. */
 .triptyque {
   display: grid;
-  grid-template-columns: 1.25fr 1fr 0.85fr;
-  min-height: min(82vh, 740px);
+  grid-template-columns: 1fr 1fr;
+  min-height: min(82vh, 720px);
   margin-top: 77px;   /* hauteur de la barre de navigation fixe */
 }
 .tri-panneau { position: relative; overflow: hidden; }
@@ -473,34 +472,6 @@ img { max-width: 100%; }
   margin-bottom: 36px;
 }
 .hero-pro-actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
-.tri-orange {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 56px 40px 44px;
-  background: var(--accent);
-  color: #fff;
-}
-.tri-slogan {
-  position: relative;
-  z-index: 1;
-  font-size: clamp(1.4rem, 2vw, 1.9rem);
-  font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-}
-.tri-marque {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-}
-.tri-marque img { width: 56px; height: 56px; border-radius: 50%; background: #fff; padding: 3px; }
 /* Diaporama du panneau photo : fondu enchaîné entre deux photos */
 .hero-slides { position: absolute; inset: 0; overflow: hidden; }
 .hero-slide {
@@ -895,7 +866,6 @@ body.menu-open .chatbot-window { display: none !important; }
   .triptyque { grid-template-columns: 1fr; margin-top: 70px; }
   .tri-nuit { padding: 56px 24px; }
   .tri-photo { min-height: 320px; }
-  .tri-orange { padding: 40px 24px; gap: 32px; }
   .planche { grid-template-columns: 1fr; }
   .planche-inverse { grid-template-columns: 1fr; }
   .planche-inverse .planche-photo { order: 0; }
