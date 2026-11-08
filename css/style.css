@@ -626,113 +626,136 @@ img { max-width: 100%; }
 .split-header-side .section-desc { margin-bottom: 20px; }
 .home-section-header { margin-bottom: 56px; }
 
-/* Grille bordée (métiers) : pas de cartes flottantes, des cellules séparées par des filets */
+/* Cartes façon « carte de visite » (identité Astrix) : aplat de couleur franc,
+   titre en haut à gauche, croissant KALEO en bas à droite, ni ombre ni bordure.
+   Les couleurs alternent bleu ciel / bleu nuit / rouge-orangé. */
 .icon-panel {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--border-strong);
-  border-left: 1px solid var(--border);
+  gap: 16px;
   counter-reset: cellule;
 }
 .icon-card {
+  --carte-fond: var(--sky);
+  --carte-texte: var(--navy);
+  --carte-doux: rgba(11, 38, 57, 0.72);
+  --carte-filet: rgba(11, 38, 57, 0.2);
+  --carte-lien: var(--navy);
   position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  text-align: left;
-  padding: 36px 32px 34px;
-  background: #fff;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  min-height: 340px;
+  padding: 30px 30px 32px;
+  background: var(--carte-fond);
+  color: var(--carte-texte);
   counter-increment: cellule;
   scroll-margin-top: 120px;   /* ancres /services#cameras sous la barre fixe */
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: transform 0.3s ease;
 }
-/* Numéro de cellule en mono, en haut à droite */
+.icon-card:nth-child(3n+2) {
+  --carte-fond: var(--navy);
+  --carte-texte: #fff;
+  --carte-doux: rgba(255, 255, 255, 0.72);
+  --carte-filet: rgba(255, 255, 255, 0.18);
+  --carte-lien: #fff;
+}
+.icon-card:nth-child(3n) {
+  --carte-fond: var(--accent);
+  --carte-texte: #fff;
+  --carte-doux: rgba(255, 255, 255, 0.85);
+  --carte-filet: rgba(255, 255, 255, 0.3);
+  --carte-lien: #fff;
+}
+/* Numéro en mono, en haut à droite */
 .icon-card::before {
   content: counter(cellule, decimal-leading-zero);
   position: absolute;
-  top: 34px;
-  right: 32px;
+  top: 30px;
+  right: 30px;
   font-family: var(--font-mono);
   font-size: 12px;
-  color: var(--text-muted);
-  transition: color 0.3s ease;
+  color: var(--carte-doux);
 }
-/* Filet orange qui se dessine en haut de la cellule au survol */
+/* Croissant KALEO en bas à droite, comme le symbole sur les cartes Astrix */
 .icon-card::after {
   content: '';
   position: absolute;
-  left: -1px; right: -1px; top: -1px;
-  height: 3px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s ease;
+  right: -18px;
+  bottom: -18px;
+  width: 132px;
+  aspect-ratio: 1;
+  background: var(--croissant) center / contain no-repeat;
+  opacity: 0.9;
+  transition: transform 0.4s ease;
+  pointer-events: none;
 }
-.icon-card:hover { background: var(--navy); }
-.icon-card:hover::after,
-.icon-card:target::after { transform: scaleX(1); }
-.icon-card:hover::before { color: rgba(255, 255, 255, 0.6); }
+.icon-card:nth-child(3n+2)::after { opacity: 0.18; }
+.icon-card:hover { transform: translateY(-4px); }
+.icon-card:hover::after { transform: rotate(-12deg); }
+.icon-card:target { outline: 3px solid var(--navy); outline-offset: 4px; }
 .icon-card-badge {
-  font-size: 26px;
-  color: var(--accent);
-  margin-bottom: 40px;
+  font-size: 22px;
+  color: var(--carte-texte);
+  margin-bottom: 44px;
   line-height: 1;
 }
 .icon-card h3 {
-  font-size: 1.45rem;
-  font-weight: 600;
-  line-height: 1.1;
-  color: var(--navy);
+  position: relative;
+  z-index: 1;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--carte-texte);
   margin-bottom: 12px;
-  transition: color 0.3s ease;
+  padding-right: 40px;
 }
 .icon-card p {
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--text-secondary);
-  margin-bottom: 26px;
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--carte-doux);
+  margin-bottom: 24px;
   flex: 1;
-  transition: color 0.3s ease;
+  max-width: 300px;
 }
-.icon-card:hover h3 { color: #fff; }
-.icon-card:hover p { color: rgba(255, 255, 255, 0.75); }
-/* Lien de cellule */
+/* Lien de carte */
 .btn-outline-sm {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--navy);
+  color: var(--carte-lien, var(--navy));
   padding-bottom: 3px;
-  border-bottom: 2px solid var(--accent);
-  transition: color 0.3s ease, gap 0.2s ease;
+  border-bottom: 2px solid currentColor;
+  transition: gap 0.2s ease;
 }
 .btn-outline-sm::after { content: '→'; }
-.icon-card:hover .btn-outline-sm { color: #fff; gap: 14px; }
+.icon-card:hover .btn-outline-sm { gap: 14px; }
 
-/* Variante 5 cellules (page Services) : 3 puis 2 plus larges */
+/* Variante 5 cartes (page Services) : 3 puis 2 plus larges */
 .icon-panel-5 { grid-template-columns: repeat(6, 1fr); }
 .icon-panel-5 > .icon-card { grid-column: span 2; }
 .icon-panel-5 > .icon-card:nth-child(4),
 .icon-panel-5 > .icon-card:nth-child(5) { grid-column: span 3; }
-/* Points clés : liste à filets, pas d'étiquettes */
-.icon-card-points { width: 100%; border-top: 1px solid var(--border); }
+/* Points clés : liste à filets */
+.icon-card-points { position: relative; z-index: 1; width: 100%; max-width: 320px; border-top: 1px solid var(--carte-filet); }
 .icon-card-points li {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
+  padding: 9px 0;
+  border-bottom: 1px solid var(--carte-filet);
   font-size: 14px;
-  color: var(--text-primary);
-  transition: color 0.3s ease, border-color 0.3s ease;
+  color: var(--carte-texte);
 }
-.icon-card-points li::before { content: '—'; color: var(--accent); }
-.icon-card:hover .icon-card-points,
-.icon-card:hover .icon-card-points li { border-color: rgba(255, 255, 255, 0.16); color: #fff; }
+.icon-card-points li::before { content: '—'; opacity: 0.6; }
 
 /* Engagements : 3 colonnes numérotées, filet épais au-dessus */
 .engagements {
