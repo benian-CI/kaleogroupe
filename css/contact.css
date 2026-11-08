@@ -243,8 +243,7 @@ a.ci-tag-badge:hover { color: var(--accent); }
 
 /* ══════════════════════════════════════════════════════
    CARTES DE CONTACT façon « carte de visite » (identité Astrix)
-   Aplats bleu ciel / bleu nuit / rouge-orangé, croissant KALEO en bas
-   à droite. Placé en fin de fichier : remplace les règles plus haut.
+   Aplats bleu ciel / bleu nuit / rouge-orangé. Placé en fin de fichier : remplace les règles plus haut.
 ══════════════════════════════════════════════════════ */
 .contact-cards-grid { gap: 16px; }
 .contact-method-card,
@@ -263,20 +262,7 @@ a.ci-tag-badge:hover { color: var(--accent); }
 .contact-method-card.cm-wa:hover { --carte-texte: #fff; --carte-doux: rgba(255, 255, 255, 0.72); background: var(--navy); }
 .contact-method-card.cm-email,
 .contact-method-card.cm-email:hover { --carte-texte: #fff; --carte-doux: rgba(255, 255, 255, 0.85); background: var(--accent); }
-.contact-method-card::after {
-  content: '';
-  position: absolute;
-  right: -18px;
-  bottom: -18px;
-  width: 130px;
-  aspect-ratio: 1;
-  background: var(--croissant) center / contain no-repeat;
-  opacity: 0.9;
-  transition: transform 0.4s ease;
-  pointer-events: none;
-}
 .contact-method-card.cm-wa::after { opacity: 0.18; }
-.contact-method-card:hover::after { transform: rotate(-12deg); }
 .contact-method-card .cm-icon-wrap,
 .contact-method-card .cm-tag,
 .contact-method-card:hover .cm-tag,

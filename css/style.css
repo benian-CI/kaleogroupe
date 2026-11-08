@@ -3,7 +3,7 @@
    Direction inspirée de l'identité « Astrix Builders » : trois couleurs
    franches (bleu nuit, rouge-orangé, bleu ciel), police Geist en casse
    normale, mosaïques d'aplats de couleur et de photos, angles nets et filets
-   fins. Le motif graphique est l'arc du logo KALEO, utilisé en très grand.
+   fins.
    Espace admin en thème sombre (.admin-body).
    ============================================ */
 
@@ -22,9 +22,6 @@
   --accent-on-dark: #AACFDF;    /* bleu ciel : accent lisible sur le bleu nuit */
   --sky: #AACFDF;               /* bleu ciel : aplats, en-têtes de pages */
   --sky-light: #DCEBF2;
-  /* Croissant du logo KALEO, utilisé en très grand comme motif graphique */
-  --croissant: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M48.4 26.3 A90 90 0 1 1 48.4 173.7 A83.8 83.8 0 1 0 48.4 26.3 Z' fill='white'/%3E%3C/svg%3E");
-  --croissant-navy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M48.4 26.3 A90 90 0 1 1 48.4 173.7 A83.8 83.8 0 1 0 48.4 26.3 Z' fill='%230B2639'/%3E%3C/svg%3E");
   --accent-glow: rgba(242, 78, 36, 0.10);
   --text-primary: #0B2639;
   --text-secondary: #43586A;
@@ -404,26 +401,13 @@ img { max-width: 100%; }
 /* ============================================
    PAGE HEADER (pages internes) — couleurs uniquement, pas de photo
    ============================================ */
-/* Aplat bleu ciel, texte bleu nuit, et l'arc du logo KALEO en très grand,
-   recadré sur la droite (comme le symbole d'Astrix sur ses aplats). */
+/* Aplat bleu ciel, texte bleu nuit,. */
 .page-header {
   position: relative;
   overflow: hidden;
   padding: 150px 0 76px;
   text-align: left;
   background: var(--sky);
-}
-.page-header::before {
-  content: '';
-  position: absolute;
-  right: -4%;
-  top: 50%;
-  width: min(50vw, 600px);
-  aspect-ratio: 1;
-  transform: translateY(-46%);
-  background: var(--croissant) center / contain no-repeat;
-  opacity: 0.85;
-  pointer-events: none;
 }
 /* Filet rouge-orangé en pied d'en-tête */
 .page-header::after {
@@ -517,17 +501,6 @@ img { max-width: 100%; }
   letter-spacing: -0.02em;
 }
 .tri-marque img { width: 56px; height: 56px; border-radius: 50%; background: #fff; padding: 3px; }
-.tri-croissant {
-  position: absolute;
-  right: -30%;
-  top: 50%;
-  width: 95%;
-  aspect-ratio: 1;
-  transform: translateY(-50%);
-  background: var(--croissant) center / contain no-repeat;
-  opacity: 0.22;
-  pointer-events: none;
-}
 /* Diaporama du panneau photo : fondu enchaîné entre deux photos */
 .hero-slides { position: absolute; inset: 0; overflow: hidden; }
 .hero-slide {
@@ -548,7 +521,7 @@ img { max-width: 100%; }
   100%     { opacity: 1; transform: scale(1.06); }
 }
 
-/* Planche « manifeste » : photo | aplat bleu ciel avec titre, filets, croissant */
+/* Planche « manifeste » : photo | aplat bleu ciel avec titre et filets fins */
 .planche {
   display: grid;
   grid-template-columns: 1fr 1.3fr;
@@ -588,15 +561,6 @@ img { max-width: 100%; }
   color: rgba(11, 38, 57, 0.78);
 }
 .planche-droite { text-align: right; }
-.planche-croissant {
-  position: absolute;
-  right: 4%;
-  bottom: -38%;
-  width: min(48%, 420px);
-  aspect-ratio: 1;
-  background: var(--croissant) center / contain no-repeat;
-  pointer-events: none;
-}
 
 /* Bannière devis à trois panneaux (blanc | photo | bleu nuit), sur fond bleu
    ciel comme les planches de présentation Astrix */
@@ -631,15 +595,6 @@ img { max-width: 100%; }
   line-height: 1.4;
 }
 .ban-nuit p { position: relative; z-index: 1; }
-.ban-croissant {
-  position: absolute;
-  top: 28px;
-  left: 32px;
-  width: 46%;
-  aspect-ratio: 1;
-  background: var(--croissant) center / contain no-repeat;
-  filter: brightness(0) saturate(100%) invert(84%) sepia(12%) saturate(500%) hue-rotate(160deg);
-}
 
 /* Sections */
 .panel-section { padding: 110px 0; background: #fff; }
@@ -657,7 +612,7 @@ img { max-width: 100%; }
 .home-section-header { margin-bottom: 56px; }
 
 /* Cartes façon « carte de visite » (identité Astrix) : aplat de couleur franc,
-   titre en haut à gauche, croissant KALEO en bas à droite, ni ombre ni bordure.
+   titre en haut à gauche, ni ombre ni bordure.
    Les couleurs alternent bleu ciel / bleu nuit / rouge-orangé. */
 .icon-panel {
   display: grid;
@@ -709,21 +664,7 @@ img { max-width: 100%; }
   color: var(--carte-doux);
 }
 /* Croissant KALEO en bas à droite, comme le symbole sur les cartes Astrix */
-.icon-card::after {
-  content: '';
-  position: absolute;
-  right: -18px;
-  bottom: -18px;
-  width: 132px;
-  aspect-ratio: 1;
-  background: var(--croissant) center / contain no-repeat;
-  opacity: 0.9;
-  transition: transform 0.4s ease;
-  pointer-events: none;
-}
-.icon-card:nth-child(3n+2)::after { opacity: 0.18; }
 .icon-card:hover { transform: translateY(-4px); }
-.icon-card:hover::after { transform: rotate(-12deg); }
 .icon-card:target { outline: 3px solid var(--navy); outline-offset: 4px; }
 .icon-card-badge {
   font-size: 22px;
