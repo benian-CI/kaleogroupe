@@ -144,18 +144,16 @@ img { max-width: 100%; }
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: -0.01em;
   color: var(--text-secondary);
   margin-bottom: 18px;
 }
 .section-eyebrow::before {
   content: '';
-  width: 8px;
-  height: 8px;
+  width: 18px;
+  height: 2px;
   background: var(--accent);
 }
 .section-title {
@@ -457,31 +455,81 @@ img { max-width: 100%; }
 /* ============================================
    ACCUEIL
    ============================================ */
-/* Bandeau : photo pleine largeur assombrie, titre condensé en majuscules */
-.hero-pro {
-  position: relative;
-  min-height: 640px;
+/* Bandeau en triptyque, comme le panneau d'affichage Astrix :
+   bleu nuit (texte) | photo (diaporama) | rouge-orangé (slogan + marque).
+   La photo n'occupe qu'un tiers de la largeur : elle reste nette. */
+.triptyque {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 0.85fr;
+  min-height: min(82vh, 740px);
+  margin-top: 77px;   /* hauteur de la barre de navigation fixe */
+}
+.tri-panneau { position: relative; overflow: hidden; }
+.tri-nuit {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 140px 0 0;
-  overflow: hidden;
+  padding: 64px 56px 64px max(24px, calc((100vw - 1200px) / 2 + 24px));
   background: var(--navy);
+  color: #fff;
 }
-/* Diaporama sur la moitié droite : photos affichées près de leur taille réelle
-   (736 px de large) pour rester nettes. Chaque image reste ~6 s avec un zoom
-   lent, puis la suivante apparaît en fondu par-dessus (2 photos, cycle de 12 s).
-   Délais négatifs : chaque image démarre à une étape différente du cycle,
-   donc la première est visible dès le chargement, sans écran vide. */
-.hero-slides {
+.tri-nuit .section-eyebrow { color: rgba(255, 255, 255, 0.7); }
+.tri-titre {
+  font-size: clamp(2.4rem, 3.7vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  margin-bottom: 24px;
+}
+.tri-texte {
+  max-width: 420px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 36px;
+}
+.hero-pro-actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.tri-orange {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 56px 40px 44px;
+  background: var(--accent);
+  color: #fff;
+}
+.tri-slogan {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(1.4rem, 2vw, 1.9rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+.tri-marque {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.tri-marque img { width: 56px; height: 56px; border-radius: 50%; background: #fff; padding: 3px; }
+.tri-croissant {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 52%;
-  max-width: 820px;
-  height: 100%;
-  overflow: hidden;
+  right: -30%;
+  top: 50%;
+  width: 95%;
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  background: var(--croissant) center / contain no-repeat;
+  opacity: 0.22;
+  pointer-events: none;
 }
+/* Diaporama du panneau photo : fondu enchaîné entre deux photos */
+.hero-slides { position: absolute; inset: 0; overflow: hidden; }
 .hero-slide {
   position: absolute;
   inset: 0;
@@ -499,117 +547,99 @@ img { max-width: 100%; }
   51%, 91% { opacity: 0; transform: scale(1); }
   100%     { opacity: 1; transform: scale(1.06); }
 }
-.hero-pro::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  /* Marine uni sous le texte, puis fondu sur le bord gauche de la photo */
-  background: linear-gradient(90deg, var(--navy) 0%, var(--navy) 47%, rgba(11, 38, 57, 0.55) 58%, rgba(11, 38, 57, 0.08) 78%, rgba(11, 38, 57, 0) 100%);
-}
-.hero-pro-inner { position: relative; z-index: 2; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 72px; }
-.hero-pro-inner > * { max-width: 640px; }
-.hero-pro-inner > .hero-pro-title { max-width: 920px; }
-.hero-pro .section-eyebrow { color: rgba(255, 255, 255, 0.72); }
-.hero-pro-title {
-  font-size: clamp(2.8rem, 6.4vw, 5.4rem);
-  font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-  color: #fff;
-  margin-bottom: 24px;
-}
-.hero-pro-title em { font-style: normal; color: var(--accent-on-dark); }
-.hero-pro-text {
-  max-width: 480px;
-  font-size: clamp(15px, 1.5vw, 17px);
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.82);
-  margin-bottom: 36px;
-}
-.hero-pro-actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
 
-/* Bande d'infos en pied de bandeau, façon cartouche de plan */
-.hero-strip {
-  position: relative;
-  z-index: 2;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(11, 38, 57, 0.55);
-  backdrop-filter: blur(6px);
-}
-.hero-strip ul {
+/* Planche « manifeste » : photo | aplat bleu ciel avec titre, filets, croissant */
+.planche {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1.3fr;
+  min-height: 520px;
 }
-.hero-strip li {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  padding: 22px 24px 22px 0;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 500;
-}
-.hero-strip li + li { padding-left: 24px; border-left: 1px solid rgba(255, 255, 255, 0.16); }
-.hero-strip .num { font-family: var(--font-mono); font-size: 12px; color: var(--accent-on-dark); }
-
-/* Mosaïque sous le bandeau : aplat bleu ciel | photo | aplat rouge-orangé */
-.mosaique {
-  display: grid;
-  grid-template-columns: 1fr 1.25fr 1fr;
-  min-height: 420px;
-}
-.tuile {
+.planche-photo { position: relative; overflow: hidden; }
+.planche-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+.planche-ciel {
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 44px 40px;
+  padding: 64px max(24px, calc((100vw - 1200px) / 2 + 24px)) 64px 56px;
+  background: var(--sky);
+  color: var(--navy);
 }
-.tuile-ciel { background: var(--sky); color: var(--navy); }
-.tuile-orange { background: var(--accent); color: #fff; justify-content: flex-end; gap: 22px; }
-.tuile-photo { padding: 0; }
-.tuile-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; display: block; }
-.tuile-titre {
+.planche-titre {
   position: relative;
   z-index: 1;
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-size: clamp(2rem, 3.4vw, 3rem);
   font-weight: 500;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(11, 38, 57, 0.25);
 }
-.tuile-texte {
+.planche-lignes {
   position: relative;
   z-index: 1;
-  max-width: 300px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(11, 38, 57, 0.25);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(11, 38, 57, 0.25);
   font-size: 14px;
   line-height: 1.6;
-  color: rgba(11, 38, 57, 0.8);
+  color: rgba(11, 38, 57, 0.78);
 }
-.tuile-lien {
-  position: relative;
-  z-index: 1;
-  align-self: flex-start;
-  font-weight: 600;
-  font-size: 15px;
-  color: #fff;
-  padding-bottom: 3px;
-  border-bottom: 2px solid #fff;
-}
-/* L'arc du logo KALEO, en très grand et recadré */
-.tuile-arc {
+.planche-droite { text-align: right; }
+.planche-croissant {
   position: absolute;
-  width: 78%;
+  right: 4%;
+  bottom: -38%;
+  width: min(48%, 420px);
   aspect-ratio: 1;
   background: var(--croissant) center / contain no-repeat;
   pointer-events: none;
 }
-.tuile-ciel .tuile-arc { right: 8%; bottom: 22%; width: 52%; opacity: 0.9; }
-.tuile-orange .tuile-arc { right: 10%; top: 12%; width: 56%; opacity: 0.95; }
+
+/* Bannière devis à trois panneaux (blanc | photo | bleu nuit), sur fond bleu
+   ciel comme les planches de présentation Astrix */
+.banniere { padding: 72px 0; background: var(--sky); }
+.banniere-grille {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  min-height: 360px;
+}
+.ban-panneau { position: relative; overflow: hidden; }
+.ban-blanc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 36px;
+  background: #fff;
+  color: var(--navy);
+}
+.ban-titre { font-size: clamp(1.6rem, 2.4vw, 2.2rem); font-weight: 500; line-height: 1.1; letter-spacing: -0.03em; }
+.ban-blanc p { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
+.ban-blanc .btn-solid { align-self: flex-start; }
+.ban-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 42%; }
+.ban-nuit {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 36px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.ban-nuit p { position: relative; z-index: 1; }
+.ban-croissant {
+  position: absolute;
+  top: 28px;
+  left: 32px;
+  width: 46%;
+  aspect-ratio: 1;
+  background: var(--croissant) center / contain no-repeat;
+  filter: brightness(0) saturate(100%) invert(84%) sepia(12%) saturate(500%) hue-rotate(160deg);
+}
 
 /* Sections */
 .panel-section { padding: 110px 0; background: #fff; }
@@ -909,11 +939,18 @@ body.menu-open .chatbot-window { display: none !important; }
    RESPONSIVE
    ============================================ */
 @media (max-width: 900px) {
-  .mosaique { grid-template-columns: 1fr; }
-  .tuile { min-height: 300px; padding: 36px 24px; }
-  .tuile-photo { min-height: 260px; padding: 0; }
-  .tuile-ciel .tuile-arc, .tuile-orange .tuile-arc { width: 150px; right: 6%; top: auto; bottom: 18%; opacity: 0.5; }
-  .tuile-orange .tuile-arc { bottom: auto; top: 14%; }
+  .triptyque { grid-template-columns: 1fr; margin-top: 70px; }
+  .tri-nuit { padding: 56px 24px; }
+  .tri-photo { min-height: 320px; }
+  .tri-orange { padding: 40px 24px; gap: 32px; }
+  .planche { grid-template-columns: 1fr; }
+  .planche-photo { min-height: 260px; }
+  .planche-ciel { padding: 48px 24px 120px; }
+  .planche-lignes { grid-template-columns: 1fr; }
+  .planche-droite { text-align: left; }
+  .banniere-grille { grid-template-columns: 1fr; }
+  .ban-photo { min-height: 240px; }
+  .ban-nuit { min-height: 220px; }
   .split-header { grid-template-columns: 1fr; gap: 20px; }
   .icon-panel, .icon-panel-5 { grid-template-columns: 1fr; }
   .icon-panel-5 > .icon-card,
@@ -928,10 +965,5 @@ body.menu-open .chatbot-window { display: none !important; }
 }
 @media (max-width: 640px) {
   .footer-grid { grid-template-columns: 1fr; }
-  .hero-pro { min-height: 0; padding-top: 120px; }
-  .hero-slides { width: 100%; max-width: none; }
-  .hero-pro::before { background: rgba(11, 38, 57, 0.82); }
-  .hero-strip ul { grid-template-columns: 1fr; }
-  .hero-strip li + li { padding-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.16); }
   .panel-section { padding: 80px 0; }
 }

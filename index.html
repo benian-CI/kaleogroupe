@@ -23,8 +23,8 @@
   <meta name="twitter:description" content="Caméras de surveillance, construction, climatisation, électricité, menuiserie aluminium à Abidjan. Devis gratuit sous 24h."/>
   <meta name="twitter:image" content="https://app.kaleogroupe.com/logo-kaleo.png"/>
   <link rel="icon" type="image/png" href="/logo-kaleo.png"/>
-  <link rel="stylesheet" href="/css/style.css?v=54" />
-  <link rel="stylesheet" href="/css/animations.css?v=5" />
+  <link rel="stylesheet" href="/css/style.css?v=56" />
+  <link rel="stylesheet" href="/css/animations.css?v=6" />
   <link rel="stylesheet" href="/css/chatbot.css?v=26" />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -91,50 +91,46 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero-pro">
-    <!-- Diaporama : les photos se succèdent en fondu enchaîné -->
-    <div class="hero-slides" aria-hidden="true">
-      <img class="hero-slide slide-casque" src="/photo-casque.webp" alt="" width="736" height="1051" fetchpriority="high"/>
-      <img class="hero-slide slide-cle" src="/photo-cle.webp" alt="" width="736" height="736" loading="lazy"/>
-    </div>
-    <div class="container hero-pro-inner">
-      <span class="section-eyebrow">Abidjan — Côte d'Ivoire</span>
-      <h1 class="hero-pro-title">Votre confort.<br/><em>Notre priorité.</em></h1>
-      <p class="hero-pro-text">
-        Caméras de surveillance, construction, climatisation, électricité et menuiserie aluminium :
-        un seul interlocuteur pour tous vos projets.
-      </p>
+  <!-- HERO : triptyque façon panneau d'affichage (bleu nuit | photo | rouge-orangé) -->
+  <section class="triptyque">
+    <div class="tri-panneau tri-nuit">
+      <span class="section-eyebrow">Abidjan, Côte d'Ivoire</span>
+      <h1 class="tri-titre">Votre confort.<br/>Notre priorité.</h1>
+      <p class="tri-texte">Caméras de surveillance, construction, climatisation, électricité et menuiserie aluminium : un seul interlocuteur pour tous vos projets.</p>
       <div class="hero-pro-actions">
-        <a href="#services" class="btn-solid">Nos métiers <span class="arrow" aria-hidden="true">→</span></a>
-        <a href="/realisations" class="text-link text-link-light">Voir nos chantiers</a>
+        <a href="/devis" class="btn-solid">Demander un devis <span class="arrow" aria-hidden="true">→</span></a>
+        <a href="#services" class="text-link text-link-light">Nos métiers</a>
       </div>
     </div>
-    <div class="hero-strip">
-      <div class="container">
-        <ul>
-          <li><span class="num">01</span> Devis sous 24h</li>
-          <li><span class="num">02</span> Visite gratuite à Abidjan</li>
-          <li><span class="num">03</span> 30+ projets livrés</li>
-        </ul>
+    <div class="tri-panneau tri-photo">
+      <!-- Diaporama : les photos se succèdent en fondu enchaîné -->
+      <div class="hero-slides" aria-hidden="true">
+        <img class="hero-slide slide-casque" src="/photo-casque.webp" alt="" width="736" height="1051" fetchpriority="high"/>
+        <img class="hero-slide slide-cle" src="/photo-cle.webp" alt="" width="736" height="736" loading="lazy"/>
       </div>
+    </div>
+    <div class="tri-panneau tri-orange">
+      <p class="tri-slogan">Des chantiers tenus,<br/>du premier jour<br/>à la livraison.</p>
+      <div class="tri-marque">
+        <img src="/logo-kaleo.webp" alt="" width="56" height="56"/>
+        <span>KALEO<br/>Groupe</span>
+      </div>
+      <span class="tri-croissant" aria-hidden="true"></span>
     </div>
   </section>
 
-  <!-- MOSAÏQUE : aplats de couleur + photo, arc du logo en motif -->
-  <section class="mosaique" aria-label="KALEO en bref">
-    <div class="tuile tuile-ciel">
-      <p class="tuile-titre">Pas seulement construire.<br/>Bien construire.</p>
-      <p class="tuile-texte">Des fondations solides, des finitions soignées. Un chantier à la fois.</p>
-      <span class="tuile-arc" aria-hidden="true"></span>
-    </div>
-    <div class="tuile tuile-photo">
+  <!-- PLANCHE : photo + aplat bleu ciel avec titre, filets et croissant -->
+  <section class="planche" aria-label="Notre façon de travailler">
+    <div class="planche-photo">
       <img src="/photo-chantier.webp" alt="Chantier au coucher du soleil, casque et plans de construction" width="736" height="930" loading="lazy"/>
     </div>
-    <div class="tuile tuile-orange">
-      <span class="tuile-arc" aria-hidden="true"></span>
-      <p class="tuile-titre">Sécurité. Confort.<br/>Construction.</p>
-      <a href="/realisations" class="tuile-lien">Voir nos chantiers <span aria-hidden="true">→</span></a>
+    <div class="planche-ciel">
+      <h2 class="planche-titre">Pas seulement construire.<br/>Bien construire.</h2>
+      <div class="planche-lignes">
+        <p>Des fondations solides, des finitions soignées.<br/>Un chantier à la fois.</p>
+        <p class="planche-droite">Devis sous 24h · Visite gratuite à Abidjan<br/>30+ projets livrés</p>
+      </div>
+      <span class="planche-croissant" aria-hidden="true"></span>
     </div>
   </section>
 
@@ -174,16 +170,21 @@
     </div>
   </section>
 
-  <!-- DEVIS -->
-  <section class="split-cta">
-    <div class="split-cta-text">
-      <span class="section-eyebrow">Devis gratuit</span>
-      <h2>Demandez<br/>votre devis</h2>
-      <p>Décrivez votre projet en 2 minutes. Réponse sous 24h, détaillée poste par poste.</p>
-      <a href="/devis" class="btn-solid">Demander un devis <span class="arrow" aria-hidden="true">→</span></a>
-    </div>
-    <div class="split-cta-media split-cta-media-bureau">
-      <img src="/photo-bureau.webp" alt="Casque de chantier posé à côté d'un ordinateur portable" width="736" height="920" loading="lazy"/>
+  <!-- DEVIS : bannière à trois panneaux (blanc | photo | bleu nuit) -->
+  <section class="banniere">
+    <div class="container banniere-grille">
+      <div class="ban-panneau ban-blanc">
+        <h2 class="ban-titre">Un projet ?<br/>Demandez votre devis.</h2>
+        <p>Décrivez votre besoin en 2 minutes : nous revenons vers vous sous 24h.</p>
+        <a href="/devis" class="btn-solid">Demander un devis <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <div class="ban-panneau ban-photo">
+        <img src="/photo-bureau.webp" alt="Casque de chantier posé à côté d'un ordinateur portable" width="736" height="920" loading="lazy"/>
+      </div>
+      <div class="ban-panneau ban-nuit">
+        <span class="ban-croissant" aria-hidden="true"></span>
+        <p>Un devis clair,<br/>détaillé poste par poste.<br/>Sans surprise.</p>
+      </div>
     </div>
   </section>
 
