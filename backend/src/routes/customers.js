@@ -39,7 +39,9 @@ const forgotLimiter = rateLimit({
 // POST /api/customers/register
 router.post('/register', authLimiter, asyncHandler(async (req, res) => {
   const { name: rawName, email: rawEmail, password, phone: rawPhone } = req.body || {};
-  const email = typeof rawEmail === 'string' ? rawEmail.trim() : '';
+  // E-mail enregistré en minuscules : « Jean@gmail.com » et « jean@gmail.com »
+  // désignent le même compte.
+  const email = typeof rawEmail === 'string' ? rawEmail.trim().toLowerCase() : '';
   if (!rawName || !isValidEmail(email) || typeof password !== 'string' || !password) {
     return res.status(400).json({ error: 'Nom, email valide et mot de passe sont requis' });
   }
@@ -50,7 +52,9 @@ router.post('/register', authLimiter, asyncHandler(async (req, res) => {
   const name = requireString(rawName, 'Le nom', 100);
   const phone = optionalString(rawPhone, 'Le téléphone', 30);
 
-  const existing = await prisma.customer.findUnique({ where: { email } });
+  // Recherche sans tenir compte des majuscules : des comptes anciens peuvent
+  // avoir été enregistrés avec des majuscules.
+  const existing = await prisma.customer.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } });
   if (existing) return res.status(409).json({ error: 'Un compte existe déjà avec cet email' });
 
   const passwordHash = await bcrypt.hash(password, 10);
@@ -68,7 +72,10 @@ router.post('/login', authLimiter, asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'Email et mot de passe requis' });
   }
 
-  const customer = await prisma.customer.findUnique({ where: { email } });
+  // Connexion insensible aux majuscules dans l'e-mail (même règle que « mot de passe oublié »).
+  const customer = await prisma.customer.findFirst({
+    where: { email: { equals: email.trim(), mode: 'insensitive' } }
+  });
   if (!customer) return res.status(401).json({ error: 'Identifiants invalides' });
 
   const valid = await bcrypt.compare(password, customer.passwordHash);

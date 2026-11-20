@@ -22,11 +22,12 @@
   <meta name="twitter:title" content="Boutique — KALEO GROUPE"/>
   <meta name="twitter:description" content="Achetez en ligne caméras, climatiseurs, matériel électrique et accessoires."/>
   <meta name="twitter:image" content="https://app.kaleogroupe.com/logo-kaleo.png"/>
-  <link rel="icon" type="image/png" href="/logo-kaleo.png"/>
-  <link rel="stylesheet" href="/css/style.css?v=59"/>
-  <link rel="stylesheet" href="/css/animations.css?v=6"/>
+  <link rel="icon" type="image/png" href="/logo-kaleo-icone.png"/>
+  <link rel="stylesheet" href="/css/style.css?v=62"/>
+  <link rel="stylesheet" href="/css/animations.css?v=7"/>
   <link rel="stylesheet" href="/css/realisations.css?v=27"/>
   <link rel="stylesheet" href="/css/boutique.css?v=12"/>
+  <link rel="stylesheet" href="/css/boutique-vitrine.css?v=4"/>
   <link rel="stylesheet" href="/css/chatbot.css?v=26"/>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -41,41 +42,94 @@
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="/">Accueil</a></li>
+        <li><a href="/services">Services</a></li>
         <li><a href="/boutique" class="active">Boutique</a></li>
+        <li><a href="/realisations">Réalisations</a></li>
+        <li><a href="/devis" class="btn-nav">Devis gratuit</a></li>
+        <li><a href="/contact">Contact</a></li>
         <li id="navAccount"></li>
         <li><a href="/panier" class="cart-icon-link" aria-label="Panier"><i class="fas fa-cart-shopping"></i><span class="cart-badge" id="cartBadge">0</span></a></li>
       </ul>
-      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
-  <div class="page-header">
-    <div class="container">
-      <span class="section-eyebrow">Notre boutique</span>
-      <h1>La boutique<br/>KALEO</h1>
-      <p>Livraison à Abidjan · Paiement Mobile Money.</p>
+  <!-- EN-TÊTE BOUTIQUE : ciel dégradé, titre animé, raccourcis catégories -->
+  <header class="bq-hero">
+    <div class="bq-hero-ciel" aria-hidden="true">
+      <span class="bq-soleil"></span>
+      <span class="bq-grille"></span>
     </div>
-  </div>
+    <div class="container bq-hero-contenu">
+      <span class="bq-eyebrow">Boutique KALEO · Abidjan</span>
+      <h1 class="bq-titre">
+        <span class="bq-ligne"><span>Le bon matériel,</span></span>
+        <span class="bq-ligne bq-ligne-fort"><span>livré chez vous.</span></span>
+      </h1>
+      <p class="bq-intro">Caméras, climatiseurs, électricité, menuiserie aluminium et matériaux de construction, sélectionnés et posés par nos équipes.</p>
 
-  <section class="boutique-section">
+      <div class="bq-recherche">
+        <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+        <input type="search" id="searchInput" placeholder="Rechercher un produit : caméra, split, câble…" aria-label="Rechercher un produit" autocomplete="off"/>
+      </div>
+
+      <ul class="bq-categories" id="categoryShortcuts">
+        <li><button type="button" data-cat="cameras"><i class="fas fa-video"></i><span>Caméras</span></button></li>
+        <li><button type="button" data-cat="climatisation"><i class="fas fa-snowflake"></i><span>Climatisation</span></button></li>
+        <li><button type="button" data-cat="electricite"><i class="fas fa-bolt"></i><span>Électricité</span></button></li>
+        <li><button type="button" data-cat="menuiserie"><i class="fas fa-door-open"></i><span>Menuiserie alu</span></button></li>
+        <li><button type="button" data-cat="construction"><i class="fas fa-trowel-bricks"></i><span>Construction</span></button></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ENGAGEMENTS -->
+  <ul class="bq-atouts">
+    <li><i class="fas fa-truck-fast"></i><div><strong>Livraison à Abidjan</strong><span>Intervention sur tout Abidjan</span></div></li>
+    <li><i class="fas fa-mobile-screen-button"></i><div><strong>Mobile Money</strong><span>Orange, MTN, Moov, Wave</span></div></li>
+    <li><i class="fas fa-screwdriver-wrench"></i><div><strong>Pose possible</strong><span>Installation par nos techniciens</span></div></li>
+    <li><i class="fas fa-headset"></i><div><strong>Conseil gratuit</strong><span>07 07 95 36 84</span></div></li>
+  </ul>
+
+  <section class="boutique-section" id="catalogue">
     <div class="container">
-      <div class="boutique-filters-extra reveal">
-        <select class="filter-select" id="priceFilter">
-          <option value="">Tous les prix</option>
-          <option value="0-25000">Moins de 25 000 FCFA</option>
-          <option value="25000-100000">25 000 – 100 000 FCFA</option>
-          <option value="100000-300000">100 000 – 300 000 FCFA</option>
-          <option value="300000-">Plus de 300 000 FCFA</option>
-        </select>
-        <div class="filter-bar" id="qualityFilterBar">
-          <button class="filter-btn active" data-quality="">Toutes qualités</button>
-          <button class="filter-btn" data-quality="standard">Standard</button>
-          <button class="filter-btn" data-quality="superieure">Supérieure</button>
-          <button class="filter-btn" data-quality="premium">Premium</button>
+      <!-- Barre d'outils : catégories, qualité, prix, nombre de résultats -->
+      <div class="bq-outils">
+        <div class="filter-bar bq-filtres-cat" aria-label="Catégories"></div>
+        <div class="bq-outils-ligne">
+          <div class="filter-bar bq-filtres-qualite" id="qualityFilterBar" aria-label="Qualité">
+            <button class="filter-btn active" data-quality="">Toutes qualités</button>
+            <button class="filter-btn" data-quality="standard">Standard</button>
+            <button class="filter-btn" data-quality="superieure">Supérieure</button>
+            <button class="filter-btn" data-quality="premium">Premium</button>
+          </div>
+          <div class="bq-outils-droite">
+            <span class="bq-compte" id="resultCount" aria-live="polite"></span>
+            <select class="filter-select" id="priceFilter" aria-label="Filtrer par prix">
+              <option value="">Tous les prix</option>
+              <option value="0-25000">Moins de 25 000 FCFA</option>
+              <option value="25000-100000">25 000 – 100 000 FCFA</option>
+              <option value="100000-300000">100 000 – 300 000 FCFA</option>
+              <option value="300000-">Plus de 300 000 FCFA</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="filter-bar reveal"></div>
-      <div class="products-grid reveal reveal-delay-1"></div>
+      <div class="products-grid"></div>
+    </div>
+  </section>
+
+  <!-- APPEL : besoin d'un conseil -->
+  <section class="bq-conseil">
+    <div class="container bq-conseil-grille">
+      <div>
+        <h2>Vous ne trouvez pas<br/>ce qu'il vous faut ?</h2>
+        <p>Dites-nous ce que vous cherchez : nous trouvons le produit et vous faisons un devis, pose comprise.</p>
+      </div>
+      <div class="bq-conseil-actions">
+        <a href="https://wa.me/2250102181848" target="_blank" rel="noopener" class="btn-solid"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
+        <a href="/devis" class="bq-lien-clair">Demander un devis</a>
+      </div>
     </div>
   </section>
 
@@ -91,7 +145,7 @@
   <script src="/js/cart.js?v=2"></script>
   <script src="/js/customer-auth.js?v=3"></script>
   <script src="/js/main.js?v=3"></script>
-  <script src="/js/boutique.js?v=3"></script>
+  <script src="/js/boutique.js?v=4"></script>
   <script src="/js/chatbot.js?v=8"></script>
 </body>
 </html>

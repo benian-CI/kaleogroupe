@@ -36,7 +36,7 @@ Ces comptes demandent tes informations personnelles/professionnelles, je ne peux
 1. Va sur https://cinetpay.com, crée un compte marchand.
 2. Complète la vérification (KYC) avec tes documents d'identité/entreprise — le mode **test** est disponible immédiatement après inscription, avant même la validation, pour développer et tester.
 3. Dans le tableau de bord CinetPay → **Intégration** → récupère `API_KEY` et `SITE_ID`.
-4. Garde `CINETPAY_TEST_MODE=true` tant que le compte n'est pas validé en production.
+4. Utilise les clés de test tant que le compte n'est pas validé : le mode test ou réel dépend uniquement des clés CinetPay (aucune variable ne le change).
 
 ### d) Images produits — Cloudinary
 1. Va sur https://cloudinary.com, crée un compte gratuit.
@@ -53,7 +53,6 @@ Copie `.env.example` et remplis les valeurs réelles récupérées à l'étape 1
 | `BACKEND_URL` | `https://api.kaleogroupe.com` (domaine personnalisé, voir étape 1, point 7) — c'est l'adresse que CinetPay appelle pour confirmer les paiements |
 | `NODE_ENV` | `production` |
 | `CINETPAY_API_KEY`, `CINETPAY_SITE_ID`, `CINETPAY_SECRET` | Tableau de bord CinetPay |
-| `CINETPAY_TEST_MODE` | `true` en développement, `false` une fois validé |
 | `JWT_SECRET` | Une longue chaîne aléatoire (ex: générée avec `openssl rand -hex 32`) |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Tes identifiants admin (seulement utilisés une fois, pour créer le compte) |
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Tableau de bord Cloudinary |
@@ -92,7 +91,7 @@ Connecte-toi sur `https://app.kaleogroupe.com/admin/login` avec `ADMIN_EMAIL` / 
 ## 7. Avant de passer en production réelle
 
 1. Fais valider ton compte CinetPay (KYC complet).
-2. Passe `CINETPAY_TEST_MODE=false` et remplace les clés de test par les clés de production sur Render.
+2. Remplace les clés de test par les clés de production sur Render (c'est ce qui fait passer en paiement réel).
 3. Fais une vraie commande test avec un petit montant pour vérifier que tout le circuit fonctionne (commande → paiement → webhook → statut "paid" → stock décrémenté).
 
 ## Développement local

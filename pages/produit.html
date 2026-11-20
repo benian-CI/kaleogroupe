@@ -7,11 +7,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
   <meta name="referrer" content="strict-origin-when-cross-origin"/>
-  <meta name="robots" content="noindex, follow"/>
-  <title>Produit — KALEO GROUPE</title>
-  <link rel="icon" type="image/png" href="/logo-kaleo.png"/>
-  <link rel="stylesheet" href="/css/style.css?v=59"/>
-  <link rel="stylesheet" href="/css/animations.css?v=6"/>
+  <meta name="robots" content="index, follow"/>
+  <title>Produit — Boutique KALEO GROUPE</title>
+  <!-- Description, adresse officielle et partage : complétés par js/produit.js selon le produit affiché -->
+  <meta name="description" id="metaDescription" content="Boutique KALEO GROUPE à Abidjan : caméras, climatisation, électricité, menuiserie aluminium et matériaux. Livraison et pose possible."/>
+  <meta property="og:type" content="product"/>
+  <meta property="og:site_name" content="KALEO GROUPE"/>
+  <meta property="og:locale" content="fr_FR"/>
+  <meta property="og:title" id="ogTitle" content="Boutique KALEO GROUPE"/>
+  <meta property="og:description" id="ogDescription" content="Matériel livré et posé à Abidjan."/>
+  <meta property="og:image" id="ogImage" content="https://app.kaleogroupe.com/logo-kaleo.png"/>
+  <link rel="icon" type="image/png" href="/logo-kaleo-icone.png"/>
+  <link rel="stylesheet" href="/css/style.css?v=62"/>
+  <link rel="stylesheet" href="/css/animations.css?v=7"/>
   <link rel="stylesheet" href="/css/boutique.css?v=12"/>
   <link rel="stylesheet" href="/css/chatbot.css?v=26"/>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -27,11 +35,15 @@
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="/">Accueil</a></li>
+        <li><a href="/services">Services</a></li>
         <li><a href="/boutique" class="active">Boutique</a></li>
+        <li><a href="/realisations">Réalisations</a></li>
+        <li><a href="/devis" class="btn-nav">Devis gratuit</a></li>
+        <li><a href="/contact">Contact</a></li>
         <li id="navAccount"></li>
         <li><a href="/panier" class="cart-icon-link" aria-label="Panier"><i class="fas fa-cart-shopping"></i><span class="cart-badge" id="cartBadge">0</span></a></li>
       </ul>
-      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
@@ -56,7 +68,7 @@
   <script src="/js/cart.js?v=2"></script>
   <script src="/js/customer-auth.js?v=3"></script>
   <script src="/js/main.js?v=3"></script>
-  <script src="/js/produit.js?v=4"></script>
+  <script src="/js/produit.js?v=5"></script>
   <script src="/js/chatbot.js?v=8"></script>
 </body>
 </html>

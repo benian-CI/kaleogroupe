@@ -22,10 +22,12 @@
   <meta name="twitter:title" content="KALEO GROUPE — Abidjan"/>
   <meta name="twitter:description" content="Caméras de surveillance, construction, climatisation, électricité, menuiserie aluminium à Abidjan. Devis gratuit sous 24h."/>
   <meta name="twitter:image" content="https://app.kaleogroupe.com/logo-kaleo.png"/>
-  <link rel="icon" type="image/png" href="/logo-kaleo.png"/>
-  <link rel="stylesheet" href="/css/style.css?v=59" />
-  <link rel="stylesheet" href="/css/animations.css?v=6" />
+  <link rel="icon" type="image/png" href="/logo-kaleo-icone.png"/>
+  <link rel="stylesheet" href="/css/style.css?v=62" />
+  <link rel="stylesheet" href="/css/animations.css?v=7" />
   <link rel="stylesheet" href="/css/chatbot.css?v=26" />
+  <link rel="stylesheet" href="/css/accueil.css?v=5" />
+  <script src="/js/intro.js?v=1"></script>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <script type="application/ld+json">
@@ -85,36 +87,96 @@
         <li id="navAccount"></li>
         <li><a href="/panier" class="cart-icon-link" aria-label="Panier"><i class="fas fa-cart-shopping"></i><span class="cart-badge" id="cartBadge">0</span></a></li>
       </ul>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
+      <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
 
-  <!-- HERO : deux colonnes, texte sur bleu nuit | photo -->
-  <section class="triptyque">
-    <div class="tri-panneau tri-nuit">
-      <span class="section-eyebrow">Abidjan, Côte d'Ivoire</span>
-      <h1 class="tri-titre">Votre confort.<br/>Notre priorité.</h1>
-      <p class="tri-texte">Caméras de surveillance, construction, climatisation, électricité et menuiserie aluminium : un seul interlocuteur pour tous vos projets.</p>
-      <div class="hero-pro-actions">
-        <a href="/devis" class="btn-solid">Demander un devis <span class="arrow" aria-hidden="true">→</span></a>
-        <a href="#services" class="text-link text-link-light">Nos métiers</a>
-      </div>
+  <!-- INTRO : rideau d'ouverture (une fois par onglet, cliquer pour passer) -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro-volet intro-volet-g"></div>
+    <div class="intro-volet intro-volet-d"></div>
+    <div class="intro-centre">
+      <img src="/logo-kaleo-blanc.png" alt="" class="intro-logo" width="300" height="349"/>
+      <span class="intro-trait"></span>
+      <span class="intro-groupe">GROUPE</span>
     </div>
-    <div class="tri-panneau tri-photo">
-      <!-- Diaporama : les photos se succèdent en fondu enchaîné -->
-      <div class="hero-slides" aria-hidden="true">
-        <img class="hero-slide slide-casque" src="/photo-casque.webp" alt="" width="736" height="1051" fetchpriority="high"/>
-        <img class="hero-slide slide-cle" src="/photo-cle.webp" alt="" width="736" height="736" loading="lazy"/>
+  </div>
+
+  <!-- HERO : affiche — logo, montage photo, slogan, métiers, contacts -->
+  <section class="affiche" id="affiche">
+    <div class="affiche-ciel" aria-hidden="true">
+      <span class="affiche-soleil"></span>
+      <span class="particule p1"></span><span class="particule p2"></span><span class="particule p3"></span>
+      <span class="particule p4"></span><span class="particule p5"></span><span class="particule p6"></span>
+      <svg class="affiche-ville" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax slice">
+        <g class="ville-loin">
+          <rect x="40" y="120" width="46" height="140"/><rect x="92" y="90" width="34" height="170"/>
+          <rect x="132" y="140" width="60" height="120"/><rect x="200" y="70" width="28" height="190"/>
+          <rect x="236" y="110" width="52" height="150"/><rect x="1080" y="100" width="40" height="160"/>
+          <rect x="1126" y="60" width="30" height="200"/><rect x="1162" y="130" width="64" height="130"/>
+          <rect x="1234" y="85" width="36" height="175"/><rect x="1278" y="120" width="56" height="140"/>
+          <rect x="1342" y="95" width="34" height="165"/>
+        </g>
+        <g class="ville-grue">
+          <rect x="318" y="30" width="6" height="230"/><rect x="250" y="30" width="190" height="5"/>
+          <line x1="321" y1="12" x2="250" y2="32"/><line x1="321" y1="12" x2="440" y2="32"/>
+          <line x1="410" y1="35" x2="410" y2="96"/>
+          <rect x="1010" y="10" width="6" height="250"/><rect x="930" y="10" width="200" height="5"/>
+          <line x1="1013" y1="-6" x2="930" y2="12"/><line x1="1013" y1="-6" x2="1130" y2="12"/>
+          <line x1="960" y1="15" x2="960" y2="70"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="affiche-contenu">
+      <a href="/" class="affiche-marque" aria-label="KALEO GROUPE">
+        <img src="/logo-kaleo-nuit.png" alt="KALEO GROUPE" width="300" height="349"/>
+        <span>Caméras · Construction · Climatisation · Abidjan</span>
+      </a>
+
+      <div class="affiche-collage" id="collage" aria-hidden="true">
+        <span class="collage-ligne"><span class="collage-ligne-accent"></span></span>
+        <figure class="tuile t-chantier" data-prof="18"><div class="tuile-cadre"><img src="/photo-chantier.webp" alt="" width="736" height="930" fetchpriority="high"/></div></figure>
+        <figure class="tuile t-talkie" data-prof="34"><div class="tuile-cadre"><img src="/photo-talkie.webp" alt="" width="736" height="874"/></div></figure>
+        <figure class="tuile t-technicien" data-prof="26"><div class="tuile-cadre"><img src="/photo-technicien.webp" alt="" width="736" height="1104" fetchpriority="high"/></div></figure>
+        <figure class="tuile t-casque" data-prof="22"><div class="tuile-cadre"><img src="/photo-casque.webp" alt="" width="736" height="1051" fetchpriority="high"/></div></figure>
+        <figure class="tuile t-cle" data-prof="30"><div class="tuile-cadre"><img src="/photo-cle.webp" alt="" width="736" height="736"/></div></figure>
+        <figure class="tuile t-bureau" data-prof="14"><div class="tuile-cadre"><img src="/photo-bureau.webp" alt="" width="736" height="920"/></div></figure>
       </div>
+
+      <h1 class="affiche-titre">
+        <span class="titre-ligne titre-fin"><span>Votre confort</span></span>
+        <span class="titre-ligne titre-fort"><span>Notre priorité</span></span>
+      </h1>
+
+      <ul class="affiche-metiers">
+        <li><a href="/services#cameras">Caméras de<br/>surveillance</a></li>
+        <li><a href="/services#construction">Construction &amp;<br/>réhabilitation</a></li>
+        <li><a href="/services#split">Climatisation<br/>split</a></li>
+        <li><a href="/services#electricite">Électricité &amp;<br/>dépannage</a></li>
+        <li><a href="/services#menuiserie">Portes &amp; fenêtres<br/>aluminium</a></li>
+        <li><a href="/boutique">Boutique<br/>matériel</a></li>
+      </ul>
+
+      <div class="affiche-actions">
+        <a href="/devis" class="btn-solid">Demander un devis <span class="arrow" aria-hidden="true">→</span></a>
+        <a href="/realisations" class="affiche-lien">Voir nos réalisations</a>
+      </div>
+
+      <ul class="affiche-contacts">
+        <li><a href="tel:+2250707953684"><i class="fas fa-phone"></i> 07 07 95 36 84</a></li>
+        <li><a href="https://wa.me/2250102181848" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> 01 02 18 18 48</a></li>
+        <li><a href="mailto:kaleogroupe@gmail.com"><i class="far fa-envelope"></i> kaleogroupe@gmail.com</a></li>
+      </ul>
     </div>
   </section>
 
   <!-- PLANCHE : photo + aplat bleu ciel avec titre et filets fins -->
   <section class="planche" aria-label="Notre façon de travailler">
-    <div class="planche-photo">
-      <img src="/photo-chantier.webp" alt="Chantier au coucher du soleil, casque et plans de construction" width="736" height="930" loading="lazy"/>
+    <div class="planche-photo planche-photo-plan">
+      <img src="/photo-maison-etages.webp" alt="Vue éclatée d'une maison, étage par étage : réseaux, structure béton, aménagement intérieur et fondations" width="736" height="1104" loading="lazy"/>
     </div>
     <div class="planche-ciel">
       <h2 class="planche-titre">Pas seulement construire.<br/>Bien construire.</h2>
@@ -251,6 +313,7 @@
   <script src="/js/cart.js?v=2"></script>
   <script src="/js/customer-auth.js?v=3"></script>
   <script src="/js/main.js?v=3"></script>
+  <script src="/js/accueil.js?v=1"></script>
   <script src="/js/chatbot.js?v=8"></script>
 </body>
 </html>

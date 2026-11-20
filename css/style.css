@@ -439,58 +439,7 @@ img { max-width: 100%; }
 /* ============================================
    ACCUEIL
    ============================================ */
-/* Bandeau en deux colonnes : texte sur bleu nuit | photo (diaporama).
-   La photo occupe la moitié de la largeur, près de sa taille réelle. */
-.triptyque {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: min(82vh, 720px);
-  margin-top: 77px;   /* hauteur de la barre de navigation fixe */
-}
-.tri-panneau { position: relative; overflow: hidden; }
-.tri-nuit {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 64px 56px 64px max(24px, calc((100vw - 1200px) / 2 + 24px));
-  background: var(--navy);
-  color: #fff;
-}
-.tri-nuit .section-eyebrow { color: rgba(255, 255, 255, 0.7); }
-.tri-titre {
-  font-size: clamp(2.4rem, 3.7vw, 3.5rem);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  margin-bottom: 24px;
-}
-.tri-texte {
-  max-width: 420px;
-  font-size: 16px;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.75);
-  margin-bottom: 36px;
-}
-.hero-pro-actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
-/* Diaporama du panneau photo : fondu enchaîné entre deux photos */
-.hero-slides { position: absolute; inset: 0; overflow: hidden; }
-.hero-slide {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  animation: hero-fondu 12s ease-in-out infinite;
-}
-.slide-casque   { object-position: 35% 38%; animation-delay: 0s; }
-.slide-cle      { object-position: 50% 40%; animation-delay: -6s; }
-@keyframes hero-fondu {
-  0%       { opacity: 1; transform: scale(1.06); }
-  42%      { opacity: 1; }
-  51%, 91% { opacity: 0; transform: scale(1); }
-  100%     { opacity: 1; transform: scale(1.06); }
-}
+/* Le bandeau d'accueil (affiche animée) est dans css/accueil.css. */
 
 /* Planche « manifeste » : photo | aplat bleu ciel avec titre et filets fins */
 .planche {
@@ -777,6 +726,9 @@ img { max-width: 100%; }
    fondu marine plus court pour ne pas assombrir le casque */
 .split-cta-media-chantier img { object-position: 40% 48%; }
 .split-cta-media-chantier::before { background: linear-gradient(90deg, var(--navy) 0%, rgba(11, 38, 57, 0.4) 14%, rgba(11, 38, 57, 0) 38%) !important; }
+/* Variante sans photo : texte seul, sur toute la largeur */
+.split-cta-seul { grid-template-columns: 1fr; min-height: 0; }
+.split-cta-seul .split-cta-text { padding-right: max(24px, calc((100vw - 1200px) / 2 + 24px)); }
 /* Variante accueil : photo noir et blanc bureau + casque, cadrée sur le casque */
 .split-cta-media-bureau img { object-position: 60% 42%; }
 .split-cta-media-bureau::before { background: linear-gradient(90deg, var(--navy) 0%, rgba(11, 38, 57, 0.45) 18%, rgba(11, 38, 57, 0) 45%) !important; }
@@ -849,10 +801,6 @@ img { max-width: 100%; }
   .cart-badge { position: static; }
   .nav-account-menu { position: static; box-shadow: none; border: none; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .hero-slide { animation: none; }
-  .slide-casque { opacity: 1; }
-}
 @keyframes menu-entree { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 /* Menu ouvert : la page ne défile plus derrière et la bulle du chatbot se cache */
 body.menu-open { overflow: hidden; }
@@ -863,9 +811,6 @@ body.menu-open .chatbot-window { display: none !important; }
    RESPONSIVE
    ============================================ */
 @media (max-width: 900px) {
-  .triptyque { grid-template-columns: 1fr; margin-top: 70px; }
-  .tri-nuit { padding: 56px 24px; }
-  .tri-photo { min-height: 320px; }
   .planche { grid-template-columns: 1fr; }
   .planche-inverse { grid-template-columns: 1fr; }
   .planche-inverse .planche-photo { order: 0; }

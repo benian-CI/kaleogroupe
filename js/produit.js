@@ -8,9 +8,67 @@ function getProductIdFromUrl() {
   return params.get('id');
 }
 
+// Adresse publique du site, utilisée pour l'URL officielle (canonical) des fiches
+var SITE_URL = 'https://app.kaleogroupe.com';
+
+function setMeta(id, attr, value) {
+  var el = document.getElementById(id);
+  if (el) el.setAttribute(attr, value);
+}
+
+// Référencement : titre, description, URL officielle et données « Produit »
+// lisibles par Google (prix, disponibilité, image) pour la fiche affichée.
+function applyProductSeo(p) {
+  var description = (p.description || '').replace(/\s+/g, ' ').trim();
+  var shortDesc = (description.length > 155 ? description.slice(0, 152) + '…' : description) ||
+    (p.name + ' — disponible à la boutique KALEO GROUPE, Abidjan.');
+  var url = SITE_URL + '/produit?id=' + encodeURIComponent(p.id);
+
+  document.title = p.name + ' — Boutique KALEO GROUPE';
+  setMeta('metaDescription', 'content', shortDesc);
+  setMeta('ogTitle', 'content', p.name + ' — KALEO GROUPE');
+  setMeta('ogDescription', 'content', shortDesc);
+  if (p.imageUrl) setMeta('ogImage', 'content', p.imageUrl);
+
+  var canonical = document.querySelector('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    document.head.appendChild(canonical);
+  }
+  canonical.href = url;
+
+  // Bloc de données (pas du code exécuté) : autorisé par la politique de sécurité
+  var data = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: p.name,
+    description: description,
+    sku: String(p.id),
+    category: categoryLabels[p.category] || p.category,
+    offers: {
+      '@type': 'Offer',
+      url: url,
+      priceCurrency: 'XOF',
+      price: Math.round(Number(p.price)),
+      availability: p.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      seller: { '@type': 'Organization', name: 'KALEO GROUPE' }
+    }
+  };
+  if (p.imageUrl) data.image = [p.imageUrl];
+  var ld = document.getElementById('productJsonLd');
+  if (!ld) {
+    ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.id = 'productJsonLd';
+    document.head.appendChild(ld);
+  }
+  ld.textContent = JSON.stringify(data);
+}
+
 function renderProductDetail(p) {
   currentProduct = p;
-  document.title = p.name + ' — Boutique KALEO GROUPE';
+  applyProductSeo(p);
 
   var wrap = document.getElementById('productDetail');
   var outOfStock = p.stock <= 0;
@@ -66,10 +124,17 @@ function changeQty(delta) {
   input.value = unit === 'unite' ? value : Math.round(value * 100) / 100;
 }
 
+// Produit retiré ou adresse erronée : Google ne doit pas indexer cette page vide
+function noIndex() {
+  var robots = document.querySelector('meta[name="robots"]');
+  if (robots) robots.setAttribute('content', 'noindex, follow');
+}
+
 function loadProduct() {
   var id = getProductIdFromUrl();
   var wrap = document.getElementById('productDetail');
   if (!id) {
+    noIndex();
     wrap.innerHTML = '<div class="boutique-state"><i class="fas fa-triangle-exclamation"></i>Produit introuvable.</div>';
     return;
   }
@@ -77,6 +142,7 @@ function loadProduct() {
     .then(function (res) { if (!res.ok) throw new Error('not found'); return res.json(); })
     .then(renderProductDetail)
     .catch(function () {
+      noIndex();
       wrap.innerHTML = '<div class="boutique-state"><i class="fas fa-triangle-exclamation"></i>Ce produit n\'existe plus ou n\'est plus disponible.</div>';
     });
 }

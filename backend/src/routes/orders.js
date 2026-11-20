@@ -26,18 +26,33 @@ const createOrderLimiter = rateLimit({
   message: { error: 'Trop de commandes depuis cette connexion, réessayez plus tard ou contactez-nous.' }
 });
 
+// Plus strict pour les commandes « espèces », qui réservent du stock sans paiement.
+const cashOrderLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 3,
+  skip: (req) => req.body?.paymentMethod !== 'cash',
+  message: { error: 'Trop de commandes en espèces depuis cette connexion. Payez en ligne ou contactez-nous.' }
+});
+
 // Frais fixe, jamais envoyé par le client : seul un booléen "je veux l'installation"
 // est accepté depuis le front, le montant est toujours celui-ci côté serveur.
 const INSTALLATION_FEE = 30000;
 
+// La référence sert aussi de « clé » pour la page publique de statut de commande :
+// 6 octets aléatoires (12 caractères hexadécimaux) la rendent impossible à deviner.
 function generateRef() {
-  return `KAL-${Date.now()}-${crypto.randomBytes(3).toString('hex')}`.toUpperCase();
+  return `KAL-${Date.now()}-${crypto.randomBytes(6).toString('hex')}`.toUpperCase();
 }
+
+// Commandes « espèces » : elles réservent le stock sans paiement. Au-delà de ce
+// nombre de commandes espèces encore en attente pour un même téléphone, on refuse
+// (évite qu'une seule personne bloque le stock avec de fausses commandes).
+const MAX_PENDING_CASH_PER_PHONE = 2;
 
 // POST /api/orders — crée la commande et initie le paiement (CinetPay ou espèces à la livraison)
 // optionalCustomer : si un jeton client valide est fourni, la commande est liée
 // à son compte ; sinon elle reste une commande "invité", jamais bloquée.
-router.post('/', createOrderLimiter, optionalCustomer, asyncHandler(async (req, res) => {
+router.post('/', createOrderLimiter, cashOrderLimiter, optionalCustomer, asyncHandler(async (req, res) => {
   const { items, customer, paymentMethod, installation } = req.body || {};
   const installationRequested = installation === true;
 
@@ -64,6 +79,20 @@ router.post('/', createOrderLimiter, optionalCustomer, asyncHandler(async (req, 
   const customerEmail = optionalString(customer.email, 'L\'email', 254);
   if (customerEmail && !isValidEmail(customerEmail)) {
     return res.status(400).json({ error: 'Adresse email invalide' });
+  }
+
+  if (isCash) {
+    // Comparaison sur les chiffres seuls : « 07 07 95 36 84 » et « 0707953684 »
+    // désignent le même numéro.
+    const phoneDigits = customerPhone.replace(/\D/g, '');
+    const pendingCash = await prisma.order.findMany({
+      where: { paymentMethod: 'cash', status: 'pending' },
+      select: { customerPhone: true }
+    });
+    const samePhone = pendingCash.filter((o) => o.customerPhone.replace(/\D/g, '') === phoneDigits).length;
+    if (samePhone >= MAX_PENDING_CASH_PER_PHONE) {
+      return res.status(429).json({ error: 'Vous avez déjà des commandes en attente de livraison. Contactez-nous pour en passer une nouvelle, ou payez en ligne.' });
+    }
   }
 
   const productIds = items.map((i) => Number(i?.productId));

@@ -30,13 +30,7 @@
 .reveal-delay-1 { transition-delay: 0.1s; }
 .reveal-delay-2 { transition-delay: 0.2s; }
 
-/* Apparition du bandeau d'accueil */
-.tri-titre { animation: fadeInUp 0.7s ease 0.1s both; }
-.tri-texte { animation: fadeInUp 0.7s ease 0.25s both; }
-.hero-pro-actions { animation: fadeInUp 0.7s ease 0.4s both; }
-
 /* Accessibilité : pas d'animation pour qui les a désactivées dans son système */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .tri-titre, .tri-texte, .hero-pro-actions { animation: none; }
 }

@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://app.kaleogroupe.com/sitemap.xml
+# Fiches produits de la boutique, générées automatiquement par le backend
+Sitemap: https://kaleo-groupe-backend.onrender.com/api/sitemap-produits.xml
