@@ -7,7 +7,6 @@ site-pro/
 ├── index.html              ← Page d'accueil
 ├── pages/
 │   ├── services.html       ← Page des 4 services
-│   ├── realisations.html   ← Galerie / portfolio
 │   ├── devis.html          ← Formulaire de devis (3 étapes)
 │   └── contact.html        ← Page contact
 ├── css/
@@ -15,12 +14,10 @@ site-pro/
 │   ├── animations.css      ← Animations & reveal on scroll
 │   ├── services.css        ← Styles page services
 │   ├── devis.css           ← Styles formulaire devis
-│   ├── realisations.css    ← Styles galerie + filtres
 │   └── contact.css         ← Styles page contact
 ├── js/
 │   ├── main.js             ← Navbar, menu mobile, scroll reveal
 │   ├── devis.js            ← Logique formulaire multi-étapes
-│   ├── realisations.js     ← Données projets + filtre dynamique
 │   ├── config.js           ← URL de l'API backend boutique
 │   ├── cart.js             ← Panier (localStorage) + badge navbar
 │   ├── boutique.js         ← Catalogue produits + filtres
@@ -67,12 +64,6 @@ Dans `css/style.css`, modifier les variables CSS en haut du fichier :
   --blue-steel: #1A2B4A;   /* Bleu acier */
 }
 ```
-
-### Ajouter de vrais projets (réalisations)
-Dans `js/realisations.js`, modifier le tableau `projets` :
-- `category` : cameras | construction | split | menuiserie
-- `titre`, `desc`, `lieu`, `date` : vos vrais projets
-- Pour ajouter des images : remplacer `.project-thumb` par une balise `<img>`
 
 ### Connecter le formulaire de devis
 Dans `js/devis.js`, remplacer le bloc `devisForm.addEventListener('submit', ...)` 

@@ -30,6 +30,11 @@ const customersRouter = require('./routes/customers');
 const devisRouter = require('./routes/devis');
 const sitemapRouter = require('./routes/sitemap');
 
+// Clé de signature des sessions : trop courte, elle pourrait être devinée.
+if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
+  console.error('ATTENTION : JWT_SECRET absent ou trop court (32 caractères minimum conseillés). Générez-en un avec : openssl rand -hex 32');
+}
+
 const app = express();
 
 // Render (comme la plupart des hébergeurs) place l'API derrière un proxy : sans
@@ -66,6 +71,13 @@ app.use(cors({
 }));
 
 app.use(express.json({ limit: '20kb' }));
+
+// Données personnelles (comptes, commandes, admin) : jamais gardées en cache par
+// le navigateur ou un proxy (ordinateur partagé, cybercafé...).
+app.use(['/api/customers', '/api/orders', '/api/admin'], (req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  next();
+});
 
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 

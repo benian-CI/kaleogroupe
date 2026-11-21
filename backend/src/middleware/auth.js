@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const prisma = require('../lib/prisma');
 
+// Un seul algorithme accepté : un jeton signé autrement (ex. « none ») est refusé.
+const JWT_VERIFY_OPTIONS = { algorithms: ['HS256'] };
+
 function getBearerToken(req) {
   const header = req.headers.authorization || '';
   return header.startsWith('Bearer ') ? header.slice(7) : null;
@@ -14,7 +17,7 @@ function requireAdmin(req, res, next) {
   if (!token) return res.status(401).json({ error: 'Authentification requise' });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET, JWT_VERIFY_OPTIONS);
     if (decoded.type !== 'admin') throw new Error('wrong token type');
     req.admin = decoded;
     next();
@@ -30,7 +33,7 @@ function requireAdmin(req, res, next) {
 async function verifyCustomerToken(token) {
   let decoded;
   try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
+    decoded = jwt.verify(token, process.env.JWT_SECRET, JWT_VERIFY_OPTIONS);
   } catch {
     return null;
   }

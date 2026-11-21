@@ -238,7 +238,43 @@
 .payment-result h1 { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 12px; }
 .payment-result p { color: var(--text-secondary); margin-bottom: 28px; line-height: 1.7; }
 
-/* ── FILTRES (réutilise .filter-bar / .filter-btn de realisations.css) ──── */
+/* ── FILTRES (onglets catégorie / qualité) ─────────────────────────────── */
+.filter-bar {
+  display: flex;
+  gap: 4px 28px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+/* Onglets texte en mono, soulignés en bleu quand actifs */
+.filter-btn {
+  position: relative;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 12px 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.filter-btn:hover { color: var(--navy); }
+.filter-btn.active { color: var(--navy); }
+.filter-btn.active::after { transform: scaleX(1); }
+
 
 /* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {

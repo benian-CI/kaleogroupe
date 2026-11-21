@@ -111,7 +111,6 @@
     'Rideau métallique': 'fas fa-store',
     'Délai chantier':    'fas fa-calendar-days',
     'Rénovation':        'fas fa-rotate-left',
-    'Nos réalisations':  'fas fa-images',
     'Urgence':           'fas fa-circle-exclamation',
     'Boutique':          'fas fa-cart-shopping'
   };
@@ -146,7 +145,6 @@
     'Rideau métallique':  'rideau metallique store',
     'Délai chantier':     'delai chantier semaine',         // corrigé : 'construction' déclenchait construction général
     'Rénovation':         'renovation rehabilitation restaurer',
-    'Nos réalisations':   'realisations references portfolio',
     'Urgence':            'urgence immediat intervention',  // corrigé : 'panne' déclenchait clim
     'Boutique':           'boutique acheter produit magasin'
   };
@@ -629,24 +627,6 @@
       quickReplies: ['Appeler','WhatsApp']
     },
 
-    // RÉALISATIONS
-    {
-      topic: null,
-      patterns: [/r.alisation|r.f.rence|exemple|photo|portfolio|travaux.ant.rieurs/i],
-      reply: function() {
-        return card('fas fa-images', 'Nos réalisations',
-          'Consultez nos projets terminés :' +
-          contactRow(getRealisationsPath(), 'fas fa-arrow-right', 'Voir toutes nos réalisations') +
-          badges([
-            ['fas fa-trophy',   '30+ projets'],
-            ['fas fa-calendar', '3 ans d\'expérience'],
-            ['fas fa-circle-check', '30+ projets']
-          ])
-        );
-      },
-      quickReplies: ['Devis gratuit','Appeler']
-    },
-
     // ZONE D'INTERVENTION
     {
       topic: null,
@@ -702,7 +682,7 @@
           ])
         );
       },
-      quickReplies: ['Nos réalisations','Devis gratuit','Appeler']
+      quickReplies: ['Devis gratuit','Appeler','WhatsApp']
     },
 
     // WHATSAPP
@@ -792,7 +772,6 @@
   // ── Chemins absolus (URLs propres) ──────────────────────────────────────────
   function getLogoPath()        { return '/logo-kaleo.webp'; }
   function getDevisPath()       { return '/devis'; }
-  function getRealisationsPath(){ return '/realisations'; }
   function getBoutiquePath()    { return '/boutique'; }
 
   // ── Construction du DOM ─────────────────────────────────────────────────────

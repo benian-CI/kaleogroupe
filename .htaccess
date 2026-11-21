@@ -1,4 +1,5 @@
 Options -Indexes
+ServerSignature Off
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -6,8 +7,11 @@ Options -Indexes
   RewriteCond %{THE_REQUEST} ^GET\ /index\.html[\s?] [NC]
   RewriteRule ^index\.html$ / [R=301,L]
 
+  # Page Réalisations supprimée : les anciens liens (Google, partages) mènent aux services
+  RewriteRule ^(pages/)?realisations(\.html)?/?$ /services [R=301,L]
+
   # Redirige les anciennes URLs .html vers les URLs propres
-  RewriteCond %{THE_REQUEST} \s/+pages/(services|realisations|devis|contact|boutique|panier|checkout|produit|paiement-succes)\.html[\s?] [NC]
+  RewriteCond %{THE_REQUEST} \s/+pages/(services|devis|contact|boutique|panier|checkout|produit|paiement-succes)\.html[\s?] [NC]
   RewriteRule ^ /%1? [R=301,L]
 
   RewriteCond %{THE_REQUEST} \s/+pages/admin/(login|dashboard)\.html[\s?] [NC]
@@ -19,7 +23,7 @@ Options -Indexes
   # Sert les URLs propres depuis le dossier pages/ (sans changer l'adresse affichée)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^(services|realisations|devis|contact|boutique|panier|checkout|produit|paiement-succes)/?$ pages/$1.html [L]
+  RewriteRule ^(services|devis|contact|boutique|panier|checkout|produit|paiement-succes)/?$ pages/$1.html [L]
 
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
@@ -35,9 +39,18 @@ Options -Indexes
   Header always set X-Content-Type-Options "nosniff"
   Header always set X-XSS-Protection "0"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://www.gstatic.com https://res.cloudinary.com; connect-src 'self' https://api.kaleogroupe.com https://kaleo-groupe-backend.onrender.com; frame-src https://www.google.com https://recaptcha.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+  # Fonctions de l'appareil interdites au site et à tout contenu intégré
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), serial=(), bluetooth=(), hid=(), midi=(), accelerometer=(), gyroscope=(), magnetometer=(), display-capture=(), browsing-topics=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://www.gstatic.com https://res.cloudinary.com; connect-src 'self' https://api.kaleogroupe.com https://kaleo-groupe-backend.onrender.com; frame-src https://www.google.com https://recaptcha.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # Isolation : aucune autre fenêtre ne peut piloter le site, et ses fichiers
+  # ne peuvent pas être chargés par un site tiers
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Resource-Policy "same-site"
+  Header always set X-Permitted-Cross-Domain-Policies "none"
+  # Ne pas annoncer la technologie du serveur
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
 </IfModule>
 
 <FilesMatch "\.md$">

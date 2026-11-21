@@ -62,14 +62,16 @@ html.intro-vue .intro { display: none; }
   transform: scaleX(0);
   animation: trait-h 0.5s ease 0.55s forwards;
 }
+/* Nom en lettres (pas de logo dans l'intro) */
 .intro-groupe {
   color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.6em;
-  padding-left: 0.6em;
+  font-size: clamp(18px, 2.4vw, 26px);
+  font-weight: 600;
+  letter-spacing: 0.45em;
+  padding-left: 0.45em;
+  text-align: center;
   opacity: 0;
-  animation: fondu 0.5s ease 0.7s forwards;
+  animation: intro-logo 0.8s cubic-bezier(.2,.8,.2,1) 0.1s forwards;
 }
 
 @keyframes volet-g { to { transform: translateX(-101%); } }
@@ -164,21 +166,21 @@ html.intro-vue .intro { display: none; }
   text-align: center;
 }
 
-/* Logo */
+/* Accroche en haut de l'affiche (le logo n'est que dans le menu) */
 .affiche-marque {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
+  font-size: 13px;   /* h1 pour Google, mais affiché à la taille d'une accroche */
+  font-weight: 500;
+  letter-spacing: 0;
   opacity: 0;
   animation: descend 0.9s cubic-bezier(.2,.8,.2,1) calc(var(--t0) + 0.05s) forwards;
 }
-.affiche-marque img {
-  width: 92px;
-  height: auto;
-}
+.affiche-marque::before,
+.affiche-marque::after { content: ''; width: 24px; height: 2px; background: var(--accent); }
 .affiche-marque span {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.08em;
   color: var(--navy);
@@ -392,6 +394,8 @@ html.intro-vue .intro { display: none; }
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
   .affiche { margin-top: 70px; }
+  .affiche-marque::before, .affiche-marque::after { display: none; }
+  .affiche-marque span { font-size: 11px; letter-spacing: 0.04em; text-align: center; }
   .affiche-collage { aspect-ratio: 4 / 5; margin-top: 24px; }
   .t-chantier   { left: 0;    top: 6%;  width: 48%; height: 52%; }
   .t-technicien { left: 0;    top: 60%; width: 48%; height: 40%; }

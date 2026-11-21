@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://www.gstatic.com https://res.cloudinary.com; connect-src 'self' http://localhost:4000 https://api.kaleogroupe.com https://kaleo-groupe-backend.onrender.com; frame-src https://www.google.com https://recaptcha.google.com; object-src 'none'; base-uri 'self'; form-action 'self'"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://www.gstatic.com https://res.cloudinary.com; connect-src 'self' http://localhost:4000 https://api.kaleogroupe.com https://kaleo-groupe-backend.onrender.com; frame-src https://www.google.com https://recaptcha.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'none'; manifest-src 'self'"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
@@ -23,13 +23,13 @@
   <meta name="twitter:description" content="Caméras de surveillance, construction, climatisation, électricité, menuiserie aluminium à Abidjan. Devis gratuit sous 24h."/>
   <meta name="twitter:image" content="https://app.kaleogroupe.com/logo-kaleo.png"/>
   <link rel="icon" type="image/png" href="/logo-kaleo-icone.png"/>
-  <link rel="stylesheet" href="/css/style.css?v=62" />
+  <link rel="stylesheet" href="/css/style.css?v=63" />
   <link rel="stylesheet" href="/css/animations.css?v=7" />
   <link rel="stylesheet" href="/css/chatbot.css?v=26" />
-  <link rel="stylesheet" href="/css/accueil.css?v=5" />
+  <link rel="stylesheet" href="/css/accueil.css?v=13" />
   <script src="/js/intro.js?v=1"></script>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -81,7 +81,6 @@
         <li><a href="/" class="active">Accueil</a></li>
         <li><a href="/services">Services</a></li>
         <li><a href="/boutique">Boutique</a></li>
-        <li><a href="/realisations">Réalisations</a></li>
         <li><a href="/devis" class="btn-nav">Devis gratuit</a></li>
         <li><a href="/contact">Contact</a></li>
         <li id="navAccount"></li>
@@ -98,9 +97,8 @@
     <div class="intro-volet intro-volet-g"></div>
     <div class="intro-volet intro-volet-d"></div>
     <div class="intro-centre">
-      <img src="/logo-kaleo-blanc.png" alt="" class="intro-logo" width="300" height="349"/>
+      <span class="intro-groupe">KALEO GROUPE</span>
       <span class="intro-trait"></span>
-      <span class="intro-groupe">GROUPE</span>
     </div>
   </div>
 
@@ -131,10 +129,7 @@
     </div>
 
     <div class="affiche-contenu">
-      <a href="/" class="affiche-marque" aria-label="KALEO GROUPE">
-        <img src="/logo-kaleo-nuit.png" alt="KALEO GROUPE" width="300" height="349"/>
-        <span>Caméras · Construction · Climatisation · Abidjan</span>
-      </a>
+      <h1 class="affiche-marque"><span class="sr-only">KALEO GROUPE — </span><span>Caméras · Construction · Climatisation · Abidjan</span></h1>
 
       <div class="affiche-collage" id="collage" aria-hidden="true">
         <span class="collage-ligne"><span class="collage-ligne-accent"></span></span>
@@ -146,10 +141,10 @@
         <figure class="tuile t-bureau" data-prof="14"><div class="tuile-cadre"><img src="/photo-bureau.webp" alt="" width="736" height="920"/></div></figure>
       </div>
 
-      <h1 class="affiche-titre">
+      <p class="affiche-titre">
         <span class="titre-ligne titre-fin"><span>Votre confort</span></span>
         <span class="titre-ligne titre-fort"><span>Notre priorité</span></span>
-      </h1>
+      </p>
 
       <ul class="affiche-metiers">
         <li><a href="/services#cameras">Caméras de<br/>surveillance</a></li>
@@ -162,7 +157,7 @@
 
       <div class="affiche-actions">
         <a href="/devis" class="btn-solid">Demander un devis <span class="arrow" aria-hidden="true">→</span></a>
-        <a href="/realisations" class="affiche-lien">Voir nos réalisations</a>
+        <a href="/services" class="affiche-lien">Découvrir nos services</a>
       </div>
 
       <ul class="affiche-contacts">
@@ -288,7 +283,6 @@
           <h4>Liens rapides</h4>
           <ul>
             <li><a href="/boutique">Boutique</a></li>
-            <li><a href="/realisations">Nos réalisations</a></li>
             <li><a href="/devis">Devis gratuit</a></li>
             <li><a href="/contact">Contact</a></li>
           </ul>
@@ -314,6 +308,6 @@
   <script src="/js/customer-auth.js?v=3"></script>
   <script src="/js/main.js?v=3"></script>
   <script src="/js/accueil.js?v=1"></script>
-  <script src="/js/chatbot.js?v=8"></script>
+  <script src="/js/chatbot.js?v=9"></script>
 </body>
 </html>

@@ -82,14 +82,15 @@ router.post('/', createOrderLimiter, cashOrderLimiter, optionalCustomer, asyncHa
   }
 
   if (isCash) {
-    // Comparaison sur les chiffres seuls : « 07 07 95 36 84 » et « 0707953684 »
-    // désignent le même numéro.
-    const phoneDigits = customerPhone.replace(/\D/g, '');
+    // Comparaison sur le numéro national seul : « 07 07 95 36 84 »,
+    // « 0707953684 » et « +225 07 07 95 36 84 » désignent le même numéro.
+    const nationalNumber = (phone) => phone.replace(/\D/g, '').replace(/^(00)?225(?=\d{10}$)/, '');
+    const phoneKey = nationalNumber(customerPhone);
     const pendingCash = await prisma.order.findMany({
       where: { paymentMethod: 'cash', status: 'pending' },
       select: { customerPhone: true }
     });
-    const samePhone = pendingCash.filter((o) => o.customerPhone.replace(/\D/g, '') === phoneDigits).length;
+    const samePhone = pendingCash.filter((o) => nationalNumber(o.customerPhone) === phoneKey).length;
     if (samePhone >= MAX_PENDING_CASH_PER_PHONE) {
       return res.status(429).json({ error: 'Vous avez déjà des commandes en attente de livraison. Contactez-nous pour en passer une nouvelle, ou payez en ligne.' });
     }

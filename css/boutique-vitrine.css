@@ -349,7 +349,7 @@
   .products-grid .product-card:hover { transform: none; }
 }
 
-/* Retouches : pas de soulignement hérité de realisations.css, prix sur une ligne */
+/* Retouches : pas de soulignement des onglets de boutique.css, prix sur une ligne */
 .bq-outils .filter-btn::after, .bq-outils .filter-btn::before { display: none !important; }
 .products-grid .product-price { white-space: nowrap; font-size: 1.1rem; }
 .bq-filtres-qualite { border-bottom: none !important; padding-bottom: 0 !important; }

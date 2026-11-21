@@ -839,3 +839,14 @@ body.menu-open .chatbot-window { display: none !important; }
   .footer-grid { grid-template-columns: 1fr; }
   .panel-section { padding: 80px 0; }
 }
+
+/* Texte lu par Google et les lecteurs d'écran, invisible à l'écran */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
